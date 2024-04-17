@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -66,4 +68,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.ksp)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigationCompose)
+    implementation(libs.coil)
+    implementation(project(":network"))
+    implementation(libs.dataStore)
+
 }
