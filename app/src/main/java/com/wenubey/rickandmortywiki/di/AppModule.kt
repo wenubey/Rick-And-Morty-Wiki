@@ -7,6 +7,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.wenubey.network.KtorClient
 import com.wenubey.rickandmortywiki.repositories.CharacterRepository
 import com.wenubey.rickandmortywiki.repositories.CharacterRepositoryImpl
+import com.wenubey.rickandmortywiki.repositories.EpisodeRepository
+import com.wenubey.rickandmortywiki.repositories.EpisodeRepositoryImpl
 import com.wenubey.rickandmortywiki.repositories.UserPreferencesRepository
 import com.wenubey.rickandmortywiki.repositories.UserPreferencesRepositoryImpl
 import dagger.Module
@@ -42,4 +44,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUserPreferencesRepository(dataStore: DataStore<Preferences>): UserPreferencesRepository = UserPreferencesRepositoryImpl(dataStore)
+
+    @Provides
+    @Singleton
+    fun provideEpisodeRepository(ktorClient: KtorClient): EpisodeRepository = EpisodeRepositoryImpl(ktorClient)
 }
