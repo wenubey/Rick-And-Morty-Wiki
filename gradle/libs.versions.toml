@@ -15,6 +15,7 @@ hiltNavigation = "1.2.0"
 ksp = "1.9.23-1.0.20"
 coil = "2.5.0"
 dataStore = "1.0.0"
+navigation = "2.7.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +54,9 @@ coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # DataStore
 dataStore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore"}
+
+# Navigation
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
