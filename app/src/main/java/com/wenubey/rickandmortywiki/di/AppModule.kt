@@ -14,8 +14,8 @@ import com.wenubey.rickandmortywiki.repositories.UserPreferencesRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 private const val USER_PREFERENCE_NAME = "user_preferences"
@@ -24,7 +24,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 )
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides

@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.wenubey.rickandmortywiki.ui.screens.CharacterDetailScreen
+import com.wenubey.rickandmortywiki.ui.screens.CharacterEpisodeScreen
 import com.wenubey.rickandmortywiki.ui.screens.CharacterListScreen
 
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
@@ -19,7 +20,7 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
             CharacterDetailScreen()
         }
         composable(route = CharacterScreen.EPISODE) {
-            CharacterDetailScreen()
+            CharacterEpisodeScreen()
         }
     }
 }

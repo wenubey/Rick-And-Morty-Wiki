@@ -88,4 +88,9 @@ dependencies {
     // Navigation
     implementation(libs.navigation.compose)
 
+    // Icons Extended
+    implementation(libs.androidx.material.icons)
+
+    // ViewModel
+    implementation(libs.androidx.viewmodel.compose)
 }
