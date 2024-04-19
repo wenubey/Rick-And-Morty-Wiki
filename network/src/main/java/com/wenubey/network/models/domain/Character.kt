@@ -22,4 +22,22 @@ data class Character(
         val name: String,
         val url: String
     )
+
+    companion object {
+        fun default() = Character(
+            created = "",
+            episodeIds = listOf(),
+            gender = CharacterGender.Unknown,
+            id = 0,
+            imageUrl = "",
+            location = Location("", ""),
+            name = "",
+            origin = Origin("", ""),
+            species = "",
+            status = CharacterStatus.Unknown,
+            type = ""
+        )
+    }
+
+
 }
