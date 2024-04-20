@@ -27,10 +27,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             navController = rememberNavController()
-            val isScreenLocked = viewModel.userPreferencesUiState.collectAsState().value.screenLock.isScreenLocked
+
+
+            val userPrefUiState = viewModel.userPreferencesUiState.collectAsState().value
+            val isScreenLocked = userPrefUiState.screenLock.isScreenLocked
+            val isSystemInDarkMode = userPrefUiState.nightMode.isNightMode
+
             setScreenOrientationMode(isScreenLocked)
 
-            RickAndMortyWikiTheme {
+            RickAndMortyWikiTheme(darkTheme = isSystemInDarkMode) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -41,7 +46,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 
     private fun setScreenOrientationMode(screenOrientationLocked: Boolean) {
         if (screenOrientationLocked) {
