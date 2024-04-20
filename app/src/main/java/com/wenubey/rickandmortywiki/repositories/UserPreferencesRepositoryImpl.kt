@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class UserPreferencesRepositoryImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ): UserPreferencesRepository {
 
     override val isLinearLayout: Flow<Boolean>
@@ -39,7 +39,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 Log.e(TAG, "Error reading isScreenLocked preference:", it)
             }
             .map { preferences ->
-                preferences[IS_SCREEN_LOCKED] ?: true
+                preferences[IS_SCREEN_LOCKED] ?: false
             }
 
     override suspend fun saveLayoutPreference(isLinearLayout: Boolean) {
@@ -59,6 +59,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             preferences[IS_SCREEN_LOCKED] = isScreenLocked
         }
     }
+
 
     private companion object {
         val IS_LINEAR_LAYOUT = booleanPreferencesKey("is_linear_layout")

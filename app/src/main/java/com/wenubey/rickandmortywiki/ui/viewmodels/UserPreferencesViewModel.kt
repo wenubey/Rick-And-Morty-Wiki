@@ -66,9 +66,9 @@ data class UiState(
 data class ScreenLock(
     var isScreenLocked: Boolean = false,
     val toggleIcon: ImageVector = if (isScreenLocked) {
-        Icons.Filled.ScreenLockRotation
-    } else {
         Icons.Filled.ScreenRotation
+    } else {
+        Icons.Filled.ScreenLockRotation
     },
     val contentDescriptionRes: Int = if (isScreenLocked) {
         R.string.screen_locked_toggle
