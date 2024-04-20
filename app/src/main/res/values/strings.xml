@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Rick And Morty Wiki</string>
+    <string name="grid_layout_toggle">Grid Layout</string>
+    <string name="linear_layout_toggle">Linear Layout</string>
+    <string name="light_mode_toggle">Light Mode</string>
+    <string name="dark_mode_toggle">Dark Mode</string>
+    <string name="screen_not_locked_toggle">Screen not locked</string>
+    <string name="screen_locked_toggle">Screen Locked</string>
+    <string name="default_toggle">Default</string>
 </resources>
