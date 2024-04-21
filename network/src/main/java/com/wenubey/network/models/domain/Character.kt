@@ -25,15 +25,15 @@ data class Character(
 
     companion object {
         fun default() = Character(
-            created = "",
-            episodeIds = listOf(),
-            gender = CharacterGender.Unknown,
+            created = "created",
+            episodeIds = listOf(1,2,3,4,5),
+            gender = CharacterGender.Male,
             id = 0,
             imageUrl = "",
-            location = Location("", ""),
-            name = "",
-            origin = Origin("", ""),
-            species = "",
+            location = Location("Earth", ""),
+            name = "Rick Sanchez",
+            origin = Origin("Earth", ""),
+            species = "Human",
             status = CharacterStatus.Unknown,
             type = ""
         )
