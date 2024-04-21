@@ -19,13 +19,15 @@ import coil.size.Size
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
-private val defaultModifier = Modifier
-    .fillMaxWidth()
-    .aspectRatio(1f)
-    .clip(RoundedCornerShape(12.dp))
 
 @Composable
-fun CharacterImage(modifier: Modifier = defaultModifier, imageUrl: String = "") {
+fun CharacterImage(
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .aspectRatio(1f)
+        .clip(RoundedCornerShape(12.dp)),
+    imageUrl: String = ""
+) {
     val context = LocalContext.current
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(context)
@@ -45,9 +47,9 @@ fun CharacterImage(modifier: Modifier = defaultModifier, imageUrl: String = "") 
 @Preview(name = "Light mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Composable
 private fun CharacterImagePreview() {
-     RickAndMortyWikiTheme {
+    RickAndMortyWikiTheme {
         Surface {
-             CharacterImage()
+            CharacterImage()
         }
     }
 }

@@ -14,7 +14,9 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
         startDestination = CharacterScreen.LIST
     ) {
         composable(route = CharacterScreen.LIST) {
-            CharacterListScreen()
+            CharacterListScreen(
+                onCharacterSelected = { /* TODO not implemented yet. */}
+            )
         }
         composable(route = CharacterScreen.DETAIL) {
             CharacterDetailScreen()
