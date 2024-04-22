@@ -79,9 +79,9 @@ data class ScreenLock(
 data class NightMode(
     var isNightMode: Boolean = false,
     val toggleIcon: ImageVector = if (isNightMode) {
-        Icons.Filled.LightMode
-    } else {
         Icons.Filled.DarkMode
+    } else {
+        Icons.Filled.LightMode
     },
     val contentDescriptionRes: Int = if (isNightMode) {
         R.string.light_mode_toggle

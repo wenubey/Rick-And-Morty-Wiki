@@ -1,5 +1,8 @@
 package com.wenubey.rickandmortywiki.ui.nav
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -7,6 +10,8 @@ import androidx.navigation.navigation
 import com.wenubey.rickandmortywiki.ui.screens.CharacterDetailScreen
 import com.wenubey.rickandmortywiki.ui.screens.CharacterEpisodeScreen
 import com.wenubey.rickandmortywiki.ui.screens.CharacterListScreen
+import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
     navigation(
@@ -14,8 +19,17 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
         startDestination = CharacterScreen.LIST
     ) {
         composable(route = CharacterScreen.LIST) {
+            val userPreferencesViewModel: UserPreferencesViewModel = hiltViewModel()
+            val userPrefState = userPreferencesViewModel.userPreferencesUiState.collectAsState().value
+            val characterViewModel: CharacterListViewModel = hiltViewModel()
+            val characterUiState = characterViewModel.characterListUiState.collectAsState()
+
+            LaunchedEffect(key1 =characterViewModel) { characterViewModel.getInitialPage() }
+
             CharacterListScreen(
-                onCharacterSelected = { /* TODO not implemented yet. */}
+                onCharacterSelected = { /* TODO not implemented yet. */},
+                isLinearLayout = userPrefState.linearLayout.isLinearLayout,
+                characterUiState = characterUiState.value
             )
         }
         composable(route = CharacterScreen.DETAIL) {

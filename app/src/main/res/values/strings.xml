@@ -8,4 +8,9 @@
     <string name="screen_locked_toggle">Screen Locked</string>
     <string name="default_toggle">Default</string>
     <string name="cd_character_image">Character image</string>
+    <string name="cd_navigate_back">Navigate back</string>
+    <string name="cd_dropdown_menu_open_close">Dropdown menu open/close.</string>
+    <string name="menu_night_mode">Night Mode</string>
+    <string name="menu_screen_lock">Screen Lock</string>
+    <string name="menu_linear_layout">Linear Layout</string>
 </resources>

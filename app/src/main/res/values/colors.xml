@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="light_mode_switch">#FAE9B1</color>
+    <color name="light_mode_thumb">#F2C138</color>
+    <color name="night_mode_switch">#092E40</color>
+    <color name="night_mode_thumb">#25AFEE</color>
 </resources>
