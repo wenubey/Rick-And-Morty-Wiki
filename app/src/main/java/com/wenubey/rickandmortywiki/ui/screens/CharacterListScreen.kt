@@ -11,35 +11,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterListCard
+import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 @Composable
 fun CharacterListScreen(
-    characterViewModel: CharacterListViewModel = hiltViewModel(),
-    userPrefViewModel: UserPreferencesViewModel = hiltViewModel(),
+    isLinearLayout: Boolean,
+    characterUiState: CharacterListUiState,
     onCharacterSelected: (id: Int) -> Unit,
 ) {
-    val characterUiState by characterViewModel.characterListUiState.collectAsState()
-    val userPrefUiState by userPrefViewModel.userPreferencesUiState.collectAsState()
-
-    var isLinearLayout by remember {
-        mutableStateOf(userPrefUiState.linearLayout.isLinearLayout)
-    }
-    LaunchedEffect(key1 = characterViewModel, block = { characterViewModel.getInitialPage() })
 
     when (val currentState = characterUiState) {
         is CharacterListUiState.Error -> { /* TODO not implemented yet. */ }
@@ -48,7 +33,11 @@ fun CharacterListScreen(
 
         is CharacterListUiState.Success -> {
             Surface {
-                Scaffold { paddingValues ->
+                Scaffold(
+                    topBar = {
+                        CommonTopAppBar(showNavigationIcon = false)
+                    }
+                ) { paddingValues ->
                     if (isLinearLayout) {
                         if (isSystemInPortraitOrientation()) {
                             LazyColumn(
