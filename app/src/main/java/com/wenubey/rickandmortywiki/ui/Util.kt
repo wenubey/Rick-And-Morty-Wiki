@@ -1,10 +1,13 @@
 package com.wenubey.rickandmortywiki.ui
 
 import android.content.res.Configuration
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
@@ -19,4 +22,12 @@ fun isSystemInPortraitOrientation(): Boolean {
         )
     }
     return isSystemInPortrait
+}
+
+object NoRippleTheme : RippleTheme {
+    @Composable
+    override fun defaultColor() = Color.Unspecified
+
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f,0.0f,0.0f,0.0f)
 }
