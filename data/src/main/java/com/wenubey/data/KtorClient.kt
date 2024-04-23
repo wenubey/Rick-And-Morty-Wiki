@@ -1,15 +1,14 @@
-package com.wenubey.network
+package com.wenubey.data
 
-import com.wenubey.network.models.ApiOperation
-import com.wenubey.network.models.domain.Character
-import com.wenubey.network.models.domain.CharacterPage
-import com.wenubey.network.models.domain.Episode
-import com.wenubey.network.models.remote.CharacterDto
-import com.wenubey.network.models.remote.CharacterPageDto
-import com.wenubey.network.models.remote.EpisodeDto
-import com.wenubey.network.models.remote.toDomainCharacter
-import com.wenubey.network.models.remote.toDomainCharacterPage
-import com.wenubey.network.models.remote.toDomainEpisode
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.CharacterPage
+import com.wenubey.domain.model.Episode
+import com.wenubey.data.dto.CharacterDto
+import com.wenubey.data.dto.CharacterPageDto
+import com.wenubey.data.dto.EpisodeDto
+import com.wenubey.data.dto.toDomainCharacter
+import com.wenubey.data.dto.toDomainCharacterPage
+import com.wenubey.data.dto.toDomainEpisode
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -39,8 +38,8 @@ class KtorClient {
 
     private var characterCache = mutableMapOf<Int, Character>()
 
-    suspend fun getCharacter(id: Int): ApiOperation<Character> {
-        characterCache[id]?.let { return ApiOperation.Success(it) }
+    suspend fun getCharacter(id: Int): Result<Character> {
+        characterCache[id]?.let { return Result.success(it) }
         return safeApiCall {
             client.get("character/$id")
                 .body<CharacterDto>()
@@ -49,7 +48,7 @@ class KtorClient {
         }
     }
 
-    suspend fun getCharacterPage(pageNumber: Int): ApiOperation<CharacterPage> {
+    suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPage> {
         return safeApiCall {
             client.get("character/?page=$pageNumber")
                 .body<CharacterPageDto>()
@@ -57,7 +56,7 @@ class KtorClient {
         }
     }
 
-    suspend fun getEpisode(id: Int): ApiOperation<Episode> {
+    suspend fun getEpisode(id: Int): Result<Episode> {
         return safeApiCall {
             client.get("episode/$id")
                 .body<EpisodeDto>()
@@ -65,11 +64,9 @@ class KtorClient {
         }
     }
 
-    suspend fun getEpisodes(ids: List<Int>): ApiOperation<List<Episode>> {
+    suspend fun getEpisodes(ids: List<Int>): Result<List<Episode>> {
         return if (ids.size == 1) {
-            getEpisode(ids[0]).mapSuccess {
-                listOf(it)
-            }
+            getEpisode(ids[0]).map { listOf(it) }
         } else {
             val idsCommaSeparated = ids.joinToString(separator = ",")
             safeApiCall {
@@ -80,11 +77,11 @@ class KtorClient {
         }
     }
 
-    private inline fun <T> safeApiCall(apiCall: () -> T): ApiOperation<T> {
+    private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
         return try {
-            ApiOperation.Success(data = apiCall())
+            Result.success(apiCall())
         } catch (e: Exception) {
-            ApiOperation.Failure(exception = e)
+            Result.failure(exception = e)
         }
     }
 

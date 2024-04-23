@@ -1,8 +1,7 @@
-package com.wenubey.network.models.remote
+package com.wenubey.data.dto
 
-import com.wenubey.network.models.domain.Character
-import com.wenubey.network.models.domain.CharacterGender
-import com.wenubey.network.models.domain.CharacterStatus
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.CharacterGender
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -40,22 +39,20 @@ fun CharacterDto.toDomainCharacter(): Character {
         "genderless" -> CharacterGender.Genderless
         else -> CharacterGender.Unknown
     }
-    val characterStatus = when (status.lowercase()) {
-        "alive" -> CharacterStatus.Alive
-        "dead" -> CharacterStatus.Dead
-        else -> CharacterStatus.Unknown
-    }
     return Character(
         created = created,
         episodeIds = episode.map { it.substring(it.lastIndexOf("/") + 1).toInt() },
         gender = characterGender,
         id = id,
         imageUrl = image,
-        location = Character.Location(name = location.name, url = location.url),
+        location = Character.Location(
+            name = location.name,
+            url = location.url
+        ),
         name = name,
         origin = Character.Origin(name = origin.name, url = origin.url),
         species = species,
-        status = characterStatus,
+        status = status,
         type = type
     )
 }
