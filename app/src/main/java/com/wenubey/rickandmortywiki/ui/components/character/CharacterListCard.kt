@@ -21,13 +21,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wenubey.network.models.domain.Character
+import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.components.common.CharacterImage
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterListCard(
-    character: Character = Character.default(),
+    character: com.wenubey.domain.model.Character = Character.default(),
     onCharacterSelected: () -> Unit = {},
 ) {
     Card(

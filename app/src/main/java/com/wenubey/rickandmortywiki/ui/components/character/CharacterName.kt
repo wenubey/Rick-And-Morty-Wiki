@@ -14,14 +14,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wenubey.network.models.domain.Character
+import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 // TODO map to header and sub-header particular texts
 @Composable
 fun CharacterName(
     modifier: Modifier = Modifier,
-    character: Character = Character.default(),
+    character: com.wenubey.domain.model.Character = Character.default(),
     isDoubleClicked: Boolean = false
 ) {
     Column(

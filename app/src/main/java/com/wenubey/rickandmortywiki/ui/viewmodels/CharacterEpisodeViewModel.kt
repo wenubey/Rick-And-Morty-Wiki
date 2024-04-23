@@ -3,9 +3,9 @@ package com.wenubey.rickandmortywiki.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.network.models.domain.Episode
-import com.wenubey.rickandmortywiki.repositories.CharacterRepository
-import com.wenubey.rickandmortywiki.repositories.EpisodeRepository
+import com.wenubey.domain.model.Episode
+import com.wenubey.domain.repository.CharacterRepository
+import com.wenubey.domain.repository.EpisodeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,4 +1,4 @@
-package com.wenubey.network.models.domain
+package com.wenubey.domain.model
 
 data class Character(
     val created: String,
@@ -10,7 +10,7 @@ data class Character(
     val name: String,
     val origin: Origin,
     val species: String,
-    val status: CharacterStatus,
+    val status: String,
     val type: String
 ) {
     data class Location(
@@ -34,7 +34,7 @@ data class Character(
             name = "Rick Sanchez",
             origin = Origin("Earth", ""),
             species = "Human",
-            status = CharacterStatus.Unknown,
+            status = "Unknown",
             type = ""
         )
     }

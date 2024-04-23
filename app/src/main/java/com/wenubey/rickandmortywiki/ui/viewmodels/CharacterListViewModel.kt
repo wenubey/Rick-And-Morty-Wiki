@@ -3,9 +3,8 @@ package com.wenubey.rickandmortywiki.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.network.models.domain.Character
-import com.wenubey.network.models.domain.CharacterPage
-import com.wenubey.rickandmortywiki.repositories.CharacterRepository
+import com.wenubey.domain.model.CharacterPage
+import com.wenubey.domain.repository.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -81,5 +80,5 @@ class CharacterListViewModel
 sealed interface CharacterListUiState {
     data object Loading : CharacterListUiState
     data class Error(val message: String) : CharacterListUiState
-    data class Success(val characters: List<Character> = emptyList()) : CharacterListUiState
+    data class Success(val characters: List<com.wenubey.domain.model.Character> = emptyList()) : CharacterListUiState
 }

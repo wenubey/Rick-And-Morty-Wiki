@@ -16,6 +16,7 @@ ksp = "1.9.23-1.0.20"
 coil = "2.5.0"
 dataStore = "1.0.0"
 navigation = "2.7.7"
+material = "1.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,7 @@ dataStore = { group = "androidx.datastore", name = "datastore-preferences", vers
 
 # Navigation
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

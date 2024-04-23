@@ -1,6 +1,6 @@
-package com.wenubey.network.models.remote
+package com.wenubey.data.dto
 
-import com.wenubey.network.models.domain.Episode
+import com.wenubey.domain.model.Episode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

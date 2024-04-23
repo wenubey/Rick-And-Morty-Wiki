@@ -1,4 +1,4 @@
-package com.wenubey.network.models.domain
+package com.wenubey.domain.model
 
 sealed class CharacterGender(val displayName: String) {
     data object Male: CharacterGender("Male")

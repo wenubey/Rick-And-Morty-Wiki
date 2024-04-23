@@ -1,6 +1,6 @@
-package com.wenubey.network.models.remote
+package com.wenubey.data.dto
 
-import com.wenubey.network.models.domain.CharacterPage
+import com.wenubey.domain.model.CharacterPage
 import kotlinx.serialization.Serializable
 
 @Serializable

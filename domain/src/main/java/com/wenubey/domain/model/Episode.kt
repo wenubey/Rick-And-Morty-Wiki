@@ -1,4 +1,4 @@
-package com.wenubey.network.models.domain
+package com.wenubey.domain.model
 
 data class Episode(
     val id: Int,

@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("kotlinx-serialization")
 }
 
 android {
-    namespace = "com.wenubey.network"
+    namespace = "com.wenubey.domain"
     compileSdk = 34
 
     defaultConfig {
@@ -25,11 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "18"
+        jvmTarget = "1.8"
     }
 }
 
@@ -37,20 +36,8 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.okhttp)
-    implementation(libs.ktor.contentnegotiation)
-    implementation(libs.ktor.serialization)
-    implementation(libs.ktor.logging)
-
 }

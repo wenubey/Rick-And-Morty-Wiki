@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.repositories
+package com.wenubey.domain.repository
 
 
 import kotlinx.coroutines.flow.Flow

@@ -15,12 +15,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wenubey.network.models.domain.CharacterStatus
+import com.wenubey.rickandmortywiki.ui.getColorFromCharacterStatus
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterStatus(
-    status: CharacterStatus = CharacterStatus.Alive,
+    status: String = "alive",
 ) {
 
     Box(
@@ -36,7 +36,7 @@ fun CharacterStatus(
         Box(
             modifier = Modifier
                 .size(8.dp)
-                .background(color = status.color, shape = CircleShape)
+                .background(color = status.getColorFromCharacterStatus(), shape = CircleShape)
         )
     }
 }
@@ -47,12 +47,9 @@ fun CharacterStatus(
 private fun CharacterStatusPreview() {
     RickAndMortyWikiTheme {
         Surface {
-            Row() {
-                CharacterStatus(status = CharacterStatus.Alive)
-                CharacterStatus(status = CharacterStatus.Dead)
-                CharacterStatus(status = CharacterStatus.Unknown)
+            Row {
+                CharacterStatus()
             }
-
         }
     }
 }
