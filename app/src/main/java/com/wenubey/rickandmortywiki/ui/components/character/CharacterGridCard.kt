@@ -17,13 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wenubey.network.models.domain.Character
+import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.components.common.CharacterImage
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterGridCard(
-    character: Character = Character.default(),
+    character: com.wenubey.domain.model.Character = Character.default(),
     onCardClick: () -> Unit = {},
 ) {
     var isDoubleClicked by remember {

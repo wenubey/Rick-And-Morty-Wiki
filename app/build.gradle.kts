@@ -70,7 +70,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(project(":network"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     // KSP
     implementation(libs.ksp)
@@ -83,6 +84,11 @@ dependencies {
     // Coil
     implementation(libs.coil)
 
+    // Hilt
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigationCompose)
+
     // DataStore Preferences
     implementation(libs.dataStore)
 
@@ -94,4 +100,14 @@ dependencies {
 
     // ViewModel
     implementation(libs.androidx.viewmodel.compose)
+
+    // Paging Compose
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+
+    // Room
+    ksp(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.paging)
+    implementation(libs.room.ktx)
 }

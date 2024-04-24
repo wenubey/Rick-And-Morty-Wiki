@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Rick And Morty Wiki"
 include(":app")
-include(":network")
+include(":data")
+include(":domain")
