@@ -9,38 +9,42 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.size.Size
+import coil.compose.SubcomposeAsyncImage
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
+private val defaultModifier = Modifier
+    .fillMaxWidth()
+    .aspectRatio(1f)
+    .clip(RoundedCornerShape(12.dp))
 
 @Composable
 fun CharacterImage(
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .aspectRatio(1f)
-        .clip(RoundedCornerShape(12.dp)),
+    modifier: Modifier = defaultModifier,
     imageUrl: String = ""
 ) {
-    val context = LocalContext.current
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(context)
-            .data(imageUrl)
-            .error(R.drawable.baseline_404_not_found_24)
-            .size(Size.ORIGINAL)
-            .build(),
-        onLoading = { /* TODO add Loading State */ }
-    )
-    Image(
+
+
+    SubcomposeAsyncImage(
+        model = imageUrl,
         modifier = modifier,
-        painter = painter, contentDescription = stringResource(R.string.cd_character_image)
+        contentDescription = stringResource(R.string.cd_character_image),
+        loading = {
+            CustomProgressIndicator()
+        },
+        error = {
+            Image(
+                painter = painterResource(id = R.drawable.baseline_404_not_found_24),
+                contentDescription = stringResource(id = R.string.cd_character_image)
+            )
+        }
     )
+
+
 }
 
 @Preview(name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

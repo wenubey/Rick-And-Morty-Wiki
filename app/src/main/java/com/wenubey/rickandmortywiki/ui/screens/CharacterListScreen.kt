@@ -21,6 +21,7 @@ import androidx.paging.compose.itemKey
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
+import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
 
@@ -56,8 +57,7 @@ fun CharacterListScreen(
         is CharacterListUiState.Error -> { /* TODO not implemented yet. */
         }
 
-        CharacterListUiState.Loading -> { /* TODO not implemented yet. */
-        }
+        CharacterListUiState.Loading -> { CustomProgressIndicator() }
 
         is CharacterListUiState.Success -> {
             val characters = currentState.charactersFlow.collectAsLazyPagingItems()
@@ -93,7 +93,7 @@ fun CharacterListScreen(
                             }
                             item {
                                 if (characters.loadState.append is LoadState.Loading) {
-                                    /* TODO add loading State composable */
+                                    CustomProgressIndicator()
                                 }
                             }
                         }
