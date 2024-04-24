@@ -1,14 +1,13 @@
 package com.wenubey.data
 
+import com.wenubey.data.local.toDomainCharacter
+import com.wenubey.data.remote.dto.CharacterDto
+import com.wenubey.data.remote.dto.CharacterPageDto
+import com.wenubey.data.remote.dto.EpisodeDto
+import com.wenubey.data.remote.dto.toCharacterEntity
+import com.wenubey.data.remote.dto.toDomainEpisode
 import com.wenubey.domain.model.Character
-import com.wenubey.domain.model.CharacterPage
 import com.wenubey.domain.model.Episode
-import com.wenubey.data.dto.CharacterDto
-import com.wenubey.data.dto.CharacterPageDto
-import com.wenubey.data.dto.EpisodeDto
-import com.wenubey.data.dto.toDomainCharacter
-import com.wenubey.data.dto.toDomainCharacterPage
-import com.wenubey.data.dto.toDomainEpisode
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -36,24 +35,21 @@ class KtorClient {
         }
     }
 
-    private var characterCache = mutableMapOf<Int, Character>()
 
+    //TODO fix this issue add dao's insert one delete one
+    // I will start to fetch cached values on repo
     suspend fun getCharacter(id: Int): Result<Character> {
-        characterCache[id]?.let { return Result.success(it) }
         return safeApiCall {
             client.get("character/$id")
                 .body<CharacterDto>()
+                .toCharacterEntity()
                 .toDomainCharacter()
-                .also { characterCache[id] = it }
         }
     }
 
-    suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPage> {
-        return safeApiCall {
-            client.get("character/?page=$pageNumber")
+    suspend fun getCharacterPage(pageNumber: Int): CharacterPageDto {
+        return client.get("character/?page=$pageNumber")
                 .body<CharacterPageDto>()
-                .toDomainCharacterPage()
-        }
     }
 
     suspend fun getEpisode(id: Int): Result<Episode> {

@@ -8,21 +8,26 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ScreenLockRotation
 import androidx.compose.material.icons.filled.ScreenRotation
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.rickandmortywiki.R
 import com.wenubey.domain.repository.UserPreferencesRepository
+import com.wenubey.rickandmortywiki.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class UserPreferencesViewModel @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val userPreferencesUiState: StateFlow<UiState> =
@@ -41,6 +46,20 @@ class UserPreferencesViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = UiState()
         )
+
+    private val _lastItemIndex = MutableStateFlow(savedStateHandle[LAST_ITEM_INDEX] ?: 0)
+    val lastItemIndex: StateFlow<Int> = _lastItemIndex.asStateFlow()
+
+    fun setLastItemIndex(index: Int) {
+        _lastItemIndex.update {
+            savedStateHandle[LAST_ITEM_INDEX] = index
+            return@update index
+        }
+    }
+
+    private companion object {
+        const val LAST_ITEM_INDEX = "last_item_index"
+    }
 
 
     fun selectLayout(isLinearLayout: Boolean) = viewModelScope.launch {

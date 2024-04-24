@@ -101,5 +101,13 @@ dependencies {
     // ViewModel
     implementation(libs.androidx.viewmodel.compose)
 
+    // Paging Compose
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 
+    // Room
+    ksp(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.paging)
+    implementation(libs.room.ktx)
 }

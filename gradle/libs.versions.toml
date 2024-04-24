@@ -1,22 +1,24 @@
 [versions]
 agp = "8.3.2"
 kotlin = "1.9.23"
-coreKtx = "1.12.0"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.7.0"
-activityCompose = "1.8.2"
-composeBom = "2024.04.00"
+activityCompose = "1.9.0"
+composeBom = "2024.04.01"
 appcompat = "1.6.1"
 ktor = "2.3.6"
 hilt = "2.50"
 hiltNavigation = "1.2.0"
 ksp = "1.9.23-1.0.20"
 coil = "2.5.0"
-dataStore = "1.0.0"
+dataStore = "1.1.0"
 navigation = "2.7.7"
 material = "1.11.0"
+pagingCompose = "3.2.1"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,11 +64,22 @@ dataStore = { group = "androidx.datastore", name = "datastore-preferences", vers
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+# Paging Compose
+paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingCompose"}
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose"}
+
+# Room DB
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room"}
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+room = { id = "androidx.room", version.ref = "room"}
 
 

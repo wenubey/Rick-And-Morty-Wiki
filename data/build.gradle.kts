@@ -4,6 +4,7 @@ plugins {
     id("kotlinx-serialization")
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -33,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -55,4 +59,14 @@ dependencies {
 
     // DataStore Preferences
     implementation(libs.dataStore)
+
+    // Paging Compose
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+
+    // Room
+    ksp(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.paging)
+    implementation(libs.room.ktx)
 }

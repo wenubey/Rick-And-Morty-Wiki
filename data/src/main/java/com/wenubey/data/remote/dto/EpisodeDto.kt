@@ -1,4 +1,4 @@
-package com.wenubey.data.dto
+package com.wenubey.data.remote.dto
 
 import com.wenubey.domain.model.Episode
 import kotlinx.serialization.SerialName

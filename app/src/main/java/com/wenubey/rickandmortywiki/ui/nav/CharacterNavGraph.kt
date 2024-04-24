@@ -1,6 +1,5 @@
 package com.wenubey.rickandmortywiki.ui.nav
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,13 +22,16 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
             val userPrefState = userPreferencesViewModel.userPreferencesUiState.collectAsState().value
             val characterViewModel: CharacterListViewModel = hiltViewModel()
             val characterUiState = characterViewModel.characterListUiState.collectAsState()
-
-            LaunchedEffect(key1 =characterViewModel) { characterViewModel.getInitialPage() }
+            val lastItemIndex = userPreferencesViewModel.lastItemIndex.collectAsState().value
 
             CharacterListScreen(
                 onCharacterSelected = { /* TODO not implemented yet. */},
                 isLinearLayout = userPrefState.linearLayout.isLinearLayout,
-                characterUiState = characterUiState.value
+                characterUiState = characterUiState.value,
+                setLastItemIndex = { index ->
+                    userPreferencesViewModel.setLastItemIndex(index)
+                },
+                lastItemIndex = lastItemIndex
             )
         }
         composable(route = CharacterScreen.DETAIL) {
