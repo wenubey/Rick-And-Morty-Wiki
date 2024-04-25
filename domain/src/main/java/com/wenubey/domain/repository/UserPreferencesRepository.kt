@@ -11,10 +11,14 @@ interface UserPreferencesRepository {
 
     val isScreenLocked: Flow<Boolean>
 
+    val searchHistory: Flow<List<String>>
+
     suspend fun saveLayoutPreference(isLinearLayout: Boolean)
 
     suspend fun saveNightModePreference(isNightMode: Boolean)
 
     suspend fun saveScreenLockedPreference(isScreenLocked: Boolean)
+
+    suspend fun saveSearchHistory(searchQuery: String)
 
 }
