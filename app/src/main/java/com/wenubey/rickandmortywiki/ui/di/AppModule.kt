@@ -13,11 +13,13 @@ import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.RickAndMortyDao
 import com.wenubey.data.local.RickAndMortyDatabase
 import com.wenubey.data.remote.RickAndMortyRemoteMediator
+import com.wenubey.data.remote.SearchQueryProviderImpl
 import com.wenubey.data.repository.CharacterRepositoryImpl
 import com.wenubey.data.repository.EpisodeRepositoryImpl
 import com.wenubey.data.repository.UserPreferencesRepositoryImpl
 import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.domain.repository.EpisodeRepository
+import com.wenubey.domain.repository.SearchQueryProvider
 import com.wenubey.domain.repository.UserPreferencesRepository
 import dagger.Module
 import dagger.Provides
@@ -49,10 +51,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRickAndMortyPager(ktorClient: KtorClient, dao: RickAndMortyDao): Pager<Int, CharacterEntity> {
+    fun provideRickAndMortyPager(
+        ktorClient: KtorClient,
+        dao: RickAndMortyDao,
+        searchQueryProvider: SearchQueryProvider
+    ): Pager<Int, CharacterEntity> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            remoteMediator = RickAndMortyRemoteMediator(ktorClient, dao),
+            remoteMediator = RickAndMortyRemoteMediator(
+                ktorClient = ktorClient,
+                dao = dao,
+                searchQueryProvider = searchQueryProvider
+            ),
             pagingSourceFactory = {
                 dao.pagingSource()
             }
@@ -63,9 +73,14 @@ object AppModule {
     @Singleton
     fun provideCharacterRepository(
         ktorClient: KtorClient,
-        pager: Pager<Int, CharacterEntity>
+        pager: Pager<Int, CharacterEntity>,
+        searchQueryProvider: SearchQueryProvider
     ): CharacterRepository =
-        CharacterRepositoryImpl(ktorClient, pager)
+        CharacterRepositoryImpl(
+            ktorClient = ktorClient,
+            pager = pager,
+            searchQueryProvider = searchQueryProvider
+        )
 
     @Provides
     @Singleton
@@ -89,6 +104,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRickAndMortyDao(db: RickAndMortyDatabase) : RickAndMortyDao = db.dao
+    fun provideRickAndMortyDao(db: RickAndMortyDatabase): RickAndMortyDao = db.dao
 
+    @Provides
+    @Singleton
+    fun provideSearchQueryProvider(): SearchQueryProvider = SearchQueryProviderImpl()
 }

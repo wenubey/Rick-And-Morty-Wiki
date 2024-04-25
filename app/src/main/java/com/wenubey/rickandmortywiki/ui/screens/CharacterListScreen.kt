@@ -1,30 +1,52 @@
 package com.wenubey.rickandmortywiki.ui.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
+import com.wenubey.rickandmortywiki.ui.components.common.SearchBar
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
     isLinearLayout: Boolean,
@@ -32,6 +54,8 @@ fun CharacterListScreen(
     onCharacterSelected: (id: Int) -> Unit,
     setLastItemIndex: (index: Int) -> Unit,
     lastItemIndex: Int?,
+    searchQuery: String,
+    setSearchQuery: (String) -> Unit,
 ) {
 
     val lazyListState = rememberLazyListState(
@@ -57,23 +81,34 @@ fun CharacterListScreen(
         is CharacterListUiState.Error -> { /* TODO not implemented yet. */
         }
 
-        CharacterListUiState.Loading -> { CustomProgressIndicator() }
+        CharacterListUiState.Loading -> {
+            CustomProgressIndicator()
+        }
 
         is CharacterListUiState.Success -> {
             val characters = currentState.charactersFlow.collectAsLazyPagingItems()
-            Surface {
-                Scaffold(
-                    topBar = {
-                        CommonTopAppBar(showNavigationIcon = false)
-                    }
-                ) { paddingValues ->
+
+            Scaffold(
+                topBar = {
+                    CommonTopAppBar(showNavigationIcon = false)
+                }
+            ) { paddingValues ->
+
+                Column(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                        .background(Color.Transparent),
+                ) {
+                    SearchBar(
+                        searchQuery = searchQuery,
+                        setSearchQuery = setSearchQuery
+                    )
 
                     if (isLinearLayout) {
-                        //if (isSystemInPortraitOrientation()) {
                         LazyColumn(
-                            modifier = Modifier.padding(paddingValues),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = PaddingValues(12.dp),
                             state = lazyListState
                         ) {
                             items(
@@ -93,13 +128,12 @@ fun CharacterListScreen(
                             }
                             item {
                                 if (characters.loadState.append is LoadState.Loading) {
-                                    CustomProgressIndicator()
+                                    CustomProgressIndicator(modifier = Modifier.size(50.dp))
                                 }
                             }
                         }
                     } else {
                         LazyVerticalGrid(
-                            modifier = Modifier.padding(paddingValues),
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -128,28 +162,8 @@ fun CharacterListScreen(
                             }
                         }
                     }
-//                    } else {
-//                        LazyVerticalGrid(
-//                            modifier = Modifier.padding(paddingValues),
-//                            columns = GridCells.Fixed(2),
-//                            verticalArrangement = Arrangement.spacedBy(8.dp),
-//                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-//                            contentPadding = PaddingValues(16.dp)
-//                        ) {
-//                            items(count = characters.itemCount,
-//                                key = characters.itemKey(),
-//                                contentType = characters.itemContentType()
-//                            ) { index ->
-//                                val character = characters[index]
-//                                if (character != null) {
-//
-//                                }
-//                            }
-//                        }
-//                    }
                 }
             }
-
         }
     }
 }

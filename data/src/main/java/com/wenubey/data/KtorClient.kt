@@ -1,5 +1,6 @@
 package com.wenubey.data
 
+import android.util.Log
 import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
@@ -50,6 +51,12 @@ class KtorClient {
     suspend fun getCharacterPage(pageNumber: Int): CharacterPageDto {
         return client.get("character/?page=$pageNumber")
                 .body<CharacterPageDto>()
+
+    }
+
+    suspend fun searchCharacter(name: String): CharacterPageDto {
+        return client.get("character/?name=$name")
+                .body<CharacterPageDto>()
     }
 
     suspend fun getEpisode(id: Int): Result<Episode> {
@@ -81,7 +88,10 @@ class KtorClient {
         }
     }
 
+
+
     private companion object {
+        const val TAG = "ktorClient"
         const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 }

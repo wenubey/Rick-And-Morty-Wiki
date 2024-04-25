@@ -8,7 +8,10 @@ import androidx.paging.RemoteMediator
 import com.wenubey.data.KtorClient
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.RickAndMortyDao
+import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.toCharacterEntity
+import com.wenubey.domain.model.CharacterPage
+import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,7 +21,8 @@ import javax.inject.Inject
 class RickAndMortyRemoteMediator @Inject constructor(
     private val ktorClient: KtorClient,
     private val dao: RickAndMortyDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val searchQueryProvider: SearchQueryProvider
 ) : RemoteMediator<Int, CharacterEntity>() {
 
     override suspend fun load(
@@ -38,7 +42,14 @@ class RickAndMortyRemoteMediator @Inject constructor(
                     }
                 }
             }
-            val characters = ktorClient.getCharacterPage(page)
+            val searchQuery = searchQueryProvider.getSearchQuery()
+
+            val characters = if (searchQuery.isBlank() || searchQuery.isEmpty()) {
+                ktorClient.getCharacterPage(page)
+            } else {
+                ktorClient.searchCharacter(searchQuery)
+            }
+
             val characterEntities = characters.results.map { it.toCharacterEntity() }
             if (loadType == LoadType.REFRESH) {
                 dao.clearAll()

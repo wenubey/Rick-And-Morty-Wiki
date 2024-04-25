@@ -9,6 +9,7 @@ import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
+import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -16,9 +17,10 @@ import javax.inject.Inject
 class CharacterRepositoryImpl @Inject constructor(
     private val ktorClient: KtorClient,
     private val pager: Pager<Int, CharacterEntity>,
+    private val searchQueryProvider: SearchQueryProvider,
 ) : CharacterRepository {
 
-    override fun getCharacterPage(): Flow<PagingData<Character>> =
+    override fun getCharacterPage(name: String?): Flow<PagingData<Character>> =
         pager.flow.map { pagingData ->
             pagingData.map { it.toDomainCharacter() }
         }
@@ -27,5 +29,6 @@ class CharacterRepositoryImpl @Inject constructor(
     override suspend fun getCharacter(id: Int): Result<Character> {
         return ktorClient.getCharacter(id)
     }
+
 
 }

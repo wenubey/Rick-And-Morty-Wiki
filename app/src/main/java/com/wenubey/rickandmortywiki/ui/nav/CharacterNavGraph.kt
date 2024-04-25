@@ -23,6 +23,7 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
             val characterViewModel: CharacterListViewModel = hiltViewModel()
             val characterUiState = characterViewModel.characterListUiState.collectAsState()
             val lastItemIndex = userPreferencesViewModel.lastItemIndex.collectAsState().value
+            val searchQuery = characterViewModel.searchQuery.collectAsState().value
 
             CharacterListScreen(
                 onCharacterSelected = { /* TODO not implemented yet. */},
@@ -31,7 +32,9 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
                 setLastItemIndex = { index ->
                     userPreferencesViewModel.setLastItemIndex(index)
                 },
-                lastItemIndex = lastItemIndex
+                lastItemIndex = lastItemIndex,
+                searchQuery = searchQuery,
+                setSearchQuery = characterViewModel::setSearchQuery
             )
         }
         composable(route = CharacterScreen.DETAIL) {

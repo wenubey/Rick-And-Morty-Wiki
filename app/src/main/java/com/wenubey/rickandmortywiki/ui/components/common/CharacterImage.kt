@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ fun CharacterImage(
         modifier = modifier,
         contentDescription = stringResource(R.string.cd_character_image),
         loading = {
-            CustomProgressIndicator()
+            CustomProgressIndicator(modifier = Modifier.size(50.dp))
         },
         error = {
             Image(
