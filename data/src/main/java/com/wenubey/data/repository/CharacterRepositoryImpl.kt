@@ -17,7 +17,6 @@ import javax.inject.Inject
 class CharacterRepositoryImpl @Inject constructor(
     private val ktorClient: KtorClient,
     private val pager: Pager<Int, CharacterEntity>,
-    private val searchQueryProvider: SearchQueryProvider,
 ) : CharacterRepository {
 
     override fun getCharacterPage(name: String?): Flow<PagingData<Character>> =

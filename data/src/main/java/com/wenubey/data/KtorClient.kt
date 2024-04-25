@@ -1,6 +1,5 @@
 package com.wenubey.data
 
-import android.util.Log
 import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
@@ -91,7 +90,6 @@ class KtorClient {
 
 
     private companion object {
-        const val TAG = "ktorClient"
         const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 }

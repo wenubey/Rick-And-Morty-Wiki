@@ -8,9 +8,7 @@ import androidx.paging.RemoteMediator
 import com.wenubey.data.KtorClient
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.RickAndMortyDao
-import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.toCharacterEntity
-import com.wenubey.domain.model.CharacterPage
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

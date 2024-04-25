@@ -74,12 +74,10 @@ object AppModule {
     fun provideCharacterRepository(
         ktorClient: KtorClient,
         pager: Pager<Int, CharacterEntity>,
-        searchQueryProvider: SearchQueryProvider
     ): CharacterRepository =
         CharacterRepositoryImpl(
             ktorClient = ktorClient,
             pager = pager,
-            searchQueryProvider = searchQueryProvider
         )
 
     @Provides

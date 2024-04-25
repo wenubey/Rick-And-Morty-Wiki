@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,30 +37,23 @@ class CharacterListViewModel
     private val _searchQuery = MutableStateFlow(searchQueryProvider.getSearchQuery())
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-//    init {
-//        characterPagingFlow()
-//    }
-//
-//    private fun characterPagingFlow() = viewModelScope.launch {
-//        val result = characterRepository
-//            .getCharacterPage()
-//            .cachedIn(viewModelScope)
-//        _characterListUiState.update {
-//            return@update CharacterListUiState.Success(result)
-//        }
-//    }
+    init {
+        characterPagingFlow()
+    }
 
-
-    val characterPagingFlow = _searchQuery
-        .debounce(500)
-        .distinctUntilChanged()
-        .flatMapLatest { query ->
-            characterRepository.getCharacterPage(query)
-        }.cachedIn(viewModelScope).also { charactersFlow ->
-            _characterListUiState.update {
-                return@update CharacterListUiState.Success(charactersFlow = charactersFlow)
+    private fun characterPagingFlow() {
+        _searchQuery
+            .debounce(500)
+            .distinctUntilChanged()
+            .flatMapLatest { query ->
+                characterRepository.getCharacterPage(query)
+            }.cachedIn(viewModelScope).also { charactersFlow ->
+                _characterListUiState.update {
+                    return@update CharacterListUiState.Success(charactersFlow = charactersFlow)
+                }
             }
-        }
+    }
+
 
     fun setSearchQuery(query: String) {
         _searchQuery.update { return@update query }

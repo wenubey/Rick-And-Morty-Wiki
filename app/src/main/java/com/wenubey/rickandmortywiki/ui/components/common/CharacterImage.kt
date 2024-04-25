@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -28,14 +29,12 @@ fun CharacterImage(
     modifier: Modifier = defaultModifier,
     imageUrl: String = ""
 ) {
-
-
     SubcomposeAsyncImage(
         model = imageUrl,
         modifier = modifier,
         contentDescription = stringResource(R.string.cd_character_image),
         loading = {
-            CustomProgressIndicator(modifier = Modifier.size(50.dp))
+            CustomProgressIndicator(modifier = Modifier.padding(16.dp).size(25.dp))
         },
         error = {
             Image(
