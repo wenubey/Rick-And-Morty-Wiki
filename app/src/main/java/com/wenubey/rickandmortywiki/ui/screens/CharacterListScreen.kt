@@ -1,18 +1,24 @@
 package com.wenubey.rickandmortywiki.ui.screens
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -22,6 +28,7 @@ import com.wenubey.rickandmortywiki.ui.components.character.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
+import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
 
@@ -32,6 +39,12 @@ fun CharacterListScreen(
     onCharacterSelected: (id: Int) -> Unit,
     setLastItemIndex: (index: Int) -> Unit,
     lastItemIndex: Int?,
+    searchQuery: String,
+    setSearchQuery: (String) -> Unit,
+    active: Boolean,
+    onActiveChange: (Boolean) -> Unit,
+    onSearch: (String) -> Unit,
+    searchHistory: List<String>
 ) {
 
     val lazyListState = rememberLazyListState(
@@ -54,26 +67,42 @@ fun CharacterListScreen(
         }
     }
     when (val currentState = characterUiState) {
-        is CharacterListUiState.Error -> { /* TODO not implemented yet. */
+        is CharacterListUiState.Error -> {
+            Log.i("TAG", "CharacterListScreen:Error: ${currentState.message} ")
+            Text(text = currentState.message)
         }
 
-        CharacterListUiState.Loading -> { CustomProgressIndicator() }
+        CharacterListUiState.Loading -> {
+            CustomProgressIndicator()
+        }
 
         is CharacterListUiState.Success -> {
             val characters = currentState.charactersFlow.collectAsLazyPagingItems()
-            Surface {
-                Scaffold(
-                    topBar = {
-                        CommonTopAppBar(showNavigationIcon = false)
-                    }
-                ) { paddingValues ->
 
+            Scaffold(
+                topBar = {
+                    CommonTopAppBar(showNavigationIcon = false)
+                }
+            ) { paddingValues ->
+
+                Column(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                        .background(Color.Transparent),
+                ) {
+                    CustomSearchBar(
+                        searchQuery = searchQuery,
+                        active = active,
+                        onActiveChange = onActiveChange,
+                        onSearch = onSearch,
+                        setSearchQuery = setSearchQuery,
+                        searchHistory = searchHistory,
+                    )
                     if (isLinearLayout) {
-                        //if (isSystemInPortraitOrientation()) {
                         LazyColumn(
-                            modifier = Modifier.padding(paddingValues),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = PaddingValues(12.dp),
                             state = lazyListState
                         ) {
                             items(
@@ -93,13 +122,14 @@ fun CharacterListScreen(
                             }
                             item {
                                 if (characters.loadState.append is LoadState.Loading) {
-                                    CustomProgressIndicator()
+                                    CustomProgressIndicator(modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(16.dp))
                                 }
                             }
                         }
                     } else {
                         LazyVerticalGrid(
-                            modifier = Modifier.padding(paddingValues),
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -128,28 +158,8 @@ fun CharacterListScreen(
                             }
                         }
                     }
-//                    } else {
-//                        LazyVerticalGrid(
-//                            modifier = Modifier.padding(paddingValues),
-//                            columns = GridCells.Fixed(2),
-//                            verticalArrangement = Arrangement.spacedBy(8.dp),
-//                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-//                            contentPadding = PaddingValues(16.dp)
-//                        ) {
-//                            items(count = characters.itemCount,
-//                                key = characters.itemKey(),
-//                                contentType = characters.itemContentType()
-//                            ) { index ->
-//                                val character = characters[index]
-//                                if (character != null) {
-//
-//                                }
-//                            }
-//                        }
-//                    }
                 }
             }
-
         }
     }
 }

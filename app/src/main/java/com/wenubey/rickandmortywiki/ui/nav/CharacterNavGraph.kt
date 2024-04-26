@@ -1,5 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.nav
 
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -19,19 +20,31 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
     ) {
         composable(route = CharacterScreen.LIST) {
             val userPreferencesViewModel: UserPreferencesViewModel = hiltViewModel()
-            val userPrefState = userPreferencesViewModel.userPreferencesUiState.collectAsState().value
+            val userPrefState =
+                userPreferencesViewModel.userPreferencesUiState.collectAsState().value
             val characterViewModel: CharacterListViewModel = hiltViewModel()
             val characterUiState = characterViewModel.characterListUiState.collectAsState()
             val lastItemIndex = userPreferencesViewModel.lastItemIndex.collectAsState().value
 
+
+            val searchQuery = characterViewModel.searchQuery.collectAsState().value
+            val active = characterViewModel.isSearching.collectAsState().value
+            val searchHistory = userPrefState.searchHistory.searchHistory
+
             CharacterListScreen(
-                onCharacterSelected = { /* TODO not implemented yet. */},
+                onCharacterSelected = { /* TODO not implemented yet. */ },
                 isLinearLayout = userPrefState.linearLayout.isLinearLayout,
                 characterUiState = characterUiState.value,
                 setLastItemIndex = { index ->
                     userPreferencesViewModel.setLastItemIndex(index)
                 },
-                lastItemIndex = lastItemIndex
+                lastItemIndex = lastItemIndex,
+                searchQuery = searchQuery,
+                setSearchQuery = characterViewModel::setSearchQuery,
+                active = active,
+                onActiveChange = characterViewModel::onActiveChange,
+                onSearch = characterViewModel::onSearch,
+                searchHistory = searchHistory
             )
         }
         composable(route = CharacterScreen.DETAIL) {
