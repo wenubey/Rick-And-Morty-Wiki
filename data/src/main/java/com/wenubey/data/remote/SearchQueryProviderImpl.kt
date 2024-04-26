@@ -4,13 +4,13 @@ import com.wenubey.domain.repository.SearchQueryProvider
 
 class SearchQueryProviderImpl: SearchQueryProvider {
 
-    private var searchQuery: String = ""
+    private var _searchQuery = ""
 
     override fun getSearchQuery(): String {
-        return searchQuery
+        return _searchQuery
     }
 
     override fun setSearchQuery(query: String) {
-        searchQuery = query
+        _searchQuery = query
     }
 }

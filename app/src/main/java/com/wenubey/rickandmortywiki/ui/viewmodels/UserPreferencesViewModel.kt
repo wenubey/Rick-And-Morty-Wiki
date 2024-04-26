@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.GridOn
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ScreenLockRotation
 import androidx.compose.material.icons.filled.ScreenRotation
@@ -34,12 +35,14 @@ class UserPreferencesViewModel @Inject constructor(
         combine(
             userPreferencesRepository.isScreenLocked,
             userPreferencesRepository.isLinearLayout,
-            userPreferencesRepository.isNightMode
-        ) { isScreenLocked, isLinearLayout, isNightMode ->
+            userPreferencesRepository.isNightMode,
+            userPreferencesRepository.searchHistory
+        ) { isScreenLocked, isLinearLayout, isNightMode, searchHistory ->
             UiState(
                 screenLock = ScreenLock(isScreenLocked = isScreenLocked),
                 linearLayout = LinearLayout(isLinearLayout = isLinearLayout),
-                nightMode = NightMode(isNightMode = isNightMode)
+                nightMode = NightMode(isNightMode = isNightMode),
+                searchHistory = SearchHistory(searchHistory = searchHistory)
             )
         }.stateIn(
             viewModelScope,
@@ -57,11 +60,6 @@ class UserPreferencesViewModel @Inject constructor(
         }
     }
 
-    private companion object {
-        const val LAST_ITEM_INDEX = "last_item_index"
-    }
-
-
     fun selectLayout(isLinearLayout: Boolean) = viewModelScope.launch {
         userPreferencesRepository.saveLayoutPreference(isLinearLayout)
     }
@@ -73,13 +71,28 @@ class UserPreferencesViewModel @Inject constructor(
     fun selectScreenLock(isScreenLocked: Boolean) = viewModelScope.launch {
         userPreferencesRepository.saveScreenLockedPreference(isScreenLocked)
     }
+
+    fun saveSearchHistory(searchQuery: String) = viewModelScope.launch {
+        userPreferencesRepository.saveSearchHistory(searchQuery)
+    }
+
+    private companion object {
+        const val LAST_ITEM_INDEX = "last_item_index"
+    }
 }
 
 
 data class UiState(
     val screenLock: ScreenLock = ScreenLock(),
     val nightMode: NightMode = NightMode(),
-    val linearLayout: LinearLayout = LinearLayout()
+    val linearLayout: LinearLayout = LinearLayout(),
+    val searchHistory: SearchHistory = SearchHistory(),
+)
+
+data class SearchHistory(
+    val searchHistory: List<String> = listOf(),
+    val toggleIcon: ImageVector = Icons.Filled.History,
+    val contentDescriptionRes: Int = R.string.delete_the_search_history_toggle
 )
 
 data class ScreenLock(

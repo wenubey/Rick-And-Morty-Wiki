@@ -75,7 +75,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             val currentHistory =
                 preferences[SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
 
-            currentHistory.add(0, searchQuery)
+            if (searchQuery.isNotBlank()) {
+                currentHistory.add(0, searchQuery)
+            }
             if (currentHistory.size > 10) {
                 currentHistory.removeLast()
             }

@@ -1,5 +1,6 @@
 package com.wenubey.data
 
+import android.util.Log
 import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
@@ -50,11 +51,10 @@ class KtorClient {
     suspend fun getCharacterPage(pageNumber: Int): CharacterPageDto {
         return client.get("character/?page=$pageNumber")
                 .body<CharacterPageDto>()
-
     }
 
-    suspend fun searchCharacter(name: String): CharacterPageDto {
-        return client.get("character/?name=$name")
+    suspend fun searchCharacter(pageNumber: Int, searchQuery: String): CharacterPageDto {
+        return client.get("character/?page=$pageNumber&name=$searchQuery")
                 .body<CharacterPageDto>()
     }
 

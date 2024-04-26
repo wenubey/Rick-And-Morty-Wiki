@@ -4,4 +4,5 @@ interface SearchQueryProvider {
     fun getSearchQuery(): String
 
     fun setSearchQuery(query: String)
+
 }

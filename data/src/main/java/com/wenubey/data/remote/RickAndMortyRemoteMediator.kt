@@ -1,6 +1,7 @@
 package com.wenubey.data.remote
 
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -22,6 +23,7 @@ class RickAndMortyRemoteMediator @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val searchQueryProvider: SearchQueryProvider
 ) : RemoteMediator<Int, CharacterEntity>() {
+    private var nextPageNumber: Int = 1
 
     override suspend fun load(
         loadType: LoadType,
@@ -29,23 +31,27 @@ class RickAndMortyRemoteMediator @Inject constructor(
     ): MediatorResult = withContext(ioDispatcher) {
         return@withContext try {
             val page = when (loadType) {
-                LoadType.REFRESH -> 1
+                LoadType.REFRESH -> {
+                    nextPageNumber = 1
+                    1
+                }
                 LoadType.PREPEND -> return@withContext MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastCharacter = state.lastItemOrNull()
                     if (lastCharacter == null) {
-                        return@withContext MediatorResult.Success(endOfPaginationReached = true)
+                        1
                     } else {
-                       (lastCharacter.id / state.config.pageSize) + 1
+                       nextPageNumber++
                     }
                 }
             }
+
             val searchQuery = searchQueryProvider.getSearchQuery()
 
-            val characters = if (searchQuery.isBlank() || searchQuery.isEmpty()) {
+            val characters = if (searchQuery.isBlank()) {
                 ktorClient.getCharacterPage(page)
             } else {
-                ktorClient.searchCharacter(searchQuery)
+                ktorClient.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
 
             val characterEntities = characters.results.map { it.toCharacterEntity() }

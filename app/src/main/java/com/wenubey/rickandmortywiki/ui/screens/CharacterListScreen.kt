@@ -1,5 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,8 +13,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -27,7 +28,7 @@ import com.wenubey.rickandmortywiki.ui.components.character.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
-import com.wenubey.rickandmortywiki.ui.components.common.SearchBar
+import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
 
@@ -40,6 +41,10 @@ fun CharacterListScreen(
     lastItemIndex: Int?,
     searchQuery: String,
     setSearchQuery: (String) -> Unit,
+    active: Boolean,
+    onActiveChange: (Boolean) -> Unit,
+    onSearch: (String) -> Unit,
+    searchHistory: List<String>
 ) {
 
     val lazyListState = rememberLazyListState(
@@ -62,7 +67,9 @@ fun CharacterListScreen(
         }
     }
     when (val currentState = characterUiState) {
-        is CharacterListUiState.Error -> { /* TODO not implemented yet. */
+        is CharacterListUiState.Error -> {
+            Log.i("TAG", "CharacterListScreen:Error: ${currentState.message} ")
+            Text(text = currentState.message)
         }
 
         CharacterListUiState.Loading -> {
@@ -84,11 +91,14 @@ fun CharacterListScreen(
                         .fillMaxSize()
                         .background(Color.Transparent),
                 ) {
-                    SearchBar(
+                    CustomSearchBar(
                         searchQuery = searchQuery,
-                        setSearchQuery = setSearchQuery
+                        active = active,
+                        onActiveChange = onActiveChange,
+                        onSearch = onSearch,
+                        setSearchQuery = setSearchQuery,
+                        searchHistory = searchHistory,
                     )
-
                     if (isLinearLayout) {
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -112,7 +122,9 @@ fun CharacterListScreen(
                             }
                             item {
                                 if (characters.loadState.append is LoadState.Loading) {
-                                    CustomProgressIndicator(modifier = Modifier.size(50.dp).padding(16.dp))
+                                    CustomProgressIndicator(modifier = Modifier
+                                        .size(50.dp)
+                                        .padding(16.dp))
                                 }
                             }
                         }
