@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wenubey.rickandmortywiki.R
+import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesMenu
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 

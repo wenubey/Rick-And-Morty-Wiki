@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.components.common
+package com.wenubey.rickandmortywiki.ui.components.pref_menu
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes

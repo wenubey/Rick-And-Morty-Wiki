@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.components.common
+package com.wenubey.rickandmortywiki.ui.components.pref_menu
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
