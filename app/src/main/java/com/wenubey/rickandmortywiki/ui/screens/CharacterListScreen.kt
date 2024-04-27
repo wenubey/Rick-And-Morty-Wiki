@@ -122,9 +122,11 @@ fun CharacterListScreen(
                             }
                             item {
                                 if (characters.loadState.append is LoadState.Loading) {
-                                    CustomProgressIndicator(modifier = Modifier
-                                        .size(50.dp)
-                                        .padding(16.dp))
+                                    CustomProgressIndicator(
+                                        modifier = Modifier
+                                            .size(50.dp)
+                                            .padding(16.dp)
+                                    )
                                 }
                             }
                         }
@@ -144,7 +146,9 @@ fun CharacterListScreen(
                                 val character = characters[index]
                                 if (character != null) {
                                     if (isSystemInPortraitOrientation()) {
-                                        CharacterGridCard(character = character)
+                                        CharacterGridCard(
+                                            character = character,
+                                            onCardClick = { onCharacterSelected(character.id) })
                                     } else {
                                         CharacterListCard(
                                             character = character,

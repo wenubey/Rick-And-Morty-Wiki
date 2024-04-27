@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             navController = rememberNavController()
 
 
-            val userPrefUiState = viewModel.userPreferencesUiState.collectAsState().value
+            val userPrefUiState = viewModel.userPreferencesUserPrefUiState.collectAsState().value
             val isScreenLocked = userPrefUiState.screenLock.isScreenLocked
             val isSystemInDarkMode = userPrefUiState.nightMode.isNightMode
 
