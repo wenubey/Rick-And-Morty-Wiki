@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,13 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.wenubey.rickandmortywiki.ui.components.common.CharacterImage
+import com.wenubey.rickandmortywiki.ui.getColorFromCharacterStatus
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
     val localDensity = LocalDensity.current
     var boxSize by remember { mutableStateOf<DpSize?>(null) }
-
+    val characterStatusColor = characterStatus.getColorFromCharacterStatus()
     val sizeModifier = if (boxSize != null) {
         Modifier.size(boxSize!! + DpSize(40.dp, 40.dp))
     } else {
@@ -63,7 +63,7 @@ fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
                     }
                     .border(
                         width = 6.dp,
-                        color = Color(0xFF58CF8E),
+                        color = characterStatusColor,
                         shape = CircleShape
                     )
             ) {
@@ -80,7 +80,7 @@ fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
                     .align(Alignment.BottomCenter)
-                    .background(Color(0xFF58CF8E))
+                    .background(characterStatusColor)
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),

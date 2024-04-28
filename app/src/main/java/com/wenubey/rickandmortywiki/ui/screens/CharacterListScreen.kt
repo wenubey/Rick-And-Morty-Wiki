@@ -24,8 +24,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.wenubey.rickandmortywiki.ui.components.character.CharacterGridCard
-import com.wenubey.rickandmortywiki.ui.components.character.CharacterListCard
+import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterGridCard
+import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar

@@ -19,7 +19,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
     navigation(
         route = Graph.CHARACTER,
-        startDestination = CharacterScreen.LIST
+        startDestination = CharacterScreen.DETAIL
     ) {
         characterListScreen(navController)
         composable(route = CharacterScreen.DETAIL,
@@ -45,7 +45,8 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
             CharacterDetailScreen(
                 characterUiState = characterUiState,
                 userPrefUiState = userPrefUiState,
-                onBackButtonPressed = { navController.navigateUp() }
+                onBackButtonPressed = { navController.navigateUp() },
+                onEpisodeClicked = { /*TODO not yet implemented.*/}
             )
         }
         composable(route = CharacterScreen.EPISODE) {

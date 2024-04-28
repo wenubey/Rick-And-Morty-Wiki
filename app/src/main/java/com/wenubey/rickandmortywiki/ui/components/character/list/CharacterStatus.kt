@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.components.character
+package com.wenubey.rickandmortywiki.ui.components.character.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
