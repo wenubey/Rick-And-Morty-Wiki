@@ -16,4 +16,5 @@
     <string name="search_bar_label">Search</string>
     <string name="delete_the_search_history_toggle">Delete the search history</string>
     <string name="cd_search_history_item">Search history item</string>
+    <string name="character_detail_status">Status: %1$s</string>
 </resources>

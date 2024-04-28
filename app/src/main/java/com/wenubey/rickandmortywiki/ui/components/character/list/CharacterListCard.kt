@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.components.character
+package com.wenubey.rickandmortywiki.ui.components.character.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -27,7 +27,7 @@ import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterListCard(
-    character: com.wenubey.domain.model.Character = Character.default(),
+    character: Character = Character.default(),
     onCharacterSelected: () -> Unit = {},
 ) {
     Card(

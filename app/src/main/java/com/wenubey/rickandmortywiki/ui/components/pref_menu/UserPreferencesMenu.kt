@@ -21,11 +21,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
+// TODO should do state hoisting cuz it's not testable and can't see the previews.
 @Composable
 fun UserPreferencesMenu(
     viewModel: UserPreferencesViewModel = hiltViewModel(),
 ) {
-    val uiState = viewModel.userPreferencesUiState.collectAsState().value
+    val uiState = viewModel.userPreferencesUserPrefUiState.collectAsState().value
     val nightModeState = uiState.nightMode
     val linearLayoutState = uiState.linearLayout
     val screenLockState = uiState.screenLock

@@ -31,14 +31,14 @@ class UserPreferencesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    val userPreferencesUiState: StateFlow<UiState> =
+    val userPreferencesUserPrefUiState: StateFlow<UserPrefUiState> =
         combine(
             userPreferencesRepository.isScreenLocked,
             userPreferencesRepository.isLinearLayout,
             userPreferencesRepository.isNightMode,
             userPreferencesRepository.searchHistory
         ) { isScreenLocked, isLinearLayout, isNightMode, searchHistory ->
-            UiState(
+            UserPrefUiState(
                 screenLock = ScreenLock(isScreenLocked = isScreenLocked),
                 linearLayout = LinearLayout(isLinearLayout = isLinearLayout),
                 nightMode = NightMode(isNightMode = isNightMode),
@@ -47,7 +47,7 @@ class UserPreferencesViewModel @Inject constructor(
         }.stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = UiState()
+            initialValue = UserPrefUiState()
         )
 
     private val _lastItemIndex = MutableStateFlow(savedStateHandle[LAST_ITEM_INDEX] ?: 0)
@@ -82,7 +82,7 @@ class UserPreferencesViewModel @Inject constructor(
 }
 
 
-data class UiState(
+data class UserPrefUiState(
     val screenLock: ScreenLock = ScreenLock(),
     val nightMode: NightMode = NightMode(),
     val linearLayout: LinearLayout = LinearLayout(),

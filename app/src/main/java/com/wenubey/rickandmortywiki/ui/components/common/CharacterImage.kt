@@ -34,14 +34,16 @@ fun CharacterImage(
         modifier = modifier,
         contentDescription = stringResource(R.string.cd_character_image),
         loading = {
-            CustomProgressIndicator(modifier = Modifier.padding(16.dp).size(25.dp))
+            CustomProgressIndicator(modifier = Modifier
+                .padding(16.dp)
+                .size(25.dp))
         },
         error = {
             Image(
                 painter = painterResource(id = R.drawable.baseline_404_not_found_24),
                 contentDescription = stringResource(id = R.string.cd_character_image)
             )
-        }
+        },
     )
 
 

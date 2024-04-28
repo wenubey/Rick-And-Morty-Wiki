@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.components.character
+package com.wenubey.rickandmortywiki.ui.components.character.list
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
@@ -19,9 +19,9 @@ import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 // TODO map to header and sub-header particular texts
 @Composable
-fun CharacterName(
+fun CharacterGridNamePlate(
     modifier: Modifier = Modifier,
-    character: com.wenubey.domain.model.Character = Character.default(),
+    character: Character = Character.default(),
     isDoubleClicked: Boolean = false
 ) {
     Column(
@@ -53,7 +53,7 @@ fun CharacterName(
 private fun CharacterNamePreview() {
      RickAndMortyWikiTheme {
         Surface {
-             CharacterName()
+             CharacterGridNamePlate()
         }
     }
 }

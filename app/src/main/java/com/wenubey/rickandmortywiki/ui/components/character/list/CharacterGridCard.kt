@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.components.character
+package com.wenubey.rickandmortywiki.ui.components.character.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -23,7 +23,7 @@ import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterGridCard(
-    character: com.wenubey.domain.model.Character = Character.default(),
+    character: Character = Character.default(),
     onCardClick: () -> Unit = {},
 ) {
     var isDoubleClicked by remember {
@@ -46,7 +46,7 @@ fun CharacterGridCard(
                 CharacterImage(imageUrl = character.imageUrl)
                 CharacterStatus(status = character.status)
             }
-            CharacterName(
+            CharacterGridNamePlate(
                 character = character,
                 isDoubleClicked = isDoubleClicked,
             )
