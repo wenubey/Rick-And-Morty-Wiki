@@ -35,8 +35,11 @@ class CharacterDetailViewModel @Inject constructor(
         _characterDetailUiState.update { return@update CharacterDetailUiState.Loading }
         characterRepository.getCharacter(id)
             .onSuccess { character ->
-                Log.w(TAG, "getCharacter:Success: ${character.name}")
-
+                val residents = character.location.residents
+                val locationResidents =
+                    characterRepository.getLocationResidents(residents).getOrNull()
+                        ?: listOf()
+                character.location.locationResidents = locationResidents
                 _characterDetailUiState.update {
                     return@update CharacterDetailUiState.Success(
                         character = character,

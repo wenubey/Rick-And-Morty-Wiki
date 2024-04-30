@@ -7,9 +7,12 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.wenubey.data.KtorClient
+import com.wenubey.data.getIdFromUrl
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.RickAndMortyDao
-import com.wenubey.data.remote.dto.toCharacterEntity
+import com.wenubey.data.remote.dto.CharacterPageDto
+import com.wenubey.data.remote.dto.LocationDto
+import com.wenubey.data.remote.dto.OriginDto
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -35,13 +38,14 @@ class RickAndMortyRemoteMediator @Inject constructor(
                     nextPageNumber = 1
                     1
                 }
+
                 LoadType.PREPEND -> return@withContext MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastCharacter = state.lastItemOrNull()
                     if (lastCharacter == null) {
                         1
                     } else {
-                       nextPageNumber++
+                        nextPageNumber++
                     }
                 }
             }
@@ -53,17 +57,47 @@ class RickAndMortyRemoteMediator @Inject constructor(
             } else {
                 ktorClient.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
+            Log.i("TAG", "load:characterPageDto.first(): ${characters.results.first().name} ")
+            val characterEntities =
+                getCharacterEntities(characters = characters, ktorClient = ktorClient)
 
-            val characterEntities = characters.results.map { it.toCharacterEntity() }
+            Log.i("TAG", "load:characterEntities.first(): ${characterEntities.first().name} ")
+
             if (loadType == LoadType.REFRESH) {
                 dao.clearAll()
             }
-            dao.insertAll(characterEntities)
+            try {
+                dao.insertAll(characterEntities)
+            } catch (e: Exception) {
+                Log.e("TAG", "dao.insertALL(): ERROR ", e)
+            }
+
 
             val endOfPaginationReached = characters.info.next == null
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
             MediatorResult.Error(e)
+        }
+    }
+
+    private suspend fun getCharacterEntities(
+        characters: CharacterPageDto,
+        ktorClient: KtorClient
+    ): List<CharacterEntity> {
+        return characters.results.map { characterDto ->
+            val locationId = characterDto.location.url.getIdFromUrl()
+            val locationDto = if (locationId == -1) {
+                LocationDto.default()
+            } else {
+                ktorClient.getLocation(locationId).getOrNull()!!
+            }
+            val originId = characterDto.origin.url.getIdFromUrl()
+            val originDto  = if (originId == -1) {
+                OriginDto.default()
+            } else {
+                ktorClient.getOrigin(originId).getOrNull()!!
+            }
+            characterDto.toCharacterEntity(locationDto, originDto)
         }
     }
 }

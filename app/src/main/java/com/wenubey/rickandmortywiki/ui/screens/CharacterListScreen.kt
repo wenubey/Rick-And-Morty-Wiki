@@ -68,7 +68,6 @@ fun CharacterListScreen(
     }
     when (val currentState = characterUiState) {
         is CharacterListUiState.Error -> {
-            Log.i("TAG", "CharacterListScreen:Error: ${currentState.message} ")
             Text(text = currentState.message)
         }
 
@@ -118,6 +117,8 @@ fun CharacterListScreen(
                                             onCharacterSelected(character.id)
                                         },
                                     )
+                                } else {
+                                    Text(text = "CHARACTER NULL")
                                 }
                             }
                             item {

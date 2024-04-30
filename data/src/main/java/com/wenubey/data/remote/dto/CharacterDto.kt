@@ -5,47 +5,65 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CharacterDto(
-    val created: String,
-    val episode: List<String>,
-    val gender: String,
     val id: Int,
-    val image: String,
-    val location: Location,
     val name: String,
-    val origin: Origin,
-    val species: String,
     val status: String,
+    val species: String,
     val type: String,
-    val url: String
+    val gender: String,
+    val origin: OriginResponse,
+    val location: LocationResponse,
+    val image: String,
+    val episode: List<String>,
+    val url: String,
+    val created: String,
 ) {
-    @Serializable
-    data class Location(
-        val name: String,
-        val url: String
-    )
 
-    @Serializable
-    data class Origin(
-        val name: String,
-        val url: String
+    fun toCharacterEntity(
+        locationDto: LocationDto,
+        originDto: OriginDto,
+    ): CharacterEntity {
+        return CharacterEntity(
+            created = created,
+            episode = episode,
+            gender = gender,
+            id = id,
+            image = image,
+            locationEntity = location.toLocationDto(locationDto).toLocationEntity(),
+            name = name,
+            originEntity = origin.toOriginDto(originDto).toOriginEntity(),
+            species = species,
+            status = status,
+            type = type,
+            url = url
+        )
+    }
+
+}
+
+fun LocationResponse.toLocationDto(
+    locationDto: LocationDto
+): LocationDto {
+    return LocationDto(
+        id = locationDto.id,
+        name = this.name,
+        dimension = locationDto.dimension,
+        residents = locationDto.residents,
+        url = this.url,
+        created = locationDto.created
     )
 }
 
-fun CharacterDto.toCharacterEntity(): CharacterEntity {
-    return CharacterEntity(
-        created = created,
-        episode = episode,
-        gender = gender,
-        id = id,
-        image = image,
-        locationName = location.name,
-        locationUrl = location.url,
-        name = name,
-        originName = origin.name,
-        originUrl= origin.url,
-        species = species,
-        status = status,
-        type = type,
-        url = url
+fun OriginResponse.toOriginDto(
+    originDto: OriginDto
+): OriginDto {
+    return OriginDto(
+        id = originDto.id,
+        name = this.name,
+        dimension = originDto.dimension,
+        residents = originDto.residents,
+        url = url.ifBlank { null },
+        created = originDto.created
     )
 }
+

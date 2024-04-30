@@ -1,5 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +33,8 @@ internal fun CharacterDetailScreen(
     onBackButtonPressed: () -> Unit,
     onEpisodeClicked: (id: Int) -> Unit,
 ) = when (val currentState = characterUiState) {
-    is CharacterDetailUiState.Error -> { /* TODO( not yet implemented.) */
+    is CharacterDetailUiState.Error -> {
+        Text(text = currentState.message)
     }
 
     is CharacterDetailUiState.Loading -> {

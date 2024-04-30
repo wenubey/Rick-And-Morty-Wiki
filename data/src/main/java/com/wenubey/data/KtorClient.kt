@@ -1,22 +1,19 @@
 package com.wenubey.data
 
 import android.util.Log
-import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.EpisodeDto
-import com.wenubey.data.remote.dto.toCharacterEntity
-import com.wenubey.data.remote.dto.toDomainEpisode
-import com.wenubey.domain.model.Character
-import com.wenubey.domain.model.Episode
+import com.wenubey.data.remote.dto.LocationDto
+import com.wenubey.data.remote.dto.OriginDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.ANDROID
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -26,7 +23,7 @@ class KtorClient {
         defaultRequest { url(BASE_URL) }
 
         install(Logging) {
-            logger = Logger.SIMPLE
+            logger = Logger.ANDROID
         }
 
         install(ContentNegotiation) {
@@ -39,34 +36,44 @@ class KtorClient {
 
     //TODO fix this issue add dao's insert one delete one
     // I will start to fetch cached values on repo
-    suspend fun getCharacter(id: Int): Result<Character> {
+    suspend fun getCharacter(id: Int): Result<CharacterDto> {
         return safeApiCall {
             client.get("character/$id")
                 .body<CharacterDto>()
-                .toCharacterEntity()
-                .toDomainCharacter()
+
         }
     }
 
     suspend fun getCharacterPage(pageNumber: Int): CharacterPageDto {
         return client.get("character/?page=$pageNumber")
-                .body<CharacterPageDto>()
+            .body<CharacterPageDto>()
     }
 
     suspend fun searchCharacter(pageNumber: Int, searchQuery: String): CharacterPageDto {
         return client.get("character/?page=$pageNumber&name=$searchQuery")
-                .body<CharacterPageDto>()
+            .body<CharacterPageDto>()
     }
 
-    suspend fun getEpisode(id: Int): Result<Episode> {
-        return safeApiCall {
-            client.get("episode/$id")
-                .body<EpisodeDto>()
-                .toDomainEpisode()
+    suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> {
+        return if (characterIds.size == 1) {
+            getCharacter(characterIds[0]).map { listOf(it) }
+        } else {
+            safeApiCall {
+                client.get("character/$characterIds")
+                    .body<List<CharacterDto>>()
+            }
         }
     }
 
-    suspend fun getEpisodes(ids: List<Int>): Result<List<Episode>> {
+    suspend fun getEpisode(id: Int): Result<EpisodeDto> {
+        return safeApiCall {
+            client.get("episode/$id")
+                .body<EpisodeDto>()
+
+        }
+    }
+
+    suspend fun getEpisodes(ids: List<Int>): Result<List<EpisodeDto>> {
         return if (ids.size == 1) {
             getEpisode(ids[0]).map { listOf(it) }
         } else {
@@ -74,22 +81,37 @@ class KtorClient {
             safeApiCall {
                 client.get("episode/$idsCommaSeparated")
                     .body<List<EpisodeDto>>()
-                    .map { it.toDomainEpisode() }
             }
+        }
+    }
+
+    suspend fun getLocation(id: Int): Result<LocationDto> {
+        return safeApiCall {
+            client.get("location/$id")
+                .body<LocationDto>()
+        }
+    }
+
+    suspend fun getOrigin(id: Int): Result<OriginDto> {
+        return safeApiCall {
+            client.get("location/$id")
+                .body<OriginDto>()
         }
     }
 
     private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
         return try {
+            Log.w(TAG, "safeApiCall:SUCCESS")
             Result.success(apiCall())
         } catch (e: Exception) {
+            Log.e(TAG, "safeApiCall:ERROR: ", e)
             Result.failure(exception = e)
         }
     }
 
 
-
     private companion object {
+        const val TAG = "ktorClient"
         const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 }

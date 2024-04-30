@@ -3,6 +3,7 @@ package com.wenubey.data.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.wenubey.data.getIdFromUrl
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.CharacterGender
 
@@ -19,16 +20,12 @@ data class CharacterEntity(
     val gender: String,
     @ColumnInfo(name = "image")
     val image: String,
-    @ColumnInfo(name = "location_name")
-    val locationName: String,
-    @ColumnInfo(name = "location_url")
-    val locationUrl: String,
+    @ColumnInfo(name = "locationEntity")
+    val locationEntity: LocationEntity,
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "origin_name")
-    val originName: String,
-    @ColumnInfo(name = "origin_url")
-    val originUrl: String,
+    @ColumnInfo(name = "originEntity")
+    val originEntity: OriginEntity,
     @ColumnInfo(name = "species")
     val species: String,
     @ColumnInfo(name = "status")
@@ -48,16 +45,13 @@ fun CharacterEntity.toDomainCharacter(): Character {
     }
     return Character(
         created = created,
-        episodeIds = episode.map { it.substring(it.lastIndexOf("/") + 1).toInt() },
+        episodeIds = episode.map { it.getIdFromUrl() },
         gender = characterGender,
         id = id,
         imageUrl = image,
-        location = Character.Location(
-            name = locationName,
-            url = locationUrl
-        ),
+        location = locationEntity.toDomainLocation(),
         name = name,
-        origin = Character.Origin(name = originName, url = originUrl),
+        origin = originEntity.toDomainOrigin(),
         species = species,
         status = status,
         type = type
