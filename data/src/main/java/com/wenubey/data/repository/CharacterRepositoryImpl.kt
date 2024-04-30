@@ -9,7 +9,6 @@ import com.wenubey.data.getIdFromUrl
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.data.remote.dto.LocationDto
-import com.wenubey.data.remote.dto.OriginDto
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
@@ -29,30 +28,15 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacter(id: Int): Result<Character> {
         return ktorClient.getCharacter(id).map { characterDto ->
-            val locationDto =
-                ktorClient.getLocation(characterDto.location.url.getIdFromUrl()).getOrNull()
-                    ?: LocationDto.default()
-            val originDto = ktorClient.getOrigin(characterDto.origin.url.getIdFromUrl()).getOrNull()
-                ?: OriginDto.default()
-            characterDto
-                .toCharacterEntity(locationDto, originDto)
-                .toDomainCharacter()
+            val locationEntity =
+                (ktorClient.getLocation(characterDto.location.url.getIdFromUrl()).getOrNull()
+                    ?: LocationDto.default())
+                    .toLocationEntity()
+            val originEntity =
+                (ktorClient.getLocation(characterDto.origin.url.getIdFromUrl()).getOrNull()
+                    ?: LocationDto.default()).toLocationEntity()
+            characterDto.toCharacterEntity(locationEntity, originEntity).toDomainCharacter()
         }
     }
 
-    override suspend fun getLocationResidents(residentUrls: List<Int>): Result<List<Character>> {
-        return ktorClient.getCharacters(residentUrls).map { characters ->
-            characters.map { characterDto ->
-                val locationDto =
-                    ktorClient.getLocation(characterDto.location.url.getIdFromUrl()).getOrNull()
-                        ?: LocationDto.default()
-                val originDto =
-                    ktorClient.getOrigin(characterDto.origin.url.getIdFromUrl()).getOrNull()
-                        ?: OriginDto.default()
-                characterDto
-                    .toCharacterEntity(locationDto, originDto)
-                    .toDomainCharacter()
-            }
-        }
-    }
 }

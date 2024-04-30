@@ -1,7 +1,6 @@
 package com.wenubey.data.remote
 
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -12,7 +11,6 @@ import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.RickAndMortyDao
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.LocationDto
-import com.wenubey.data.remote.dto.OriginDto
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -57,22 +55,14 @@ class RickAndMortyRemoteMediator @Inject constructor(
             } else {
                 ktorClient.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
-            Log.i("TAG", "load:characterPageDto.first(): ${characters.results.first().name} ")
+
             val characterEntities =
                 getCharacterEntities(characters = characters, ktorClient = ktorClient)
-
-            Log.i("TAG", "load:characterEntities.first(): ${characterEntities.first().name} ")
 
             if (loadType == LoadType.REFRESH) {
                 dao.clearAll()
             }
-            try {
-                dao.insertAll(characterEntities)
-            } catch (e: Exception) {
-                Log.e("TAG", "dao.insertALL(): ERROR ", e)
-            }
-
-
+            dao.insertAll(characterEntities)
             val endOfPaginationReached = characters.info.next == null
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
@@ -93,11 +83,13 @@ class RickAndMortyRemoteMediator @Inject constructor(
             }
             val originId = characterDto.origin.url.getIdFromUrl()
             val originDto  = if (originId == -1) {
-                OriginDto.default()
+                LocationDto.default()
             } else {
-                ktorClient.getOrigin(originId).getOrNull()!!
+                ktorClient.getLocation(originId).getOrNull()!!
             }
-            characterDto.toCharacterEntity(locationDto, originDto)
+            val locationEntity = locationDto.toLocationEntity()
+            val originEntity = originDto.toLocationEntity()
+            characterDto.toCharacterEntity(locationEntity,originEntity)
         }
     }
 }

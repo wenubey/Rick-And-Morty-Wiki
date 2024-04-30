@@ -33,16 +33,6 @@ class RickAndMortyTypeConverter {
     }
 
     @TypeConverter
-    fun toOriginEntityJson(originEntity: OriginEntity): String? {
-        return toJson(originEntity)
-    }
-
-    @TypeConverter
-    fun fromJsonOriginEntity(json: String?): OriginEntity? {
-        return fromJson(json)
-    }
-
-    @TypeConverter
     fun fromStringList(list: List<String>): String {
         return list.joinToString(",")
     }

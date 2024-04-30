@@ -6,8 +6,10 @@ import androidx.room.PrimaryKey
 import com.wenubey.data.getIdFromUrl
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.CharacterGender
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = TABLE_NAME)
+@Serializable
 data class CharacterEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -25,7 +27,7 @@ data class CharacterEntity(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "originEntity")
-    val originEntity: OriginEntity,
+    val originEntity: LocationEntity,
     @ColumnInfo(name = "species")
     val species: String,
     @ColumnInfo(name = "status")
@@ -51,7 +53,7 @@ fun CharacterEntity.toDomainCharacter(): Character {
         imageUrl = image,
         location = locationEntity.toDomainLocation(),
         name = name,
-        origin = originEntity.toDomainOrigin(),
+        origin = originEntity.toDomainLocation(),
         species = species,
         status = status,
         type = type
