@@ -8,7 +8,7 @@ data class Character(
     val imageUrl: String,
     val location: Location,
     val name: String,
-    val origin: Origin,
+    val origin: Location,
     val species: String,
     val status: String,
     val type: String,
@@ -23,7 +23,7 @@ data class Character(
             imageUrl = "",
             location = Location.default(),
             name = "Rick Sanchez",
-            origin = Origin.default(),
+            origin = Location.default(),
             species = "Human",
             status = "Unknown",
             type = ""

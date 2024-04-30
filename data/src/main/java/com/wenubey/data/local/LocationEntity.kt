@@ -9,7 +9,7 @@ data class LocationEntity(
     val id: Int,
     val name: String,
     val dimension: String,
-    val residents: List<Int>,
+    val residents: List<String>,
     val url: String,
     val created: String,
 ) {
@@ -23,4 +23,5 @@ data class LocationEntity(
             created = created
         )
     }
+
 }

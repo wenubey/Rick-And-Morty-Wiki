@@ -1,6 +1,5 @@
 package com.wenubey.data.remote.dto
 
-import com.wenubey.data.getIdFromUrls
 import com.wenubey.data.local.LocationEntity
 import kotlinx.serialization.Serializable
 
@@ -25,7 +24,7 @@ data class LocationDto(
             id = id,
             name = name,
             dimension = dimension,
-            residents = residents.getIdFromUrls(),
+            residents = residents,
             url = url,
             created = created
         )

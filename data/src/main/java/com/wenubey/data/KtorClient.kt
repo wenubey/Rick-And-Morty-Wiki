@@ -5,7 +5,6 @@ import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.EpisodeDto
 import com.wenubey.data.remote.dto.LocationDto
-import com.wenubey.data.remote.dto.OriginDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -89,13 +88,6 @@ class KtorClient {
         return safeApiCall {
             client.get("location/$id")
                 .body<LocationDto>()
-        }
-    }
-
-    suspend fun getOrigin(id: Int): Result<OriginDto> {
-        return safeApiCall {
-            client.get("location/$id")
-                .body<OriginDto>()
         }
     }
 

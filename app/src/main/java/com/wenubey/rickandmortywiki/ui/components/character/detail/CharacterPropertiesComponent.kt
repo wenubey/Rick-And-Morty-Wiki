@@ -1,6 +1,7 @@
 package com.wenubey.rickandmortywiki.ui.components.character.detail
 
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
@@ -16,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,11 +29,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
-import com.wenubey.domain.model.Origin
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
@@ -47,8 +51,18 @@ fun CharacterPropertiesComponent(
         DetailPropertiesComponent(title = "Species", description = character.species)
         DetailPropertiesComponent(title = "Status", description = character.status)
         DetailHeaderComponent(headerTitle = "WHEREABOUTS")
-        DetailPropertiesComponent(title = "Origin", description = character.origin.name, hasAdditionalData = true , origin = character.origin)
-        DetailPropertiesComponent(title = "Location", description = character.location.name, hasAdditionalData = true, location = character.location)
+        DetailPropertiesComponent(
+            title = "Origin",
+            description = character.origin.name,
+            hasAdditionalData = true,
+            origin = character.origin
+        )
+        DetailPropertiesComponent(
+            title = "Location",
+            description = character.location.name,
+            hasAdditionalData = true,
+            location = character.location
+        )
     }
 }
 
@@ -58,7 +72,7 @@ fun DetailPropertiesComponent(
     description: String,
     hasAdditionalData: Boolean = false,
     location: Location? = null,
-    origin: Origin? = null,
+    origin: Location? = null,
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -122,22 +136,26 @@ fun DetailPropertiesComponent(
             }
         }
         if (expanded) {
+            // TODO create UI component for location and origin
             Card(modifier = Modifier.fillMaxWidth()) {
                 if (location != null) {
                     Text(text = location.name)
                     Text(text = location.dimension)
-                    location.locationResidents?.forEach {
-                        Text(text = it.name)
-                        Text(text = it.species)
-                    }
                 }
                 if (origin != null) {
                     Text(text = origin.name)
                     Text(text = origin.dimension)
-                    origin.originResidents?.forEach {
-                        Text(text = it.name)
-                        Text(text = it.species)
-                    }
+                }
+                //TODO align this button
+                OutlinedButton(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = { /* TODO not yet implemented */},
+                    border = BorderStroke(width = 1.dp, color = Color.Magenta),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(text = "Learn more...", fontSize = 16.sp, textAlign = TextAlign.Center)
                 }
             }
 

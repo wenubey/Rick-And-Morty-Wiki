@@ -1,6 +1,7 @@
 package com.wenubey.data.remote.dto
 
 import com.wenubey.data.local.CharacterEntity
+import com.wenubey.data.local.LocationEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,7 +12,7 @@ data class CharacterDto(
     val species: String,
     val type: String,
     val gender: String,
-    val origin: OriginResponse,
+    val origin: LocationResponse,
     val location: LocationResponse,
     val image: String,
     val episode: List<String>,
@@ -20,8 +21,8 @@ data class CharacterDto(
 ) {
 
     fun toCharacterEntity(
-        locationDto: LocationDto,
-        originDto: OriginDto,
+        locationEntity: LocationEntity,
+        originEntity: LocationEntity,
     ): CharacterEntity {
         return CharacterEntity(
             created = created,
@@ -29,9 +30,9 @@ data class CharacterDto(
             gender = gender,
             id = id,
             image = image,
-            locationEntity = location.toLocationDto(locationDto).toLocationEntity(),
+            locationEntity = locationEntity,
             name = name,
-            originEntity = origin.toOriginDto(originDto).toOriginEntity(),
+            originEntity = originEntity,
             species = species,
             status = status,
             type = type,
@@ -41,29 +42,5 @@ data class CharacterDto(
 
 }
 
-fun LocationResponse.toLocationDto(
-    locationDto: LocationDto
-): LocationDto {
-    return LocationDto(
-        id = locationDto.id,
-        name = this.name,
-        dimension = locationDto.dimension,
-        residents = locationDto.residents,
-        url = this.url,
-        created = locationDto.created
-    )
-}
 
-fun OriginResponse.toOriginDto(
-    originDto: OriginDto
-): OriginDto {
-    return OriginDto(
-        id = originDto.id,
-        name = this.name,
-        dimension = originDto.dimension,
-        residents = originDto.residents,
-        url = url.ifBlank { null },
-        created = originDto.created
-    )
-}
 
