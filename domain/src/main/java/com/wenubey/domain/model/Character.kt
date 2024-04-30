@@ -11,17 +11,8 @@ data class Character(
     val origin: Origin,
     val species: String,
     val status: String,
-    val type: String
+    val type: String,
 ) {
-    data class Location(
-        val name: String,
-        val url: String
-    )
-
-    data class Origin(
-        val name: String,
-        val url: String
-    )
 
     companion object {
         fun default() = Character(
@@ -30,9 +21,9 @@ data class Character(
             gender = CharacterGender.Male,
             id = 0,
             imageUrl = "",
-            location = Location("Earth", ""),
+            location = Location.default(),
             name = "Rick Sanchez",
-            origin = Origin("Earth", ""),
+            origin = Origin.default(),
             species = "Human",
             status = "Unknown",
             type = ""

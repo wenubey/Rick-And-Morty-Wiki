@@ -4,6 +4,7 @@ package com.wenubey.rickandmortywiki.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wenubey.data.getIdFromUrls
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,8 +36,11 @@ class CharacterDetailViewModel @Inject constructor(
         _characterDetailUiState.update { return@update CharacterDetailUiState.Loading }
         characterRepository.getCharacter(id)
             .onSuccess { character ->
-                Log.w(TAG, "getCharacter:Success: ${character.name}")
-
+                val residents = character.location.residents
+                val locationResidents =
+                    characterRepository.getLocationResidents(residents).getOrNull()
+                        ?: listOf()
+                character.location.locationResidents = locationResidents
                 _characterDetailUiState.update {
                     return@update CharacterDetailUiState.Success(
                         character = character,

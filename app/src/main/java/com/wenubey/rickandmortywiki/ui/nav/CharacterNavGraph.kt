@@ -19,7 +19,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
     navigation(
         route = Graph.CHARACTER,
-        startDestination = CharacterScreen.DETAIL
+        startDestination = CharacterScreen.LIST
     ) {
         characterListScreen(navController)
         composable(route = CharacterScreen.DETAIL,

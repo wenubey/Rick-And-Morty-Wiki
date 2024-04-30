@@ -29,6 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.Location
+import com.wenubey.domain.model.Origin
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
@@ -45,8 +47,8 @@ fun CharacterPropertiesComponent(
         DetailPropertiesComponent(title = "Species", description = character.species)
         DetailPropertiesComponent(title = "Status", description = character.status)
         DetailHeaderComponent(headerTitle = "WHEREABOUTS")
-        DetailPropertiesComponent(title = "Origin", description = character.origin.name, hasAdditionalData = true)
-        DetailPropertiesComponent(title = "Location", description = character.location.name, hasAdditionalData = true)
+        DetailPropertiesComponent(title = "Origin", description = character.origin.name, hasAdditionalData = true , origin = character.origin)
+        DetailPropertiesComponent(title = "Location", description = character.location.name, hasAdditionalData = true, location = character.location)
     }
 }
 
@@ -55,8 +57,8 @@ fun DetailPropertiesComponent(
     title: String,
     description: String,
     hasAdditionalData: Boolean = false,
-    // TODO change with location or origin
-    additionalData: String? = null,
+    location: Location? = null,
+    origin: Origin? = null,
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -121,11 +123,22 @@ fun DetailPropertiesComponent(
         }
         if (expanded) {
             Card(modifier = Modifier.fillMaxWidth()) {
-
-                Text(
-                    text = "TODO $additionalData",
-                    modifier = Modifier.padding(horizontal = 4.dp)
-                )
+                if (location != null) {
+                    Text(text = location.name)
+                    Text(text = location.dimension)
+                    location.locationResidents?.forEach {
+                        Text(text = it.name)
+                        Text(text = it.species)
+                    }
+                }
+                if (origin != null) {
+                    Text(text = origin.name)
+                    Text(text = origin.dimension)
+                    origin.originResidents?.forEach {
+                        Text(text = it.name)
+                        Text(text = it.species)
+                    }
+                }
             }
 
         }

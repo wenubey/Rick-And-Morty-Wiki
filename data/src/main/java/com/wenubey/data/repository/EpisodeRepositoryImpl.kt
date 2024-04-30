@@ -10,10 +10,10 @@ class EpisodeRepositoryImpl @Inject constructor(
 ): EpisodeRepository {
 
     override suspend fun getEpisode(id: Int): Result<Episode> {
-        return ktorClient.getEpisode(id)
+        TODO("Not yet implemented")
     }
 
     override suspend fun getEpisodes(ids: List<Int>): Result<List<Episode>> {
-        return ktorClient.getEpisodes(ids)
+        TODO("Not yet implemented")
     }
 }
