@@ -1,7 +1,6 @@
 package com.wenubey.data.remote.dto
 
 import com.wenubey.data.getIdFromUrls
-import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.LocationEntity
 import kotlinx.serialization.Serializable
 

@@ -1,7 +1,6 @@
 package com.wenubey.data.repository
 
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -13,7 +12,6 @@ import com.wenubey.data.remote.dto.LocationDto
 import com.wenubey.data.remote.dto.OriginDto
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
-import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -1,6 +1,5 @@
 package com.wenubey.data.local
 
-import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.domain.model.Location
 import kotlinx.serialization.Serializable
 

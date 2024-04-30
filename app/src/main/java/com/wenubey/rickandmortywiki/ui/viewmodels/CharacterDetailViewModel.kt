@@ -4,7 +4,6 @@ package com.wenubey.rickandmortywiki.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.data.getIdFromUrls
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
