@@ -79,7 +79,7 @@ class CharacterListViewModel
     }
 
     private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
-        userPreferencesRepository.saveSearchHistory(historyItem)
+        userPreferencesRepository.saveCharacterSearchHistory(historyItem)
     }
 
 }

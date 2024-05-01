@@ -36,7 +36,7 @@ class UserPreferencesViewModel @Inject constructor(
             userPreferencesRepository.isScreenLocked,
             userPreferencesRepository.isLinearLayout,
             userPreferencesRepository.isNightMode,
-            userPreferencesRepository.searchHistory
+            userPreferencesRepository.characterSearchHistory
         ) { isScreenLocked, isLinearLayout, isNightMode, searchHistory ->
             UserPrefUiState(
                 screenLock = ScreenLock(isScreenLocked = isScreenLocked),
@@ -73,7 +73,7 @@ class UserPreferencesViewModel @Inject constructor(
     }
 
     fun saveSearchHistory(searchQuery: String) = viewModelScope.launch {
-        userPreferencesRepository.saveSearchHistory(searchQuery)
+        userPreferencesRepository.saveCharacterSearchHistory(searchQuery)
     }
 
     private companion object {
