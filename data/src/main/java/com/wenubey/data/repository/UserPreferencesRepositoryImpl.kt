@@ -44,12 +44,20 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 preferences[IS_SCREEN_LOCKED] ?: false
             }
 
-    override val searchHistory: Flow<List<String>>
+    override val characterSearchHistory: Flow<List<String>>
         get() = dataStore.data
             .catch {
                 Log.e(TAG, "Error reading searchHistory:", it)
             }.map { preferences ->
-                preferences[SEARCH_HISTORY]?.split(",") ?: listOf()
+                preferences[CHARACTER_SEARCH_HISTORY]?.split(",") ?: listOf()
+            }
+
+    override val locationSearchHistory: Flow<List<String>>
+        get() = dataStore.data
+            .catch {
+                Log.e(TAG, "Error reading locationSearchHistory:", it)
+            }.map { preferences ->
+                preferences[LOCATION_SEARCH_HISTORY]?.split(",") ?: listOf()
             }
 
     override suspend fun saveLayoutPreference(isLinearLayout: Boolean) {
@@ -70,10 +78,10 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveSearchHistory(searchQuery: String) {
+    override suspend fun saveCharacterSearchHistory(searchQuery: String) {
         dataStore.edit { preferences ->
             val currentHistory =
-                preferences[SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
+                preferences[CHARACTER_SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
 
             if (searchQuery.isNotBlank()) {
                 currentHistory.add(0, searchQuery)
@@ -82,7 +90,23 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 currentHistory.removeLast()
             }
 
-            preferences[SEARCH_HISTORY] = currentHistory.joinToString(",")
+            preferences[CHARACTER_SEARCH_HISTORY] = currentHistory.joinToString(",")
+        }
+    }
+
+    override suspend fun saveLocationSearchHistory(searchQuery: String) {
+        dataStore.edit { preferences ->
+            val currentHistory =
+                preferences[LOCATION_SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
+
+            if (searchQuery.isNotBlank()) {
+                currentHistory.add(0, searchQuery)
+            }
+            if (currentHistory.size > 10) {
+                currentHistory.removeLast()
+            }
+
+            preferences[CHARACTER_SEARCH_HISTORY] = currentHistory.joinToString(",")
         }
     }
 
@@ -91,7 +115,8 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val IS_LINEAR_LAYOUT = booleanPreferencesKey("is_linear_layout")
         val IS_NIGHT_MODE = booleanPreferencesKey("is_night_mode")
         val IS_SCREEN_LOCKED = booleanPreferencesKey("is_screen_locked")
-        val SEARCH_HISTORY = stringPreferencesKey("search_history")
+        val CHARACTER_SEARCH_HISTORY = stringPreferencesKey("character_search_history")
+        val LOCATION_SEARCH_HISTORY = stringPreferencesKey("location_search_history")
         const val TAG = "UserPreferencesRepo"
     }
 }

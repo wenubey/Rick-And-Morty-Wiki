@@ -11,7 +11,9 @@ interface UserPreferencesRepository {
 
     val isScreenLocked: Flow<Boolean>
 
-    val searchHistory: Flow<List<String>>
+    val characterSearchHistory: Flow<List<String>>
+
+    val locationSearchHistory: Flow<List<String>>
 
     suspend fun saveLayoutPreference(isLinearLayout: Boolean)
 
@@ -19,6 +21,8 @@ interface UserPreferencesRepository {
 
     suspend fun saveScreenLockedPreference(isScreenLocked: Boolean)
 
-    suspend fun saveSearchHistory(searchQuery: String)
+    suspend fun saveCharacterSearchHistory(searchQuery: String)
+
+    suspend fun saveLocationSearchHistory(searchQuery: String)
 
 }

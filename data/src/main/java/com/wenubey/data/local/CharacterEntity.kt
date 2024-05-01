@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 import com.wenubey.data.getIdFromUrl
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.CharacterGender
+import com.wenubey.domain.model.Episode
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = TABLE_NAME)
+@Entity(tableName = CHARACTER_TABLE_NAME)
 @Serializable
 data class CharacterEntity(
     @PrimaryKey
@@ -38,7 +39,9 @@ data class CharacterEntity(
     val url: String,
     )
 
-fun CharacterEntity.toDomainCharacter(): Character {
+fun CharacterEntity.toDomainCharacter(
+    episodes: List<Episode>?
+): Character {
     val characterGender = when (gender.lowercase()) {
         "female" -> CharacterGender.Female
         "male" -> CharacterGender.Male
@@ -47,7 +50,7 @@ fun CharacterEntity.toDomainCharacter(): Character {
     }
     return Character(
         created = created,
-        episodeIds = episode.map { it.getIdFromUrl() },
+        episodeIds = episodes ?: listOf(),
         gender = characterGender,
         id = id,
         imageUrl = image,
@@ -60,4 +63,4 @@ fun CharacterEntity.toDomainCharacter(): Character {
     )
 }
 
-const val TABLE_NAME = "characters"
+const val CHARACTER_TABLE_NAME = "characters"

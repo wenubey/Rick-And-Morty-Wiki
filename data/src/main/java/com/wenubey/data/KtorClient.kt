@@ -5,6 +5,7 @@ import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.EpisodeDto
 import com.wenubey.data.remote.dto.LocationDto
+import com.wenubey.data.remote.dto.LocationPageDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -33,8 +34,6 @@ class KtorClient {
     }
 
 
-    //TODO fix this issue add dao's insert one delete one
-    // I will start to fetch cached values on repo
     suspend fun getCharacter(id: Int): Result<CharacterDto> {
         return safeApiCall {
             client.get("character/$id")
@@ -88,6 +87,21 @@ class KtorClient {
         return safeApiCall {
             client.get("location/$id")
                 .body<LocationDto>()
+        }
+    }
+
+    suspend fun getLocationPage(pageNumber: Int): Result<LocationPageDto> {
+        return safeApiCall {
+            client.get("location?page=$pageNumber")
+                .body<LocationPageDto>()
+        }
+    }
+
+    suspend fun searchLocation(pageNumber: Int, searchQuery: String) : Result<LocationPageDto> {
+        return safeApiCall {
+            val queryParameters = searchQuery.split(",")
+            client.get("location/?page=$pageNumber&${queryParameters.first()}=${queryParameters.last()}")
+                .body<LocationPageDto>()
         }
     }
 

@@ -8,6 +8,6 @@ interface LocationRepository {
 
     suspend fun getLocation(id: Int): Result<Location>
 
-    suspend fun getLocationPage(name: String?): Flow<PagingData<Location>>
+    suspend fun getLocationPage(): Flow<PagingData<Location>>
 
 }
