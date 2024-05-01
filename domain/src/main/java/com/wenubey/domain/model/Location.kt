@@ -7,6 +7,7 @@ data class Location(
     val residents: List<String>,
     val url: String,
     val created: String,
+    val type:String,
 ) {
 
     companion object {
@@ -17,7 +18,8 @@ data class Location(
                 dimension = "Earth Dimension",
                 residents = listOf(),
                 url = "",
-                created = ""
+                created = "",
+                type = "",
             )
         }
     }

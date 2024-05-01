@@ -17,4 +17,16 @@
     <string name="delete_the_search_history_toggle">Delete the search history</string>
     <string name="cd_search_history_item">Search history item</string>
     <string name="character_detail_status">Status: %1$s</string>
+    <string name="location_name">Name</string>
+    <string name="location_type">Type</string>
+    <string name="location_dimension">Dimension</string>
+    <string name="location_population">Population</string>
+    <string name="character_origin">Origin</string>
+    <string name="character_location">Location</string>
+    <string name="character_gender">Gender</string>
+    <string name="character_species">Species</string>
+    <string name="character_status">Status</string>
+    <string name="character_properties_header">PROPERTIES</string>
+    <string name="character_whereabouts_header">WHEREABOUTS</string>
+    <string name="character_episodes_header">FEATURED CHAPTERS</string>
 </resources>
