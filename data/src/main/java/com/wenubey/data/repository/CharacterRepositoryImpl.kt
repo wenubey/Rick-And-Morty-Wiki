@@ -6,10 +6,12 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.wenubey.data.KtorClient
 import com.wenubey.data.getIdFromUrl
+import com.wenubey.data.getIdFromUrls
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.toDomainCharacter
 import com.wenubey.data.remote.dto.LocationDto
 import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.Episode
 import com.wenubey.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,7 +24,7 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override fun getCharacterPage(name: String?): Flow<PagingData<Character>> =
         pager.flow.map { pagingData ->
-            pagingData.map { it.toDomainCharacter() }
+            pagingData.map { it.toDomainCharacter(null) }
         }
 
 
@@ -35,7 +37,8 @@ class CharacterRepositoryImpl @Inject constructor(
             val originEntity =
                 (ktorClient.getLocation(characterDto.origin.url.getIdFromUrl()).getOrNull()
                     ?: LocationDto.default()).toLocationEntity()
-            characterDto.toCharacterEntity(locationEntity, originEntity).toDomainCharacter()
+            val episodes = (ktorClient.getEpisodes(characterDto.episode.getIdFromUrls()).getOrNull())?.map { it.toDomainEpisode() } ?: listOf()
+            characterDto.toCharacterEntity(locationEntity, originEntity).toDomainCharacter(episodes)
         }
     }
 

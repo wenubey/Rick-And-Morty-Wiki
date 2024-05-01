@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.wenubey.rickandmortywiki.ui.screens.CharacterDetailScreen
-import com.wenubey.rickandmortywiki.ui.screens.CharacterEpisodeScreen
 import com.wenubey.rickandmortywiki.ui.screens.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
@@ -48,9 +47,6 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
                 onBackButtonPressed = { navController.navigateUp() },
                 onEpisodeClicked = { /*TODO not yet implemented.*/}
             )
-        }
-        composable(route = CharacterScreen.EPISODE) {
-            CharacterEpisodeScreen()
         }
     }
 }
@@ -99,5 +95,4 @@ fun NavController.navigateToCharacterDetail(characterId: String) {
 object CharacterScreen {
     const val LIST = "character_list"
     const val DETAIL = "character_detail/{characterId}"
-    const val EPISODE = "character_episode"
 }

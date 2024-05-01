@@ -53,6 +53,8 @@ class CharacterDetailViewModel @Inject constructor(
 
 
 
+
+
     private companion object {
         const val TAG = "characterDetailViewModel"
         const val UNKNOWN_ERROR = "Unknown error occurred."
