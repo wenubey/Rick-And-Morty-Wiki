@@ -51,8 +51,8 @@ class CharacterListViewModel
         _searchQuery
             .debounce(500)
             .distinctUntilChanged()
-            .flatMapLatest { query ->
-                characterRepository.getCharacterPage(query)
+            .flatMapLatest { _ ->
+                characterRepository.getCharacterPage()
             }
             .cachedIn(viewModelScope).also { charactersFlow ->
                 _characterListUiState.update {

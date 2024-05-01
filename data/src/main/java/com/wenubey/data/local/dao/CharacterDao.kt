@@ -1,13 +1,14 @@
-package com.wenubey.data.local
+package com.wenubey.data.local.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.wenubey.data.local.CharacterEntity
 
 @Dao
-interface RickAndMortyDao {
+interface CharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(users: List<CharacterEntity>)
 

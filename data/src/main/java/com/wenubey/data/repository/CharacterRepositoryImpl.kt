@@ -22,7 +22,7 @@ class CharacterRepositoryImpl @Inject constructor(
     private val pager: Pager<Int, CharacterEntity>,
 ) : CharacterRepository {
 
-    override fun getCharacterPage(name: String?): Flow<PagingData<Character>> =
+    override fun getCharacterPage(): Flow<PagingData<Character>> =
         pager.flow.map { pagingData ->
             pagingData.map { it.toDomainCharacter(null) }
         }

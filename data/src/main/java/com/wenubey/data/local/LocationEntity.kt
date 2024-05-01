@@ -1,11 +1,15 @@
 package com.wenubey.data.local
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.wenubey.domain.model.Location
 import kotlinx.serialization.Serializable
 
 
 @Serializable
+@Entity(tableName = LOCATION_TABLE_NAME)
 data class LocationEntity(
+    @PrimaryKey
     val id: Int,
     val name: String,
     val dimension: String,
@@ -27,3 +31,5 @@ data class LocationEntity(
     }
 
 }
+const val LOCATION_TABLE_NAME = "locations"
+

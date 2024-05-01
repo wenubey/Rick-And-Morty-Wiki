@@ -9,7 +9,7 @@ import com.wenubey.domain.model.CharacterGender
 import com.wenubey.domain.model.Episode
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = TABLE_NAME)
+@Entity(tableName = CHARACTER_TABLE_NAME)
 @Serializable
 data class CharacterEntity(
     @PrimaryKey
@@ -63,4 +63,4 @@ fun CharacterEntity.toDomainCharacter(
     )
 }
 
-const val TABLE_NAME = "characters"
+const val CHARACTER_TABLE_NAME = "characters"

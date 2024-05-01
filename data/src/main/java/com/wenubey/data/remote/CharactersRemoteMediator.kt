@@ -1,6 +1,7 @@
 package com.wenubey.data.remote
 
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -8,7 +9,7 @@ import androidx.paging.RemoteMediator
 import com.wenubey.data.KtorClient
 import com.wenubey.data.getIdFromUrl
 import com.wenubey.data.local.CharacterEntity
-import com.wenubey.data.local.RickAndMortyDao
+import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.LocationDto
 import com.wenubey.domain.repository.SearchQueryProvider
@@ -18,9 +19,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class RickAndMortyRemoteMediator @Inject constructor(
+class CharactersRemoteMediator @Inject constructor(
     private val ktorClient: KtorClient,
-    private val dao: RickAndMortyDao,
+    private val dao: CharacterDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val searchQueryProvider: SearchQueryProvider
 ) : RemoteMediator<Int, CharacterEntity>() {
