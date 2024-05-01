@@ -9,6 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun isSystemInPortraitOrientation(): Boolean {
@@ -38,4 +40,16 @@ fun String.getColorFromCharacterStatus(): Color {
         "dead" -> Color.Red
         else -> Color.Yellow
     }
+}
+
+@Composable
+fun screenHeight(fraction: Float = 0f): Dp {
+    val config = LocalConfiguration.current
+    return(config.screenHeightDp * fraction).dp
+}
+
+@Composable
+fun screenWidth(fraction: Float = 0f): Dp{
+    val config = LocalConfiguration.current
+    return (config.screenWidthDp * fraction).dp
 }

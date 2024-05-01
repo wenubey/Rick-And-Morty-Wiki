@@ -12,6 +12,7 @@ data class LocationEntity(
     val residents: List<String>,
     val url: String,
     val created: String,
+    val type: String,
 ) {
     fun toDomainLocation(): Location {
         return Location(
@@ -20,7 +21,8 @@ data class LocationEntity(
             dimension = dimension,
             residents = residents,
             url = url,
-            created = created
+            created = created,
+            type = type,
         )
     }
 

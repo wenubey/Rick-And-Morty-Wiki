@@ -15,6 +15,7 @@ data class LocationDto(
     val name: String,
     val dimension: String,
     val residents: List<String>,
+    val type: String,
     val url: String,
     val created: String,
 ) {
@@ -26,7 +27,8 @@ data class LocationDto(
             dimension = dimension,
             residents = residents,
             url = url,
-            created = created
+            created = created,
+            type = type,
         )
     }
 
@@ -38,7 +40,8 @@ data class LocationDto(
                 dimension = "",
                 url = "",
                 residents = listOf(),
-                created = ""
+                created = "",
+                type = ""
             )
         }
     }
