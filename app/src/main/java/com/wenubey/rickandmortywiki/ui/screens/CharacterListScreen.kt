@@ -1,6 +1,5 @@
 package com.wenubey.rickandmortywiki.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,9 +16,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
@@ -29,43 +30,62 @@ import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterListCa
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
+import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 @Composable
 fun CharacterListScreen(
-    isLinearLayout: Boolean,
-    characterUiState: CharacterListUiState,
     onCharacterSelected: (id: Int) -> Unit,
-    setLastItemIndex: (index: Int) -> Unit,
-    lastItemIndex: Int?,
-    searchQuery: String,
-    setSearchQuery: (String) -> Unit,
-    active: Boolean,
-    onActiveChange: (Boolean) -> Unit,
-    onSearch: (String) -> Unit,
-    searchHistory: List<String>
 ) {
 
+    val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
+    val userPrefUiState =
+        userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
+    val characterViewModel: CharacterListViewModel = hiltViewModel()
+    val characterUiState = characterViewModel.characterListUiState.collectAsState().value
+    val lastItemIndex = userPrefViewModel.lastItemIndex.collectAsState().value
+
+    val searchQuery = characterViewModel.searchQuery.collectAsState().value
+    val active = characterViewModel.isSearching.collectAsState().value
+    val searchHistory = userPrefUiState.characterSearchHistory.searchHistory
+
     val lazyListState = rememberLazyListState(
-        initialFirstVisibleItemIndex = lastItemIndex ?: 0
+        initialFirstVisibleItemIndex = lastItemIndex
     )
     val lazyGridState = rememberLazyGridState(
-        initialFirstVisibleItemIndex = lastItemIndex ?: 0
+        initialFirstVisibleItemIndex = lastItemIndex
     )
+
+    val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
+    val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
 
     LaunchedEffect(lazyGridState, lazyListState, isLinearLayout) {
         val index = when {
             isLinearLayout -> lazyGridState.firstVisibleItemIndex
             else -> lazyListState.firstVisibleItemIndex
         }
-        setLastItemIndex(index)
+        userPrefViewModel.setLastItemIndex(index)
         if (isLinearLayout) {
             lazyListState.scrollToItem(index)
         } else {
             lazyGridState.scrollToItem(index)
         }
     }
+
+    val isVisible = if (isTopBarLocked) {
+        true
+    } else {
+        if (isLinearLayout) {
+            lazyListState.isScrollingUp()
+        } else {
+            lazyGridState.isScrollingUp()
+        }
+    }
+
+
     when (val currentState = characterUiState) {
         is CharacterListUiState.Error -> {
             Text(text = currentState.message)
@@ -77,10 +97,28 @@ fun CharacterListScreen(
 
         is CharacterListUiState.Success -> {
             val characters = currentState.charactersFlow.collectAsLazyPagingItems()
-
             Scaffold(
                 topBar = {
-                    CommonTopAppBar(showNavigationIcon = false)
+                    CommonTopAppBar(
+                        showNavigationIcon = false,
+                        isVisible = isVisible,
+                        uiState = userPrefUiState,
+                        onNightModeToggle = { isNightMode ->
+                            userPrefViewModel.selectNightMode(isNightMode)
+                        },
+                        onTopBarLockToggle = { isTopBarLocked ->
+                            userPrefViewModel.selectTopBarLock(isTopBarLocked)
+                        },
+                        onScreenLockToggle = { isScreenLocked ->
+                            userPrefViewModel.selectScreenLock(isScreenLocked)
+                        },
+                        onLinearLayoutToggle = { isLinearLayout ->
+                            userPrefViewModel.selectLayout(isLinearLayout)
+                        },
+                        clearAllSearchHistory = {
+                            userPrefViewModel.clearAllSearchHistory()
+                        },
+                    )
                 }
             ) { paddingValues ->
 
@@ -91,11 +129,12 @@ fun CharacterListScreen(
                         .background(Color.Transparent),
                 ) {
                     CustomSearchBar(
+                        isVisible = isVisible,
                         searchQuery = searchQuery,
                         active = active,
-                        onActiveChange = onActiveChange,
-                        onSearch = onSearch,
-                        setSearchQuery = setSearchQuery,
+                        onActiveChange = characterViewModel::onActiveChange,
+                        onSearch = characterViewModel::onSearch,
+                        setSearchQuery = characterViewModel::setSearchQuery,
                         searchHistory = searchHistory,
                     )
                     if (isLinearLayout) {
