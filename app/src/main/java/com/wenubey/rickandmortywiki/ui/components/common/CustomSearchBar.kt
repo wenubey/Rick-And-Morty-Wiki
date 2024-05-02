@@ -1,6 +1,9 @@
 package com.wenubey.rickandmortywiki.ui.components.common
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,6 +39,7 @@ import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomSearchBar(
+    isVisible: Boolean = true,
     searchQuery: String = "Preview",
     setSearchQuery: (String) -> Unit = {},
     searchHistory: List<String> = listOf(),
@@ -45,27 +49,33 @@ fun CustomSearchBar(
 ) {
     val searchBarModifier =
         if (!isSystemInPortraitOrientation() && active) Modifier.fillMaxHeight(0.4f) else Modifier
-    DockedSearchBar(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp)
-            .then(searchBarModifier),
-        query = searchQuery,
-        onQueryChange = setSearchQuery,
-        onSearch = onSearch,
-        active = active,
-        onActiveChange = onActiveChange,
-        placeholder = { Text(text = stringResource(id = R.string.search_bar_label)) },
-        colors = SearchBarDefaults.colors(
-            dividerColor = Color.Magenta,
-        ),
-        shape = RoundedCornerShape(12.dp)
+
+    AnimatedVisibility(
+        visible = isVisible, exit = slideOutVertically(),
+        enter = slideInVertically(),
     ) {
-        SearchBarHistoryList(
-            searchHistory = searchHistory,
+        DockedSearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .then(searchBarModifier),
+            query = searchQuery,
+            onQueryChange = setSearchQuery,
+            onSearch = onSearch,
             active = active,
-            onSearch = onSearch
-        )
+            onActiveChange = onActiveChange,
+            placeholder = { Text(text = stringResource(id = R.string.search_bar_label)) },
+            colors = SearchBarDefaults.colors(
+                dividerColor = Color.Magenta,
+            ),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            SearchBarHistoryList(
+                searchHistory = searchHistory,
+                active = active,
+                onSearch = onSearch
+            )
+        }
     }
 }
 

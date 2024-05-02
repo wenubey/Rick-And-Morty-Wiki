@@ -1,6 +1,7 @@
 package com.wenubey.rickandmortywiki.ui.components.pref_menu
 
 import android.content.res.Configuration
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.NightMode
 
 @Composable
 fun NightModeMenuItem(
+    @StringRes menuItemNameRes: Int = R.string.app_name,
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {},
     nightModeState: NightMode = NightMode(),
@@ -39,7 +41,7 @@ fun NightModeMenuItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
-                    Text(text = stringResource(R.string.menu_night_mode))
+                    Text(text = stringResource(menuItemNameRes))
 
                     NightModeSwitch(
                         nightModeState = nightModeState,

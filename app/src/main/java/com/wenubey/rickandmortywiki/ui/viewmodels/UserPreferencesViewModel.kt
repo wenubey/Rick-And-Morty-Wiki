@@ -135,8 +135,8 @@ data class ScreenLock(
     var isScreenLocked: Boolean = false,
 ) : ToggleFeature(
     isEnabled = isScreenLocked,
-    enabledIcon = Icons.Filled.ScreenRotation,
-    disabledIcon = Icons.Filled.ScreenLockRotation,
+    enabledIcon = Icons.Filled.ScreenLockRotation,
+    disabledIcon = Icons.Filled.ScreenRotation,
     enabledContent = R.string.screen_locked_toggle,
     disabledContent = R.string.screen_not_locked_toggle,
 )
@@ -155,10 +155,10 @@ data class LinearLayout(
     var isLinearLayout: Boolean = false,
 ) : ToggleFeature(
     isEnabled = isLinearLayout,
-    enabledIcon = Icons.Filled.GridOn,
-    disabledIcon = Icons.AutoMirrored.Filled.List,
-    enabledContent = R.string.grid_layout_toggle,
-    disabledContent = R.string.linear_layout_toggle,
+    enabledIcon = Icons.AutoMirrored.Filled.List,
+    disabledIcon = Icons.Filled.GridOn,
+    enabledContent = R.string.linear_layout_toggle,
+    disabledContent = R.string.grid_layout_toggle,
 )
 
 data class TopBarLock(
@@ -175,8 +175,8 @@ data class SpoilerAlert(
     var isSpoilerAlertActivated: Boolean = true,
 ) : ToggleFeature(
     isEnabled = isSpoilerAlertActivated,
-    enabledIcon = Icons.Filled.Visibility,
-    disabledIcon = Icons.Filled.VisibilityOff,
+    enabledIcon = Icons.Filled.VisibilityOff,
+    disabledIcon = Icons.Filled.Visibility,
     enabledContent = R.string.spoiler_alert_active_toggle,
     disabledContent = R.string.spoiler_alert_not_active_toggle
 )

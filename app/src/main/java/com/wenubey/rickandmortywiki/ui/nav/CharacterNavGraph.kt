@@ -32,25 +32,12 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
             val characterId: Int =
                 backStackEntry.arguments?.getInt("characterId") ?: -1
 
-            val characterViewModel: CharacterDetailViewModel = hiltViewModel()
-            val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
-            val locationViewModel: LocationListViewModel = hiltViewModel()
-
-            val characterUiState = characterViewModel.characterDetailUiState.collectAsState().value
-            val userPrefUiState =
-                userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
-            LaunchedEffect(Unit) {
-                characterViewModel.getCharacter(characterId)
-            }
 
             CharacterDetailScreen(
-                characterUiState = characterUiState,
-                userPrefUiState = userPrefUiState,
+                characterId = characterId,
                 onBackButtonPressed = { navController.navigateUp() },
-                onLocationClicked = { locationQuery ->
+                navigateToLocationScreen = {
                     // TODO add navigation to location list view
-                    locationViewModel.setSearchQuery(locationQuery)
-                    locationViewModel.onSearch(locationQuery)
                 }
             )
         }
@@ -59,33 +46,11 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
 
 fun NavGraphBuilder.characterListScreen(navController: NavController) {
     composable(route = CharacterScreen.LIST) {
-        val userPreferencesViewModel: UserPreferencesViewModel = hiltViewModel()
-        val userPrefState =
-            userPreferencesViewModel.userPreferencesUserPrefUiState.collectAsState().value
-        val characterViewModel: CharacterListViewModel = hiltViewModel()
-        val characterUiState = characterViewModel.characterListUiState.collectAsState()
-        val lastItemIndex = userPreferencesViewModel.lastItemIndex.collectAsState().value
-
-        val searchQuery = characterViewModel.searchQuery.collectAsState().value
-        val active = characterViewModel.isSearching.collectAsState().value
-        val searchHistory = userPrefState.characterSearchHistory.searchHistory
 
         CharacterListScreen(
             onCharacterSelected = { characterId ->
                 navController.navigateToCharacterDetail(characterId.toString())
             },
-            isLinearLayout = userPrefState.linearLayout.isLinearLayout,
-            characterUiState = characterUiState.value,
-            setLastItemIndex = { index ->
-                userPreferencesViewModel.setLastItemIndex(index)
-            },
-            lastItemIndex = lastItemIndex,
-            searchQuery = searchQuery,
-            setSearchQuery = characterViewModel::setSearchQuery,
-            active = active,
-            onActiveChange = characterViewModel::onActiveChange,
-            onSearch = characterViewModel::onSearch,
-            searchHistory = searchHistory
         )
     }
 }
