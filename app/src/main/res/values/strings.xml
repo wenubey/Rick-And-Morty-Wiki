@@ -29,4 +29,8 @@
     <string name="character_properties_header">PROPERTIES</string>
     <string name="character_whereabouts_header">WHEREABOUTS</string>
     <string name="character_episodes_header">FEATURED CHAPTERS</string>
+    <string name="top_bar_locked_toggle">Top Bar Locked</string>
+    <string name="top_bar_not_locked_toggle">Top Bar not locked</string>
+    <string name="spoiler_alert_active_toggle">Spoiler alert active</string>
+    <string name="spoiler_alert_not_active_toggle">Spoiler alert not active</string>
 </resources>

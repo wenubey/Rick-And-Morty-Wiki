@@ -65,7 +65,7 @@ fun UserPreferencesMenu(
             nightModeState = nightModeState,
         )
         CommonMenuItem(
-            menuItemNameRes = R.string.menu_screen_lock,
+            menuItemNameRes = screenLockState.contentDescriptionRes,
             iconImageVector = screenLockState.toggleIcon,
             contentDescriptionRes = screenLockState.contentDescriptionRes,
             onClick = {

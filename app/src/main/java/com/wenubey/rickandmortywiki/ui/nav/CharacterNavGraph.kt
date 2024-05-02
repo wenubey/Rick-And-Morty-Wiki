@@ -68,7 +68,7 @@ fun NavGraphBuilder.characterListScreen(navController: NavController) {
 
         val searchQuery = characterViewModel.searchQuery.collectAsState().value
         val active = characterViewModel.isSearching.collectAsState().value
-        val searchHistory = userPrefState.searchHistory.searchHistory
+        val searchHistory = userPrefState.characterSearchHistory.searchHistory
 
         CharacterListScreen(
             onCharacterSelected = { characterId ->
