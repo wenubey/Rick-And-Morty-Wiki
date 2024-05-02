@@ -1,8 +1,14 @@
 package com.wenubey.domain.repository
 
 interface SearchQueryProvider {
-    fun getSearchQuery(): String
 
-    fun setSearchQuery(query: String)
+
+    fun getCharacterSearchQuery(): String
+
+    fun setCharacterSearchQuery(query: String)
+
+    fun getLocationSearchQuery(): String
+
+    fun setLocationSearchQuery(query: String)
 
 }

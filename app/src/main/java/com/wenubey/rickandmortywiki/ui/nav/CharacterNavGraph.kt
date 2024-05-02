@@ -13,6 +13,7 @@ import com.wenubey.rickandmortywiki.ui.screens.CharacterDetailScreen
 import com.wenubey.rickandmortywiki.ui.screens.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
@@ -32,8 +33,9 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
                 backStackEntry.arguments?.getInt("characterId") ?: -1
 
             val characterViewModel: CharacterDetailViewModel = hiltViewModel()
-
             val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
+            val locationViewModel: LocationListViewModel = hiltViewModel()
+
             val characterUiState = characterViewModel.characterDetailUiState.collectAsState().value
             val userPrefUiState =
                 userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
@@ -45,7 +47,11 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
                 characterUiState = characterUiState,
                 userPrefUiState = userPrefUiState,
                 onBackButtonPressed = { navController.navigateUp() },
-                onEpisodeClicked = { /*TODO not yet implemented.*/}
+                onLocationClicked = { locationQuery ->
+                    // TODO add navigation to location list view
+                    locationViewModel.setSearchQuery(locationQuery)
+                    locationViewModel.onSearch(locationQuery)
+                }
             )
         }
     }

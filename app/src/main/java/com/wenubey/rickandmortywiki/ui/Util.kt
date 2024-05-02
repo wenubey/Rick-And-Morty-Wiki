@@ -11,6 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun isSystemInPortraitOrientation(): Boolean {
@@ -52,4 +55,17 @@ fun screenHeight(fraction: Float = 0f): Dp {
 fun screenWidth(fraction: Float = 0f): Dp{
     val config = LocalConfiguration.current
     return (config.screenWidthDp * fraction).dp
+}
+
+fun formatSeasonEpisode(seasonNumber: Int, episodeNumber: Int): String {
+    val formattedSeason = String.format("%02d", seasonNumber)
+    val formattedEpisode = String.format("%02d", episodeNumber)
+    return "S" + formattedSeason + "E" + formattedEpisode
+}
+
+fun String.parseDate(): String {
+    val inputFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH)
+    val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val date = LocalDate.parse(this, inputFormatter)
+    return date.format(outputFormatter).toString()
 }

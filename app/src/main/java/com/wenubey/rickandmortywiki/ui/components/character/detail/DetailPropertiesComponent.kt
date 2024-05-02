@@ -37,6 +37,7 @@ fun DetailPropertiesComponent(
     hasAdditionalData: Boolean = false,
     location: Location? = null,
     origin: Location? = null,
+    onLocationClicked: (String) -> Unit = {},
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -84,12 +85,14 @@ fun DetailPropertiesComponent(
                 origin?.let {
                     WhereaboutsDetails(
                         location = it,
-                        onDetailClicked = { /* TODO not yet implemented */ })
+                        onDetailClicked = onLocationClicked,
+                    )
                 }
                 location?.let {
                     WhereaboutsDetails(
                         location = it,
-                        onDetailClicked = { /* TODO not yet implemented */ })
+                        onDetailClicked = onLocationClicked,
+                    )
                 }
 
             }
@@ -105,7 +108,7 @@ fun DetailPropertiesDescription(
     onDescriptionClicked: () -> Unit,
     expanded: Boolean,
     description: String,
-    ) {
+) {
     val interactionSource = remember { MutableInteractionSource() }
     Card(
         modifier = modifier
