@@ -2,8 +2,11 @@ package com.wenubey.rickandmortywiki.ui.components.character.detail
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,22 +17,29 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.R
+import com.wenubey.rickandmortywiki.ui.formatSeasonEpisode
+import com.wenubey.rickandmortywiki.ui.parseDate
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterPropertiesComponent(
     character: Character = Character.default(),
+    onLocationClicked: (String) -> Unit = {},
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,13 +65,15 @@ fun CharacterPropertiesComponent(
             title = stringResource(R.string.character_origin),
             description = character.origin.name,
             hasAdditionalData = true,
-            origin = character.origin
+            origin = character.origin,
+            onLocationClicked = onLocationClicked
         )
         DetailPropertiesComponent(
             title = stringResource(R.string.character_location),
             description = character.location.name,
             hasAdditionalData = true,
-            location = character.location
+            location = character.location,
+            onLocationClicked = onLocationClicked
         )
         Spacer(modifier = Modifier.height(24.dp))
         DetailHeaderComponent(headerTitle = stringResource(R.string.character_episodes_header))
@@ -73,29 +85,58 @@ fun CharacterPropertiesComponent(
 fun DetailEpisodeProperties(
     character: Character,
 ) {
-    val isLoadMoreClicked by remember {
+    var isLoadMoreClicked by remember {
         mutableStateOf(false)
     }
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    var episodeSize by remember {
+        mutableIntStateOf(character.episodes.size)
+    }
 
+    LaunchedEffect(isLoadMoreClicked) {
+        episodeSize = if (isLoadMoreClicked) {
+            character.episodes.size
+        } else {
+            3
+        }
+    }
     Column {
-        character.episodeIds.take(
-            if (isLoadMoreClicked) {
-                character.episodeIds.size
-            } else {
-                3
-            }
-        ).forEach {
+        character.episodes.take(episodeSize).forEach { episode ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = { isLoadMoreClicked = !isLoadMoreClicked })
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
             ) {
-                // TODO when back-end connected change the layout.
-                Text(text = "$it.Episode", modifier = Modifier.padding(20.dp))
+                Column(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = formatSeasonEpisode(episode.seasonNumber, episode.episodeNumber),
+                            modifier = Modifier,
+                            fontWeight = FontWeight.Bold,
+                        )
+
+                        Text(text = episode.airDate.parseDate(), fontWeight = FontWeight.Light)
+
+                    }
+                    Text(text = episode.name, fontWeight = FontWeight.Normal)
+                }
             }
         }
         OutlinedButton(
-            onClick = { /*TODO not yet implemented. load all episodes when clicked */ },
+            onClick = { isLoadMoreClicked = !isLoadMoreClicked },
             border = BorderStroke(1.dp, Color.Magenta),
             shape = RoundedCornerShape(4.dp),
             modifier = Modifier

@@ -1,7 +1,6 @@
 package com.wenubey.data.remote
 
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -49,7 +48,7 @@ class CharactersRemoteMediator @Inject constructor(
                 }
             }
 
-            val searchQuery = searchQueryProvider.getSearchQuery()
+            val searchQuery = searchQueryProvider.getCharacterSearchQuery()
 
             val characters = if (searchQuery.isBlank()) {
                 ktorClient.getCharacterPage(page)

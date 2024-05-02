@@ -3,7 +3,6 @@ package com.wenubey.data.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.wenubey.data.getIdFromUrl
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.CharacterGender
 import com.wenubey.domain.model.Episode
@@ -50,7 +49,7 @@ fun CharacterEntity.toDomainCharacter(
     }
     return Character(
         created = created,
-        episodeIds = episodes ?: listOf(),
+        episodes = episodes ?: listOf(),
         gender = characterGender,
         id = id,
         imageUrl = image,

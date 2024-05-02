@@ -37,7 +37,7 @@ class CharacterListViewModel
     val characterListUiState: StateFlow<CharacterListUiState> =
         _characterListUiState.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow(searchQueryProvider.getSearchQuery())
+    private val _searchQuery = MutableStateFlow(searchQueryProvider.getCharacterSearchQuery())
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private val _isSearching = MutableStateFlow(false)
@@ -65,7 +65,7 @@ class CharacterListViewModel
         _searchQuery.update {
             return@update query
         }
-        searchQueryProvider.setSearchQuery(query)
+        searchQueryProvider.setCharacterSearchQuery(query)
     }
 
     fun onActiveChange(active: Boolean) {

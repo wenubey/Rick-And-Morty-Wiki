@@ -37,30 +37,22 @@ import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 @Composable
 fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
     val localDensity = LocalDensity.current
-    var boxSize by remember { mutableStateOf<DpSize?>(null) }
+    var boxSize by remember { mutableStateOf(DpSize.Zero) }
     val characterStatusColor = characterStatus.getColorFromCharacterStatus()
-    val sizeModifier = if (boxSize != null) {
-        Modifier.size(boxSize!! + DpSize(40.dp, 40.dp))
-    } else {
-        Modifier
-    }
+
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         Box(
-            modifier = sizeModifier.padding(bottom = 32.dp)
+            modifier = Modifier
+                .size(boxSize + DpSize(40.dp, 40.dp))
+                .padding(bottom = 32.dp)
         ) {
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxWidth(0.85f)
                     .aspectRatio(1f)
-                    .onGloballyPositioned { coordinates ->
-                        boxSize = with(localDensity) {
-                            coordinates.size
-                                .toSize()
-                                .toDpSize()
-                        }
-                    }
+
                     .border(
                         width = 6.dp,
                         color = characterStatusColor,
@@ -71,6 +63,13 @@ fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
                     imageUrl = imageUrl,
                     modifier = Modifier
                         .clip(CircleShape)
+                        .onGloballyPositioned { coordinates ->
+                            boxSize = with(localDensity) {
+                                coordinates.size
+                                    .toSize()
+                                    .toDpSize()
+                            }
+                        }
                         .fillMaxSize()
 
 

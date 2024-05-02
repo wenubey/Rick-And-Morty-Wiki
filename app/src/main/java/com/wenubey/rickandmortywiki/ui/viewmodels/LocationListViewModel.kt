@@ -36,7 +36,7 @@ class LocationListViewModel @Inject constructor(
     val locationListUiState: StateFlow<LocationListUiState> =
         _locationListUiState.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow(searchQueryProvider.getSearchQuery())
+    private val _searchQuery = MutableStateFlow(searchQueryProvider.getLocationSearchQuery())
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private val _isSearching = MutableStateFlow(false)
@@ -65,7 +65,7 @@ class LocationListViewModel @Inject constructor(
         _searchQuery.update {
             return@update query
         }
-        searchQueryProvider.setSearchQuery(query)
+        searchQueryProvider.setLocationSearchQuery(query)
     }
 
     fun onActiveChange(active: Boolean) {

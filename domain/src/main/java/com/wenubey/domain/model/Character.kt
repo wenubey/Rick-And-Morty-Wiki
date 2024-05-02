@@ -2,7 +2,7 @@ package com.wenubey.domain.model
 
 data class Character(
     val created: String,
-    val episodeIds: List<Episode>,
+    val episodes: List<Episode>,
     val gender: CharacterGender,
     val id: Int,
     val imageUrl: String,
@@ -17,7 +17,7 @@ data class Character(
     companion object {
         fun default() = Character(
             created = "created",
-            episodeIds = listOf(),
+            episodes = listOf(),
             gender = CharacterGender.Male,
             id = 0,
             imageUrl = "",

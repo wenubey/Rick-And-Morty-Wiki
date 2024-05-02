@@ -16,7 +16,7 @@ import com.wenubey.domain.model.Location
 import com.wenubey.rickandmortywiki.R
 
 @Composable
-fun WhereaboutsDetails(location: Location, onDetailClicked: (Pair<String, String>) -> Unit) {
+fun WhereaboutsDetails(location: Location, onDetailClicked: (String) -> Unit) {
 
     Column(horizontalAlignment = Alignment.Start) {
         WhereaboutsDetailComponent(
@@ -46,7 +46,7 @@ fun WhereaboutsDetails(location: Location, onDetailClicked: (Pair<String, String
 fun WhereaboutsDetailComponent(
     header: String,
     description: String,
-    onDetailClicked: (Pair<String, String>) -> Unit,
+    onDetailClicked: (String) -> Unit,
 ) {
     Row(
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
@@ -57,7 +57,7 @@ fun WhereaboutsDetailComponent(
             text = description,
             modifier = Modifier
                 .clickable {
-                    onDetailClicked(Pair(header.lowercase(), description))
+                    onDetailClicked("${header.lowercase()},$description")
                 },
             textDecoration = TextDecoration.Underline
         )

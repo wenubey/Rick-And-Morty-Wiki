@@ -15,6 +15,7 @@ import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterProp
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStatusDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
+import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPrefUiState
 
@@ -23,7 +24,7 @@ internal fun CharacterDetailScreen(
     characterUiState: CharacterDetailUiState,
     userPrefUiState: UserPrefUiState,
     onBackButtonPressed: () -> Unit,
-    onEpisodeClicked: (id: Int) -> Unit,
+    onLocationClicked: (String) -> Unit
 ) = when (val currentState = characterUiState) {
     is CharacterDetailUiState.Error -> {
         Text(text = currentState.message)
@@ -46,7 +47,7 @@ internal fun CharacterDetailScreen(
             }
         ) { paddingValues ->
 
-
+        if (isSystemInPortraitOrientation()) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -62,13 +63,40 @@ internal fun CharacterDetailScreen(
                         imageUrl = character.imageUrl
                     )
                 }
-                
-                item { 
-                    CharacterPropertiesComponent(character = character)
+
+                item {
+                    CharacterPropertiesComponent(
+                        character = character,
+                        onLocationClicked = onLocationClicked,
+                    )
                 }
 
 
             }
+        } else {
+            LazyColumn(
+                modifier = Modifier.padding(paddingValues),
+
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                item {
+
+                    CharacterStatusDetailComponent(
+                        characterStatus = character.status,
+                        imageUrl = character.imageUrl
+                    )
+                }
+
+                item {
+                    CharacterPropertiesComponent(
+                        character = character,
+                        onLocationClicked = onLocationClicked,
+                    )
+                }
+
+            }
+        }
+
         }
     }
 }
