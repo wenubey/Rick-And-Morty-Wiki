@@ -28,13 +28,11 @@ fun UserPreferencesMenu(
     onLinearLayoutToggle: (Boolean) -> Unit,
     onScreenLockToggle: (Boolean) -> Unit,
     onTopBarLockToggle: (Boolean) -> Unit,
-    onSpoilerAlertToggle: (Boolean) -> Unit,
     clearAllSearchHistory: () -> Unit,
 ) {
     val nightModeState = uiState.nightMode
     val linearLayoutState = uiState.linearLayout
     val screenLockState = uiState.screenLock
-    val spoilerAlertState = uiState.spoilerAlert
     val lockedTopBarState = uiState.topBarLock
 
     var isExpanded by remember {
@@ -51,9 +49,6 @@ fun UserPreferencesMenu(
     }
     var isTopBarLocked by remember {
         mutableStateOf(lockedTopBarState.isTopBarLocked)
-    }
-    var isSpoilerAlertActivated by remember {
-        mutableStateOf(spoilerAlertState.isSpoilerAlertActivated)
     }
 
     Icon(
@@ -102,15 +97,6 @@ fun UserPreferencesMenu(
             onClick = {
                 isTopBarLocked = !isTopBarLocked
                 onTopBarLockToggle(isTopBarLocked)
-            }
-        )
-        CommonMenuItem(
-            menuItemNameRes = spoilerAlertState.contentDescriptionRes,
-            iconImageVector = spoilerAlertState.toggleIcon,
-            contentDescriptionRes = spoilerAlertState.contentDescriptionRes,
-            onClick = {
-                isSpoilerAlertActivated = !isSpoilerAlertActivated
-                onSpoilerAlertToggle(isSpoilerAlertActivated)
             }
         )
 

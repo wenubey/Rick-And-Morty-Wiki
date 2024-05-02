@@ -2,9 +2,6 @@ package com.wenubey.rickandmortywiki.ui.components.common
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.material.icons.Icons
@@ -35,7 +32,6 @@ fun CommonTopAppBar(
     onLinearLayoutToggle: (Boolean) -> Unit = {},
     onScreenLockToggle: (Boolean) -> Unit = {},
     onTopBarLockToggle: (Boolean) -> Unit = {},
-    onSpoilerAlertToggle: (Boolean) -> Unit = {},
     clearAllSearchHistory: () -> Unit = {},
     uiState: UserPrefUiState = UserPrefUiState(),
 ) {
@@ -62,7 +58,6 @@ fun CommonTopAppBar(
                     onLinearLayoutToggle = onLinearLayoutToggle,
                     onScreenLockToggle = onScreenLockToggle,
                     onTopBarLockToggle = onTopBarLockToggle,
-                    onSpoilerAlertToggle = onSpoilerAlertToggle,
                     clearAllSearchHistory = clearAllSearchHistory,
                     uiState = uiState
                 )

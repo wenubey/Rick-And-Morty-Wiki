@@ -1,8 +1,5 @@
 package com.wenubey.rickandmortywiki.ui.nav
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -11,10 +8,6 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.wenubey.rickandmortywiki.ui.screens.CharacterDetailScreen
 import com.wenubey.rickandmortywiki.ui.screens.CharacterListScreen
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
     navigation(

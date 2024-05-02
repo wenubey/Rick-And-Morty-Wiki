@@ -17,8 +17,6 @@ interface UserPreferencesRepository {
 
     val isTopBarLocked: Flow<Boolean>
 
-    val isSpoilerAlertActive: Flow<Boolean>
-
     suspend fun saveLayoutPreference(isLinearLayout: Boolean)
 
     suspend fun saveNightModePreference(isNightMode: Boolean)
@@ -30,8 +28,6 @@ interface UserPreferencesRepository {
     suspend fun saveCharacterSearchHistory(searchQuery: String)
 
     suspend fun saveLocationSearchHistory(searchQuery: String)
-
-    suspend fun saveSpoilerAlertPreference(isSpoilerAlertActive: Boolean)
 
     suspend fun cleanAllSearchHistory()
 

@@ -8,8 +8,6 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ScreenLockRotation
 import androidx.compose.material.icons.filled.ScreenRotation
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -43,8 +41,7 @@ class UserPreferencesViewModel @Inject constructor(
             userPreferencesRepository.characterSearchHistory,
             userPreferencesRepository.locationSearchHistory,
             userPreferencesRepository.isTopBarLocked,
-            userPreferencesRepository.isSpoilerAlertActive
-        ) { isScreenLocked, isLinearLayout, isNightMode, characterSearchHistory, locationSearchHistory, isTopBarLocked, isSpoilerAlertActivated ->
+        ) { isScreenLocked, isLinearLayout, isNightMode, characterSearchHistory, locationSearchHistory, isTopBarLocked->
             UserPrefUiState(
                 screenLock = ScreenLock(isScreenLocked = isScreenLocked),
                 linearLayout = LinearLayout(isLinearLayout = isLinearLayout),
@@ -52,7 +49,6 @@ class UserPreferencesViewModel @Inject constructor(
                 characterSearchHistory = SearchHistory(searchHistory = characterSearchHistory),
                 locationSearchHistory = SearchHistory(searchHistory = locationSearchHistory),
                 topBarLock = TopBarLock(isTopBarLocked = isTopBarLocked),
-                spoilerAlert = SpoilerAlert(isSpoilerAlertActivated = isSpoilerAlertActivated)
             )
         }.stateIn(
             viewModelScope,
@@ -86,9 +82,6 @@ class UserPreferencesViewModel @Inject constructor(
         userPreferencesRepository.saveTopBarLockedPreference(isTopBarLocked)
     }
 
-    fun selectSpoilerAlertActivation(isSpoilerAlertActivated: Boolean) = viewModelScope.launch {
-        userPreferencesRepository.saveSpoilerAlertPreference(isSpoilerAlertActivated)
-    }
 
     fun clearAllSearchHistory() = viewModelScope.launch {
         userPreferencesRepository.cleanAllSearchHistory()
@@ -104,7 +97,6 @@ data class UserPrefUiState(
     val screenLock: ScreenLock = ScreenLock(),
     val nightMode: NightMode = NightMode(),
     val linearLayout: LinearLayout = LinearLayout(),
-    val spoilerAlert: SpoilerAlert = SpoilerAlert(),
     val topBarLock: TopBarLock = TopBarLock(),
     val characterSearchHistory: SearchHistory = SearchHistory(),
     val locationSearchHistory: SearchHistory = SearchHistory(),
@@ -169,16 +161,6 @@ data class TopBarLock(
     disabledIcon = Icons.Outlined.LockOpen,
     enabledContent = R.string.top_bar_locked_toggle,
     disabledContent = R.string.top_bar_not_locked_toggle
-)
-
-data class SpoilerAlert(
-    var isSpoilerAlertActivated: Boolean = true,
-) : ToggleFeature(
-    isEnabled = isSpoilerAlertActivated,
-    enabledIcon = Icons.Filled.VisibilityOff,
-    disabledIcon = Icons.Filled.Visibility,
-    enabledContent = R.string.spoiler_alert_active_toggle,
-    disabledContent = R.string.spoiler_alert_not_active_toggle
 )
 
 

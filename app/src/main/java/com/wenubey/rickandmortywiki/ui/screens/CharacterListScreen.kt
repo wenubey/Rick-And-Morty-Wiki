@@ -106,9 +106,6 @@ fun CharacterListScreen(
                         onNightModeToggle = { isNightMode ->
                             userPrefViewModel.selectNightMode(isNightMode)
                         },
-                        onSpoilerAlertToggle = { isSpoilerAlertActivated ->
-                            userPrefViewModel.selectSpoilerAlertActivation(isSpoilerAlertActivated)
-                        },
                         onTopBarLockToggle = { isTopBarLocked ->
                             userPrefViewModel.selectTopBarLock(isTopBarLocked)
                         },

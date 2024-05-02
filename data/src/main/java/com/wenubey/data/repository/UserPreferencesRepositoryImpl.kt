@@ -68,14 +68,6 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 preferences[IS_TOP_BAR_LOCKED] ?: false
             }
 
-    override val isSpoilerAlertActive: Flow<Boolean>
-        get() = dataStore.data
-            .catch {
-                Log.e(TAG, "Error reading spoiler alert preference:", it)
-            }.map { preferences ->
-                preferences[IS_SPOILER_ALERT_ACTIVATED] ?: true
-            }
-
     override suspend fun saveLayoutPreference(isLinearLayout: Boolean) {
         dataStore.edit { preferences ->
             preferences[IS_LINEAR_LAYOUT] = isLinearLayout
@@ -140,18 +132,12 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveSpoilerAlertPreference(isSpoilerAlertActive: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[IS_SPOILER_ALERT_ACTIVATED] = isSpoilerAlertActive
-        }
-    }
 
     private companion object {
         val IS_LINEAR_LAYOUT = booleanPreferencesKey("is_linear_layout")
         val IS_NIGHT_MODE = booleanPreferencesKey("is_night_mode")
         val IS_SCREEN_LOCKED = booleanPreferencesKey("is_screen_locked")
         val IS_TOP_BAR_LOCKED = booleanPreferencesKey("is_top_bar_locked")
-        val IS_SPOILER_ALERT_ACTIVATED = booleanPreferencesKey("is_spoiler_alert_activated")
         val CHARACTER_SEARCH_HISTORY = stringPreferencesKey("character_search_history")
         val LOCATION_SEARCH_HISTORY = stringPreferencesKey("location_search_history")
         const val TAG = "UserPreferencesRepo"
