@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.screens
+package com.wenubey.rickandmortywiki.ui.screens.character
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer

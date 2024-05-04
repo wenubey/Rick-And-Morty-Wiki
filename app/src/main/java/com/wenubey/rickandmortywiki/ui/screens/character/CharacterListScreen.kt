@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.screens
+package com.wenubey.rickandmortywiki.ui.screens.character
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
