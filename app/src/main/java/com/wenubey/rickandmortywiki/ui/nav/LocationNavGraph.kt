@@ -21,7 +21,14 @@ fun NavGraphBuilder.locationNavGraph(navController: NavController) {
 
 fun NavGraphBuilder.locationListScreen(navController: NavController) {
     composable(route = LocationScreen.LIST) {
-        LocationListScreen(navController = navController)
+        LocationListScreen(
+            onLocationSelected = { locationId ->
+                navController.navigateToCharacterDetail(locationId.toString())
+            },
+            navigateUp = {
+                navController.popBackStack()
+            }
+        )
     }
 }
 
@@ -36,6 +43,11 @@ fun NavGraphBuilder.locationDetailScreen(navController: NavController) {
         val locationId: Int = backStackEntry.arguments?.getInt("locationId") ?: -1
         LocationDetailScreen(navController = navController, locationId = locationId)
     }
+}
+
+fun NavController.navigateToLocationDetail(locationId: String) {
+    val newRoute = LocationScreen.DETAIL.replaceAfter("/", locationId)
+    this.navigate(newRoute)
 }
 
 object LocationScreen {

@@ -96,7 +96,7 @@ class CharacterListViewModel
 
 
     private companion object {
-        const val LAST_ITEM_INDEX = "last_item_index"
+        const val LAST_ITEM_INDEX = "character_last_item_index"
     }
 
 }

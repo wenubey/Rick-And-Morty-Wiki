@@ -48,7 +48,9 @@ fun NavGraphBuilder.characterDetailScreen(navController: NavController) {
             characterId = characterId,
             onBackButtonPressed = { navController.navigateUp() },
             navigateToLocationScreen = {
-                // TODO add navigation to location list view
+                navController.navigate(Graph.LOCATION) {
+                    popUpTo(Graph.CHARACTER) { inclusive = true }
+                }
             }
         )
     }

@@ -36,13 +36,13 @@ class UserPreferencesViewModel @Inject constructor(
             userPreferencesRepository.characterSearchHistory,
             userPreferencesRepository.locationSearchHistory,
             userPreferencesRepository.isTopBarLocked,
-        ) { isScreenLocked, isLinearLayout, isNightMode, characterSearchHistory, locationSearchHistory, isTopBarLocked->
+        ) { isScreenLocked, isLinearLayout, isNightMode, characterSearchHistory, locationSearchHistory, isTopBarLocked ->
             UserPrefUiState(
                 screenLock = ScreenLock(isScreenLocked = isScreenLocked),
                 linearLayout = LinearLayout(isLinearLayout = isLinearLayout),
                 nightMode = NightMode(isNightMode = isNightMode),
-                characterSearchHistory = SearchHistory(searchHistory = characterSearchHistory),
-                locationSearchHistory = SearchHistory(searchHistory = locationSearchHistory),
+                characterSearchHistory = CharacterSearchHistory(searchHistory = characterSearchHistory),
+                locationSearchHistory = LocationSearchHistory(searchHistory = locationSearchHistory),
                 topBarLock = TopBarLock(isTopBarLocked = isTopBarLocked),
             )
         }.stateIn(
@@ -81,8 +81,8 @@ data class UserPrefUiState(
     val nightMode: NightMode = NightMode(),
     val linearLayout: LinearLayout = LinearLayout(),
     val topBarLock: TopBarLock = TopBarLock(),
-    val characterSearchHistory: SearchHistory = SearchHistory(),
-    val locationSearchHistory: SearchHistory = SearchHistory(),
+    val characterSearchHistory: CharacterSearchHistory = CharacterSearchHistory(),
+    val locationSearchHistory: LocationSearchHistory = LocationSearchHistory(),
 )
 
 abstract class ToggleFeature(
@@ -100,7 +100,13 @@ abstract class ToggleFeature(
 
 }
 
-data class SearchHistory(
+data class CharacterSearchHistory(
+    val searchHistory: List<String> = listOf(),
+    val toggleIcon: ImageVector = Icons.Filled.History,
+    val contentDescriptionRes: Int = R.string.delete_the_search_history_toggle
+)
+
+data class LocationSearchHistory(
     val searchHistory: List<String> = listOf(),
     val toggleIcon: ImageVector = Icons.Filled.History,
     val contentDescriptionRes: Int = R.string.delete_the_search_history_toggle

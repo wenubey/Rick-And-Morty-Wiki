@@ -10,7 +10,7 @@ fun RootNavigationGraph(
 ) {
     NavHost(navController = navController, route = Graph.ROOT, startDestination = Graph.CHARACTER) {
         characterNavGraph(navController)
-
+        locationNavGraph(navController)
     }
 }
 
