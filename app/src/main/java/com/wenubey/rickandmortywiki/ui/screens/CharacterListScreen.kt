@@ -1,5 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -35,10 +40,12 @@ import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun CharacterListScreen(
     onCharacterSelected: (id: Int) -> Unit,
+    navigateUp: () -> Unit,
 ) {
 
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
@@ -82,6 +89,31 @@ fun CharacterListScreen(
             lazyListState.isScrollingUp()
         } else {
             lazyGridState.isScrollingUp()
+        }
+    }
+
+    val isLastItemIndexZero by remember {
+        derivedStateOf {
+            if (isLinearLayout) {
+                lazyListState.firstVisibleItemIndex == 0
+            } else {
+                lazyGridState.firstVisibleItemIndex == 0
+            }
+        }
+    }
+
+    val scope = rememberCoroutineScope()
+
+    BackHandler {
+        scope.launch {
+            if (isLinearLayout) {
+                lazyListState.animateScrollToItem(0)
+            } else {
+                lazyGridState.animateScrollToItem(0)
+            }
+            if (isLastItemIndexZero) {
+                navigateUp()
+            }
         }
     }
 

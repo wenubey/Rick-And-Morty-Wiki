@@ -44,6 +44,9 @@ fun NavGraphBuilder.characterListScreen(navController: NavController) {
             onCharacterSelected = { characterId ->
                 navController.navigateToCharacterDetail(characterId.toString())
             },
+            navigateUp = {
+                navController.popBackStack()
+            }
         )
     }
 }
