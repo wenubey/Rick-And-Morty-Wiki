@@ -48,9 +48,8 @@ fun NavGraphBuilder.characterDetailScreen(navController: NavController) {
             characterId = characterId,
             onBackButtonPressed = { navController.navigateUp() },
             navigateToLocationScreen = {
-                navController.navigate(Graph.LOCATION) {
-                    popUpTo(Graph.CHARACTER) { inclusive = true }
-                }
+                navController.navigate(Graph.LOCATION)
+
             }
         )
     }

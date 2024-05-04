@@ -23,7 +23,7 @@ fun NavGraphBuilder.locationListScreen(navController: NavController) {
     composable(route = LocationScreen.LIST) {
         LocationListScreen(
             onLocationSelected = { locationId ->
-                navController.navigateToCharacterDetail(locationId.toString())
+                navController.navigateToLocationDetail(locationId.toString())
             },
             navigateUp = {
                 navController.popBackStack()

@@ -2,6 +2,7 @@ package com.wenubey.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import kotlinx.serialization.Serializable
 
@@ -18,7 +19,8 @@ data class LocationEntity(
     val created: String,
     val type: String,
 ) {
-    fun toDomainLocation(): Location {
+    fun toDomainLocation(
+    ): Location {
         return Location(
             id = id,
             name = name,

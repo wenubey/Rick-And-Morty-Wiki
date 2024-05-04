@@ -34,4 +34,5 @@
     <string name="spoiler_alert_active_toggle">Spoiler alert active</string>
     <string name="spoiler_alert_not_active_toggle">Spoiler alert not active</string>
     <string name="clear_all_search_history_toggle">Clear search history</string>
+
 </resources>

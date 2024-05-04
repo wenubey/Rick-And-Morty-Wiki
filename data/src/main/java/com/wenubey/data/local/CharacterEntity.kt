@@ -39,7 +39,7 @@ data class CharacterEntity(
     )
 
 fun CharacterEntity.toDomainCharacter(
-    episodes: List<Episode>?
+    episodes: List<Episode>?,
 ): Character {
     val characterGender = when (gender.lowercase()) {
         "female" -> CharacterGender.Female
