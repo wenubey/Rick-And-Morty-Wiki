@@ -1,6 +1,7 @@
 package com.wenubey.rickandmortywiki.ui.viewmodels
 
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -30,6 +31,7 @@ class CharacterListViewModel
     private val characterRepository: CharacterRepository,
     private val userPreferencesRepository: UserPreferencesRepository,
     private val searchQueryProvider: SearchQueryProvider,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _characterListUiState = MutableStateFlow<CharacterListUiState>(
         value = CharacterListUiState.Loading
@@ -80,6 +82,21 @@ class CharacterListViewModel
 
     private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
         userPreferencesRepository.saveCharacterSearchHistory(historyItem)
+    }
+
+    private val _lastItemIndex = MutableStateFlow(savedStateHandle[LAST_ITEM_INDEX] ?: 0)
+    val lastItemIndex: StateFlow<Int> = _lastItemIndex.asStateFlow()
+
+    fun setLastItemIndex(index: Int) {
+        _lastItemIndex.update {
+            savedStateHandle[LAST_ITEM_INDEX] = index
+            return@update index
+        }
+    }
+
+
+    private companion object {
+        const val LAST_ITEM_INDEX = "last_item_index"
     }
 
 }

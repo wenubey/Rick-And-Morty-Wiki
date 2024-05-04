@@ -46,7 +46,7 @@ fun CharacterListScreen(
         userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
     val characterViewModel: CharacterListViewModel = hiltViewModel()
     val characterUiState = characterViewModel.characterListUiState.collectAsState().value
-    val lastItemIndex = userPrefViewModel.lastItemIndex.collectAsState().value
+    val lastItemIndex = characterViewModel.lastItemIndex.collectAsState().value
 
     val searchQuery = characterViewModel.searchQuery.collectAsState().value
     val active = characterViewModel.isSearching.collectAsState().value
@@ -67,7 +67,7 @@ fun CharacterListScreen(
             isLinearLayout -> lazyGridState.firstVisibleItemIndex
             else -> lazyListState.firstVisibleItemIndex
         }
-        userPrefViewModel.setLastItemIndex(index)
+        characterViewModel.setLastItemIndex(index)
         if (isLinearLayout) {
             lazyListState.scrollToItem(index)
         } else {
