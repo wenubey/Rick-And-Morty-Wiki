@@ -2,7 +2,6 @@ package com.wenubey.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import kotlinx.serialization.Serializable
 
@@ -30,6 +29,20 @@ data class LocationEntity(
             created = created,
             type = type,
         )
+    }
+
+    companion object {
+        fun default(): LocationEntity {
+            return LocationEntity(
+                id = 0,
+                name = "",
+                dimension = "",
+                residents = listOf(),
+                url = "",
+                created = "",
+                type = ""
+            )
+        }
     }
 
 }

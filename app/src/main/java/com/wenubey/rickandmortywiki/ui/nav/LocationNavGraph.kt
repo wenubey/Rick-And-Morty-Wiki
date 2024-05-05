@@ -41,7 +41,15 @@ fun NavGraphBuilder.locationDetailScreen(navController: NavController) {
         )
     ) { backStackEntry ->
         val locationId: Int = backStackEntry.arguments?.getInt("locationId") ?: -1
-        LocationDetailScreen(navController = navController, locationId = locationId)
+        LocationDetailScreen(
+            locationId = locationId,
+            onBackButtonPressed = {
+                navController.popBackStack()
+            },
+            onCharacterSelected = { characterId ->
+                navController.navigateToCharacterDetail(characterId.toString())
+            }
+        )
     }
 }
 
