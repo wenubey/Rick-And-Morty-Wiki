@@ -8,7 +8,8 @@ import androidx.navigation.compose.NavHost
 fun RootNavigationGraph(
     navController: NavHostController
 ) {
-    NavHost(navController = navController, route = Graph.ROOT, startDestination = Graph.CHARACTER) {
+    NavHost(navController = navController, route = Graph.ROOT, startDestination = Graph.TAB) {
+        tabNavGraph(navController)
         characterNavGraph(navController)
         locationNavGraph(navController)
     }
@@ -18,6 +19,7 @@ fun RootNavigationGraph(
 
 object Graph {
     const val ROOT = "root_graph"
+    const val TAB = "tab_graph"
     const val CHARACTER = "character_graph"
     const val LOCATION = "location_graph"
 }

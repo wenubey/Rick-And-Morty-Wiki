@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.components.location.LocationListCard
@@ -41,13 +37,14 @@ import kotlinx.coroutines.launch
 fun LocationListScreen(
     onLocationSelected: (id: Int) -> Unit,
     navigateUp: () -> Unit,
+    lazyGridState: LazyGridState,
+    onScrollUp: (Boolean) -> Unit
 ) {
     val locationViewModel: LocationListViewModel = hiltViewModel()
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
 
     val locationUiState = locationViewModel.locationListUiState.collectAsState().value
     val userPrefUiState = userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
-
     val lastItemIndex = locationViewModel.lastItemIndex.collectAsState().value
 
     val searchQuery = locationViewModel.searchQuery.collectAsState().value
@@ -56,43 +53,30 @@ fun LocationListScreen(
     val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
 
-    val lazyListState = rememberLazyListState(
-        initialFirstVisibleItemIndex = lastItemIndex
-    )
-    val lazyGridState = rememberLazyStaggeredGridState(
-        initialFirstVisibleItemIndex = lastItemIndex
+    LaunchedEffect(Unit) {
+        lazyGridState.animateScrollToItem(lastItemIndex)
+    }
+
+    onScrollUp(
+        lazyGridState.isScrollingUp()
     )
 
-    LaunchedEffect(lazyGridState, lazyListState, isLinearLayout) {
-        val index = when {
-            isLinearLayout -> lazyGridState.firstVisibleItemIndex
-            else -> lazyListState.firstVisibleItemIndex
-        }
+    LaunchedEffect(lazyGridState, lazyGridState, isLinearLayout) {
+        val index = lazyGridState.firstVisibleItemIndex
         locationViewModel.setLastItemIndex(index)
-        if (isLinearLayout) {
-            lazyListState.scrollToItem(index)
-        } else {
-            lazyGridState.scrollToItem(index)
-        }
+        lazyGridState.scrollToItem(index)
     }
+
 
     val isVisible = if (isTopBarLocked) {
         true
     } else {
-        if (isLinearLayout) {
-            lazyListState.isScrollingUp()
-        } else {
-            lazyGridState.isScrollingUp()
-        }
+        lazyGridState.isScrollingUp()
     }
 
     val isLastItemIndexZero by remember {
         derivedStateOf {
-            if (isLinearLayout) {
-                lazyListState.firstVisibleItemIndex == 0
-            } else {
-                lazyGridState.firstVisibleItemIndex == 0
-            }
+            lazyGridState.firstVisibleItemIndex == 0
         }
     }
 
@@ -101,11 +85,7 @@ fun LocationListScreen(
 
     BackHandler {
         scope.launch {
-            if (isLinearLayout) {
-                lazyListState.animateScrollToItem(0)
-            } else {
-                lazyGridState.animateScrollToItem(0)
-            }
+            lazyGridState.animateScrollToItem(0)
             if (isLastItemIndexZero) {
                 navigateUp()
             }
@@ -134,76 +114,50 @@ fun LocationListScreen(
 
         is LocationListUiState.Success -> {
             val locations = locationUiState.locationsFlow.collectAsLazyPagingItems()
-            Scaffold(
-                topBar = {
-                    CommonTopAppBar(
-                        showNavigationIcon = false,
-                        isVisible = isVisible,
-                        uiState = userPrefUiState,
-                        onNightModeToggle = { isNightMode ->
-                            userPrefViewModel.selectNightMode(isNightMode)
-                        },
-                        onTopBarLockToggle = { isTopBarLocked ->
-                            userPrefViewModel.selectTopBarLock(isTopBarLocked)
-                        },
-                        onScreenLockToggle = { isScreenLocked ->
-                            userPrefViewModel.selectScreenLock(isScreenLocked)
-                        },
-                        onLinearLayoutToggle = { isLinearLayout ->
-                            userPrefViewModel.selectLayout(isLinearLayout)
-                        },
-                        clearAllSearchHistory = {
-                            userPrefViewModel.clearAllSearchHistory()
-                        },
-                    )
-                }
-            ) { paddingValues ->
 
-                Column(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
-                        .background(Color.Transparent),
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Transparent),
+            ) {
+                CustomSearchBar(
+                    isVisible = isVisible,
+                    searchQuery = searchQuery,
+                    active = active,
+                    onActiveChange = locationViewModel::onActiveChange,
+                    onSearch = locationViewModel::onSearch,
+                    setSearchQuery = locationViewModel::setSearchQuery,
+                    searchHistory = searchHistory,
+                )
+
+                LazyVerticalGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    columns = GridCells.Fixed(gridColumns),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(16.dp),
+                    state = lazyGridState
                 ) {
-                    CustomSearchBar(
-                        isVisible = isVisible,
-                        searchQuery = searchQuery,
-                        active = active,
-                        onActiveChange = locationViewModel::onActiveChange,
-                        onSearch = locationViewModel::onSearch,
-                        setSearchQuery = locationViewModel::setSearchQuery,
-                        searchHistory = searchHistory,
-                    )
-
-                    LazyVerticalStaggeredGrid(
-                        modifier = Modifier.fillMaxSize(),
-                        columns = StaggeredGridCells.Fixed(gridColumns),
-                        verticalItemSpacing = 8.dp,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(16.dp),
-                        state = lazyGridState
-                    ) {
-                        items(
-                            count = locations.itemCount,
-                            key = locations.itemKey(),
-                            contentType = locations.itemContentType()
-                        ) { index ->
-                            val location = locations[index]
-                            if (location != null) {
-                                LocationListCard(
-                                    location = location,
-                                    onLocationSelected = {
-                                        onLocationSelected(location.id)
-                                    }
-                                )
-                            } else {
-                                // TODO add error screen about location is null
-                            }
+                    items(
+                        count = locations.itemCount,
+                        key = locations.itemKey(),
+                        contentType = locations.itemContentType()
+                    ) { index ->
+                        val location = locations[index]
+                        if (location != null) {
+                            LocationListCard(
+                                location = location,
+                                onLocationSelected = {
+                                    onLocationSelected(location.id)
+                                }
+                            )
+                        } else {
+                            // TODO add error screen about location is null
                         }
                     }
                 }
-
             }
+
         }
     }
 }

@@ -1,9 +1,14 @@
 package com.wenubey.rickandmortywiki.ui
 
 import android.content.res.Configuration
+import androidx.annotation.StringRes
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.PeopleAlt
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
@@ -14,9 +19,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.wenubey.rickandmortywiki.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -49,18 +54,6 @@ fun String.getColorFromCharacterStatus(): Color {
         "dead" -> Color.Red
         else -> Color.Yellow
     }
-}
-
-@Composable
-fun screenHeight(fraction: Float = 0f): Dp {
-    val config = LocalConfiguration.current
-    return(config.screenHeightDp * fraction).dp
-}
-
-@Composable
-fun screenWidth(fraction: Float = 0f): Dp{
-    val config = LocalConfiguration.current
-    return (config.screenWidthDp * fraction).dp
 }
 
 fun formatSeasonEpisode(seasonNumber: Int, episodeNumber: Int): String {
@@ -112,20 +105,19 @@ fun LazyGridState.isScrollingUp(): Boolean {
     }.value
 }
 
-@Composable
-fun LazyStaggeredGridState.isScrollingUp(): Boolean {
-    var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
-    var previousScrollOffset by remember(this) { mutableIntStateOf(firstVisibleItemScrollOffset) }
-    return remember(this) {
-        derivedStateOf {
-            if (previousIndex != firstVisibleItemIndex) {
-                previousIndex > firstVisibleItemIndex
-            } else {
-                previousScrollOffset >= firstVisibleItemScrollOffset
-            }.also {
-                previousIndex = firstVisibleItemIndex
-                previousScrollOffset = firstVisibleItemScrollOffset
-            }
-        }
-    }.value
+enum class HomeTabs(
+    @StringRes val text: Int,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
+) {
+    Character(
+        text = R.string.tab_characters,
+        selectedIcon = Icons.Filled.People,
+        unselectedIcon = Icons.Outlined.PeopleAlt
+    ),
+    Location(
+        text = R.string.tabs_locations,
+        selectedIcon = Icons.Filled.Explore,
+        unselectedIcon = Icons.Outlined.Explore,
+    )
 }
