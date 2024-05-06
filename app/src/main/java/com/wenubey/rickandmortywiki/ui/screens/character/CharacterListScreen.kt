@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.screens
+package com.wenubey.rickandmortywiki.ui.screens.character
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -118,9 +118,10 @@ fun CharacterListScreen(
     }
 
 
-    when (val currentState = characterUiState) {
+    when (characterUiState) {
         is CharacterListUiState.Error -> {
-            Text(text = currentState.message)
+            // TODO add Error Screen
+            Text(text = characterUiState.message)
         }
 
         CharacterListUiState.Loading -> {
@@ -128,7 +129,7 @@ fun CharacterListScreen(
         }
 
         is CharacterListUiState.Success -> {
-            val characters = currentState.charactersFlow.collectAsLazyPagingItems()
+            val characters = characterUiState.charactersFlow.collectAsLazyPagingItems()
             Scaffold(
                 topBar = {
                     CommonTopAppBar(

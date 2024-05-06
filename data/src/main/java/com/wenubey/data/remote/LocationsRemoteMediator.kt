@@ -46,11 +46,15 @@ class LocationsRemoteMediator @Inject constructor(
         }
 
         val searchQuery = searchQueryProvider.getLocationSearchQuery()
-
+        val queryParameters = searchQuery.split(",")
         if (searchQuery.isBlank()) {
             ktorClient.getLocationPage(page)
         } else {
-            ktorClient.searchLocation(page, searchQuery)
+            if (queryParameters.size > 1) {
+                ktorClient.searchLocationWithParameter(page, searchQuery)
+            } else {
+                ktorClient.searchLocationWithoutParameter(page, searchQuery)
+            }
         }
             .onSuccess { locationPageDto ->
                 val locationEntities = locationPageDto.results.map { it.toLocationEntity() }

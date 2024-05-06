@@ -97,10 +97,17 @@ class KtorClient {
         }
     }
 
-    suspend fun searchLocation(pageNumber: Int, searchQuery: String) : Result<LocationPageDto> {
+    suspend fun searchLocationWithParameter(pageNumber: Int, searchQuery: String) : Result<LocationPageDto> {
         return safeApiCall {
             val queryParameters = searchQuery.split(",")
             client.get("location/?page=$pageNumber&${queryParameters.first()}=${queryParameters.last()}")
+                .body<LocationPageDto>()
+        }
+    }
+
+    suspend fun searchLocationWithoutParameter(pageNumber: Int, searchQuery: String) : Result<LocationPageDto> {
+        return safeApiCall {
+            client.get("location/?page=$pageNumber&name=$searchQuery")
                 .body<LocationPageDto>()
         }
     }

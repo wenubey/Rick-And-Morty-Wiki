@@ -6,8 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.wenubey.rickandmortywiki.ui.screens.CharacterDetailScreen
-import com.wenubey.rickandmortywiki.ui.screens.CharacterListScreen
+import com.wenubey.rickandmortywiki.ui.screens.character.CharacterDetailScreen
+import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
     navigation(
@@ -15,37 +15,41 @@ fun NavGraphBuilder.characterNavGraph(navController: NavController) {
         startDestination = CharacterScreen.LIST
     ) {
         characterListScreen(navController)
-        composable(route = CharacterScreen.DETAIL,
-            arguments = listOf(
-                navArgument("characterId") {
-                    type = NavType.IntType
-                }
-            )
-        ) { backStackEntry ->
-            val characterId: Int =
-                backStackEntry.arguments?.getInt("characterId") ?: -1
-
-
-            CharacterDetailScreen(
-                characterId = characterId,
-                onBackButtonPressed = { navController.navigateUp() },
-                navigateToLocationScreen = {
-                    // TODO add navigation to location list view
-                }
-            )
-        }
+        characterDetailScreen(navController)
     }
 }
 
 fun NavGraphBuilder.characterListScreen(navController: NavController) {
     composable(route = CharacterScreen.LIST) {
-
         CharacterListScreen(
             onCharacterSelected = { characterId ->
                 navController.navigateToCharacterDetail(characterId.toString())
             },
             navigateUp = {
                 navController.popBackStack()
+            }
+        )
+    }
+}
+
+fun NavGraphBuilder.characterDetailScreen(navController: NavController) {
+    composable(route = CharacterScreen.DETAIL,
+        arguments = listOf(
+            navArgument("characterId") {
+                type = NavType.IntType
+            }
+        )
+    ) { backStackEntry ->
+        val characterId: Int =
+            backStackEntry.arguments?.getInt("characterId") ?: -1
+
+
+        CharacterDetailScreen(
+            characterId = characterId,
+            onBackButtonPressed = { navController.navigateUp() },
+            navigateToLocationScreen = {
+                navController.navigate(Graph.LOCATION)
+
             }
         )
     }

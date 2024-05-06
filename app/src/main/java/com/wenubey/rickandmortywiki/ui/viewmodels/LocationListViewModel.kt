@@ -1,5 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.viewmodels
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -27,7 +28,8 @@ import javax.inject.Inject
 class LocationListViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     private val searchQueryProvider: SearchQueryProvider,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
     private val _locationListUiState = MutableStateFlow<LocationListUiState>(
@@ -41,6 +43,9 @@ class LocationListViewModel @Inject constructor(
 
     private val _isSearching = MutableStateFlow(false)
     val isSearching: StateFlow<Boolean> = _isSearching.asStateFlow()
+
+    private val _lastItemIndex = MutableStateFlow(savedStateHandle[LAST_ITEM_INDEX] ?: 0)
+    val lastItemIndex: StateFlow<Int> = _lastItemIndex.asStateFlow()
 
     init {
         locationPagingFlow()
@@ -79,7 +84,21 @@ class LocationListViewModel @Inject constructor(
     }
 
     private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
-        userPreferencesRepository.saveLocationSearchHistory(historyItem)
+
+            userPreferencesRepository.saveLocationSearchHistory(historyItem)
+
+    }
+
+    fun setLastItemIndex(index: Int) {
+        _lastItemIndex.update {
+            savedStateHandle[LAST_ITEM_INDEX] = index
+            return@update index
+        }
+    }
+
+
+    private companion object {
+        const val LAST_ITEM_INDEX = "location_last_item_index"
     }
 }
 

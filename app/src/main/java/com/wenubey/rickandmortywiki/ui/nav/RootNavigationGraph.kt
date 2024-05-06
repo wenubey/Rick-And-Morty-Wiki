@@ -10,6 +10,7 @@ fun RootNavigationGraph(
 ) {
     NavHost(navController = navController, route = Graph.ROOT, startDestination = Graph.CHARACTER) {
         characterNavGraph(navController)
+        locationNavGraph(navController)
     }
 }
 
@@ -18,4 +19,5 @@ fun RootNavigationGraph(
 object Graph {
     const val ROOT = "root_graph"
     const val CHARACTER = "character_graph"
+    const val LOCATION = "location_graph"
 }

@@ -18,7 +18,8 @@ data class LocationEntity(
     val created: String,
     val type: String,
 ) {
-    fun toDomainLocation(): Location {
+    fun toDomainLocation(
+    ): Location {
         return Location(
             id = id,
             name = name,
@@ -28,6 +29,20 @@ data class LocationEntity(
             created = created,
             type = type,
         )
+    }
+
+    companion object {
+        fun default(): LocationEntity {
+            return LocationEntity(
+                id = 0,
+                name = "",
+                dimension = "",
+                residents = listOf(),
+                url = "",
+                created = "",
+                type = ""
+            )
+        }
     }
 
 }

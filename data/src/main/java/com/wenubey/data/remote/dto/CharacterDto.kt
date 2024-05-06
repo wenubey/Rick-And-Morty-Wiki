@@ -21,8 +21,8 @@ data class CharacterDto(
 ) {
 
     fun toCharacterEntity(
-        locationEntity: LocationEntity,
-        originEntity: LocationEntity,
+        locationEntity: LocationEntity?,
+        originEntity: LocationEntity?,
     ): CharacterEntity {
         return CharacterEntity(
             created = created,
@@ -30,9 +30,9 @@ data class CharacterDto(
             gender = gender,
             id = id,
             image = image,
-            locationEntity = locationEntity,
+            locationEntity = locationEntity ?: LocationEntity.default(),
             name = name,
-            originEntity = originEntity,
+            originEntity = originEntity ?: LocationEntity.default(),
             species = species,
             status = status,
             type = type,

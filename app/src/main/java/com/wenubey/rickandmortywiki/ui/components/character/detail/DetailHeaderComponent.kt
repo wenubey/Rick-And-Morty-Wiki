@@ -10,10 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun DetailHeaderComponent(
     headerTitle: String,
+    fontSize: Int = 16,
 ) {
     Row(
         modifier = Modifier
@@ -29,7 +31,7 @@ fun DetailHeaderComponent(
                 .padding(start = 16.dp)
                 .weight(0.3f)
         )
-        Text(text = headerTitle, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(text = headerTitle, modifier = Modifier.padding(horizontal = 16.dp), fontSize = fontSize.sp)
         HorizontalDivider(
             thickness = 1.dp,
             color = Color.Magenta,

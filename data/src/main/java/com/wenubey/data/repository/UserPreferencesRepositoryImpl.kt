@@ -107,15 +107,21 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         dataStore.edit { preferences ->
             val currentHistory =
                 preferences[LOCATION_SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
-
-            if (searchQuery.isNotBlank()) {
+            val queryParameters = searchQuery.split(",")
+            if (searchQuery.isNotBlank() && queryParameters.size < 2) {
                 currentHistory.add(0, searchQuery)
             }
             if (currentHistory.size > 10) {
                 currentHistory.removeLast()
             }
+            if (currentHistory.contains("")) {
+                currentHistory.removeAll(listOf(""))
+            }
 
-            preferences[CHARACTER_SEARCH_HISTORY] = currentHistory.joinToString(",")
+            Log.i(TAG, "currentHistoryAfterADD: $currentHistory")
+
+            preferences[LOCATION_SEARCH_HISTORY] = currentHistory.joinToString(",")
+
         }
     }
 
