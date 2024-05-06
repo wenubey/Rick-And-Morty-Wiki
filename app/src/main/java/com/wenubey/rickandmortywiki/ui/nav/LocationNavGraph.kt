@@ -7,30 +7,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationDetailScreen
-import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
 
 fun NavGraphBuilder.locationNavGraph(navController: NavController) {
     navigation(
         route = Graph.LOCATION,
-        startDestination = LocationScreen.LIST
+        startDestination = LocationScreen.DETAIL
     ) {
-        locationListScreen(navController)
         locationDetailScreen(navController)
     }
 }
 
-fun NavGraphBuilder.locationListScreen(navController: NavController) {
-    composable(route = LocationScreen.LIST) {
-        LocationListScreen(
-            onLocationSelected = { locationId ->
-                navController.navigateToLocationDetail(locationId.toString())
-            },
-            navigateUp = {
-                navController.popBackStack()
-            }
-        )
-    }
-}
+
 
 fun NavGraphBuilder.locationDetailScreen(navController: NavController) {
     composable(route = LocationScreen.DETAIL,
@@ -47,18 +34,17 @@ fun NavGraphBuilder.locationDetailScreen(navController: NavController) {
                 navController.popBackStack()
             },
             onCharacterSelected = { characterId ->
-                navController.navigateToCharacterDetail(characterId.toString())
+                navController.navigateToCharacterDetail(characterId)
             }
         )
     }
 }
 
-fun NavController.navigateToLocationDetail(locationId: String) {
-    val newRoute = LocationScreen.DETAIL.replaceAfter("/", locationId)
+fun NavController.navigateToLocationDetail(locationId: Int) {
+    val newRoute = LocationScreen.DETAIL.replaceAfter("/", locationId.toString())
     this.navigate(newRoute)
 }
 
 object LocationScreen {
-    const val LIST = "location_list"
     const val DETAIL = "location_detail/{locationId}"
 }

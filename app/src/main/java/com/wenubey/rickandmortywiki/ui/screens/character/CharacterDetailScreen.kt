@@ -24,7 +24,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 @Composable
-internal fun CharacterDetailScreen(
+fun CharacterDetailScreen(
     characterId: Int,
     onBackButtonPressed: () -> Unit,
     navigateToLocationScreen: () -> Unit,
