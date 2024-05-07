@@ -94,6 +94,12 @@ class CharacterListViewModel
         }
     }
 
+    fun removeAllQuery() {
+        _searchQuery.update {
+            return@update ""
+        }
+    }
+
 
     private companion object {
         const val LAST_ITEM_INDEX = "character_last_item_index"

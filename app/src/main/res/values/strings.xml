@@ -37,5 +37,6 @@
     <string name="tab_characters">Characters</string>
     <string name="tabs_locations">Locations</string>
     <string name="cd_scroll_to_top">Scroll to the top</string>
+    <string name="cd_remove_all_query">Remove all query.</string>
 
 </resources>
