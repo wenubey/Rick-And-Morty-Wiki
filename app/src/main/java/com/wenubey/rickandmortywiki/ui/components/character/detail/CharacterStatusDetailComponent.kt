@@ -1,93 +1,48 @@
 package com.wenubey.rickandmortywiki.ui.components.character.detail
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 import com.wenubey.rickandmortywiki.ui.components.common.CharacterImage
+import com.wenubey.rickandmortywiki.ui.components.common.GlowingCard
 import com.wenubey.rickandmortywiki.ui.getColorFromCharacterStatus
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
 fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
-    val localDensity = LocalDensity.current
-    var boxSize by remember { mutableStateOf(DpSize.Zero) }
     val characterStatusColor = characterStatus.getColorFromCharacterStatus()
 
-
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-        Box(
+        GlowingCard(
             modifier = Modifier
-                .size(boxSize + DpSize(40.dp, 40.dp))
-                .padding(bottom = 32.dp)
+                .size(300.dp)
+                .padding(8.dp),
+            glowingColor = characterStatusColor,
+            cornersRadius = 32.dp,
+            statusContent = characterStatus,
+            glowingRadius = 75.dp
         ) {
-            Box(
+            CharacterImage(
+                imageUrl = imageUrl,
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .fillMaxWidth(0.85f)
-                    .aspectRatio(1f)
-
-                    .border(
-                        width = 6.dp,
-                        color = characterStatusColor,
-                        shape = CircleShape
-                    )
-            ) {
-                CharacterImage(
-                    imageUrl = imageUrl,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .onGloballyPositioned { coordinates ->
-                            boxSize = with(localDensity) {
-                                coordinates.size
-                                    .toSize()
-                                    .toDpSize()
-                            }
-                        }
-                        .fillMaxSize()
+                    .clip(RoundedCornerShape(32.dp))
+                    .fillMaxSize()
 
 
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
-                    .align(Alignment.BottomCenter)
-                    .background(characterStatusColor)
-            ) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                    text = characterStatus.uppercase(),
-                    fontSize = 24.sp,
-                )
-            }
+            )
         }
+
     }
 }
 
