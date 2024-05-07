@@ -18,6 +18,7 @@ import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterProp
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStatusDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
+import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListViewModel
@@ -66,7 +67,7 @@ fun CharacterDetailScreen(
             Scaffold(
                 topBar = {
                     CommonTopAppBar(
-                        isVisible = if (isTopBarLocked) true else lazyListState.canScrollForward ,
+                        isVisible = if (isTopBarLocked) true else lazyListState.canScrollForward,
                         showNavigationIcon = true,
                         title = character.name,
                         onBackButtonPressed = onBackButtonPressed,
@@ -80,12 +81,7 @@ fun CharacterDetailScreen(
                         onScreenLockToggle = { isScreenLocked ->
                             userPrefViewModel.selectScreenLock(isScreenLocked)
                         },
-                        onLinearLayoutToggle = { isLinearLayout ->
-                            userPrefViewModel.selectLayout(isLinearLayout)
-                        },
-                        clearAllSearchHistory = {
-                            userPrefViewModel.clearAllSearchHistory()
-                        },
+                        userPreferencesOption = UserPreferencesOption.DETAIL
                     )
                 }
             ) { paddingValues ->
