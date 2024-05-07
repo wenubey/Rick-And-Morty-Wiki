@@ -96,6 +96,12 @@ class LocationListViewModel @Inject constructor(
         }
     }
 
+    fun removeAllQuery() {
+        _searchQuery.update {
+            return@update ""
+        }
+    }
+
 
     private companion object {
         const val LAST_ITEM_INDEX = "location_last_item_index"

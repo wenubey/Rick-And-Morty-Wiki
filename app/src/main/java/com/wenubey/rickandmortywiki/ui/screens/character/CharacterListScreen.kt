@@ -151,6 +151,7 @@ fun CharacterListScreen(
                     onSearch = characterViewModel::onSearch,
                     setSearchQuery = characterViewModel::setSearchQuery,
                     searchHistory = searchHistory,
+                    onRemoveAllClicked = characterViewModel::removeAllQuery
                 )
                 if (isLinearLayout) {
                     LazyColumn(

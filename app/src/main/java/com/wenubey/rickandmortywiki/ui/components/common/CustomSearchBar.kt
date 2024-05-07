@@ -4,6 +4,8 @@ import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.Card
 import androidx.compose.material3.DockedSearchBar
@@ -26,6 +29,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,10 +50,11 @@ fun CustomSearchBar(
     active: Boolean = false,
     onActiveChange: (Boolean) -> Unit = {},
     onSearch: (String) -> Unit = {},
+    onRemoveAllClicked: () -> Unit = {},
 ) {
     val searchBarModifier =
         if (!isSystemInPortraitOrientation() && active) Modifier.fillMaxHeight(0.4f) else Modifier
-
+    val interactionSource = remember { MutableInteractionSource() }
     AnimatedVisibility(
         visible = isVisible, exit = slideOutVertically(),
         enter = slideInVertically(),
@@ -68,7 +73,15 @@ fun CustomSearchBar(
             colors = SearchBarDefaults.colors(
                 dividerColor = Color.Magenta,
             ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = stringResource(R.string.cd_remove_all_query),
+                    modifier = Modifier.clickable(indication = null,interactionSource = interactionSource, onClick = onRemoveAllClicked
+                    ),
+                    )
+            }
         ) {
             SearchBarHistoryList(
                 searchHistory = searchHistory,

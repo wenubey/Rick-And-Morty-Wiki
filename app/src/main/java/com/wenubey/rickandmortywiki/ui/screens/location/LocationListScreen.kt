@@ -128,6 +128,7 @@ fun LocationListScreen(
                     onSearch = locationViewModel::onSearch,
                     setSearchQuery = locationViewModel::setSearchQuery,
                     searchHistory = searchHistory,
+                    onRemoveAllClicked = locationViewModel::removeAllQuery,
                 )
 
                 LazyVerticalGrid(
