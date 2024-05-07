@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesMenu
+import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPrefUiState
 
@@ -34,6 +35,7 @@ fun CommonTopAppBar(
     onTopBarLockToggle: (Boolean) -> Unit = {},
     clearAllSearchHistory: () -> Unit = {},
     uiState: UserPrefUiState = UserPrefUiState(),
+    userPreferencesOption: UserPreferencesOption = UserPreferencesOption.LIST,
 ) {
     AnimatedVisibility(
         visible = isVisible,
@@ -59,7 +61,8 @@ fun CommonTopAppBar(
                     onScreenLockToggle = onScreenLockToggle,
                     onTopBarLockToggle = onTopBarLockToggle,
                     clearAllSearchHistory = clearAllSearchHistory,
-                    uiState = uiState
+                    uiState = uiState,
+                    userPreferencesOption = userPreferencesOption
                 )
             }
         )

@@ -24,6 +24,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.UserPrefUiState
 @Composable
 fun UserPreferencesMenu(
     uiState: UserPrefUiState,
+    userPreferencesOption: UserPreferencesOption,
     onNightModeToggle: (Boolean) -> Unit,
     onLinearLayoutToggle: (Boolean) -> Unit,
     onScreenLockToggle: (Boolean) -> Unit,
@@ -63,6 +64,7 @@ fun UserPreferencesMenu(
         onDismissRequest = { isExpanded = false },
         offset = DpOffset((-5).dp, 0.dp)
     ) {
+
         NightModeMenuItem(
             menuItemNameRes = nightModeState.contentDescriptionRes,
             checked = isNightMode,
@@ -81,15 +83,23 @@ fun UserPreferencesMenu(
                 onScreenLockToggle(isScreenLocked)
             }
         )
-        CommonMenuItem(
-            menuItemNameRes = linearLayoutState.contentDescriptionRes,
-            iconImageVector = linearLayoutState.toggleIcon,
-            contentDescriptionRes = linearLayoutState.contentDescriptionRes,
-            onClick = {
-                isLinearLayout = !isLinearLayout
-                onLinearLayoutToggle(isLinearLayout)
-            }
-        )
+        if (userPreferencesOption != UserPreferencesOption.DETAIL) {
+            CommonMenuItem(
+                menuItemNameRes = linearLayoutState.contentDescriptionRes,
+                iconImageVector = linearLayoutState.toggleIcon,
+                contentDescriptionRes = linearLayoutState.contentDescriptionRes,
+                onClick = {
+                    isLinearLayout = !isLinearLayout
+                    onLinearLayoutToggle(isLinearLayout)
+                }
+            )
+            CommonMenuItem(
+                menuItemNameRes = R.string.clear_all_search_history_toggle,
+                iconImageVector = Icons.Filled.ManageHistory,
+                contentDescriptionRes = R.string.clear_all_search_history_toggle,
+                onClick = clearAllSearchHistory
+            )
+        }
         CommonMenuItem(
             menuItemNameRes = lockedTopBarState.contentDescriptionRes,
             iconImageVector = lockedTopBarState.toggleIcon,
@@ -100,11 +110,10 @@ fun UserPreferencesMenu(
             }
         )
 
-        CommonMenuItem(
-            menuItemNameRes = R.string.clear_all_search_history_toggle,
-            iconImageVector = Icons.Filled.ManageHistory,
-            contentDescriptionRes = R.string.clear_all_search_history_toggle,
-            onClick = clearAllSearchHistory
-        )
     }
+}
+
+enum class UserPreferencesOption {
+    DETAIL,
+    LIST
 }

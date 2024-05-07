@@ -22,6 +22,7 @@ import com.wenubey.rickandmortywiki.ui.HomeTabs
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.ScrollToTopFAB
 import com.wenubey.rickandmortywiki.ui.components.common.TabScreenTabRow
+import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
@@ -87,6 +88,7 @@ fun TabScreen(
                 clearAllSearchHistory = {
                     userPrefViewModel.clearAllSearchHistory()
                 },
+                userPreferencesOption = UserPreferencesOption.LIST,
             )
         },
         bottomBar = {

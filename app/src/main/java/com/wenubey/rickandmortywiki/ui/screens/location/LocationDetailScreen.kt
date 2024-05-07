@@ -16,6 +16,7 @@ import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailResidentsComponents
+import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
@@ -63,6 +64,10 @@ fun LocationDetailScreen(
                         onScreenLockToggle = { screenLock ->
                             userPrefViewModel.selectScreenLock(screenLock)
                         },
+                        onTopBarLockToggle = { isTopBarLocked ->
+                            userPrefViewModel.selectTopBarLock(isTopBarLocked)
+                        },
+                        userPreferencesOption = UserPreferencesOption.DETAIL
                     )
                 }
             ) { paddingValues ->
