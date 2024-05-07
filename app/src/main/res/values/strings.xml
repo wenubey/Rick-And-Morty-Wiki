@@ -36,5 +36,6 @@
     <string name="clear_all_search_history_toggle">Clear search history</string>
     <string name="tab_characters">Characters</string>
     <string name="tabs_locations">Locations</string>
+    <string name="cd_scroll_to_top">Scroll to the top</string>
 
 </resources>
