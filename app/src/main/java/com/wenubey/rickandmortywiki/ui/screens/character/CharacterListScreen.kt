@@ -1,6 +1,7 @@
 package com.wenubey.rickandmortywiki.ui.screens.character
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,13 +42,15 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CharacterListScreen(
     onCharacterSelected: (id: Int) -> Unit,
     navigateUp: () -> Unit,
     lazyListState: LazyListState,
     lazyGridState: LazyGridState,
-    onScrollUp: (Boolean) -> Unit
+    onScrollUp: (Boolean) -> Unit,
+    pagerState: PagerState,
 ) {
 
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
@@ -75,7 +79,7 @@ fun CharacterListScreen(
         }
     )
 
-    LaunchedEffect(lazyGridState, lazyListState, isLinearLayout) {
+    LaunchedEffect(lazyGridState, lazyListState, isLinearLayout, pagerState) {
         val index = when {
             isLinearLayout -> lazyGridState.firstVisibleItemIndex
             else -> lazyListState.firstVisibleItemIndex

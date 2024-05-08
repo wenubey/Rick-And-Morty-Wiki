@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
@@ -60,12 +61,17 @@ fun TabScreen(
     val lazyGridState = rememberLazyGridState(
         initialFirstVisibleItemIndex = 0
     )
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState(
+        initialFirstVisibleItemIndex = 0
+    )
 
     val isVisible = if (isTopBarLocked) {
         true
     } else {
         isScrollUp
     }
+
+
 
     Scaffold(
         topBar = {
@@ -98,6 +104,7 @@ fun TabScreen(
             ScrollToTopFAB(
                 onClick =  {
                     scope.launch {
+                        lazyStaggeredGridState.animateScrollToItem(0)
                         lazyGridState.animateScrollToItem(0)
                         lazyListState.animateScrollToItem(0)
                     }
@@ -119,7 +126,8 @@ fun TabScreen(
                         lazyGridState = lazyGridState,
                         onScrollUp = {
                             isScrollUp = it
-                        }
+                        },
+                        pagerState = pagerState
                     )
                 }
 
@@ -127,10 +135,12 @@ fun TabScreen(
                     LocationListScreen(
                         onLocationSelected = onLocationSelected,
                         navigateUp = navigateUp,
-                        lazyGridState = lazyGridState,
+                        lazyStaggeredGridState = lazyStaggeredGridState,
                         onScrollUp = {
                             isScrollUp = it
-                        }
+                        },
+                        pagerState = pagerState,
+                        lazyGridState = lazyGridState
                     )
                 }
 
