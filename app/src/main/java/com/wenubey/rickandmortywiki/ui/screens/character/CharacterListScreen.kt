@@ -81,8 +81,8 @@ fun CharacterListScreen(
 
     LaunchedEffect(lazyGridState, lazyListState, isLinearLayout, pagerState) {
         val index = when {
-            isLinearLayout -> lazyGridState.firstVisibleItemIndex
-            else -> lazyListState.firstVisibleItemIndex
+            isLinearLayout -> lazyListState.firstVisibleItemIndex
+            else -> lazyGridState.firstVisibleItemIndex
         }
         characterViewModel.setLastItemIndex(index)
         if (isLinearLayout) {
