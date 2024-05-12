@@ -54,6 +54,7 @@ fun TabScreen(
     val userPrefUiState =
         userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
+    val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
 
     val lazyListState = rememberLazyListState(
         initialFirstVisibleItemIndex = 0
@@ -71,6 +72,26 @@ fun TabScreen(
         isScrollUp
     }
 
+    val scrollToFirstItem: () -> Unit = {
+        scope.launch {
+            when (pagerState.currentPage) {
+                0 -> {
+                    if (isLinearLayout) {
+                        lazyListState.animateScrollToItem(0)
+                    } else {
+                        lazyGridState.animateScrollToItem(0)
+                    }
+                }
+                1 -> {
+                    if (isLinearLayout) {
+                        lazyGridState.animateScrollToItem(0)
+                    } else {
+                        lazyStaggeredGridState.animateScrollToItem(0)
+                    }
+                }
+            }
+        }
+    }
 
 
     Scaffold(
@@ -102,13 +123,7 @@ fun TabScreen(
         },
         floatingActionButton = {
             ScrollToTopFAB(
-                onClick =  {
-                    scope.launch {
-                        lazyStaggeredGridState.animateScrollToItem(0)
-                        lazyGridState.animateScrollToItem(0)
-                        lazyListState.animateScrollToItem(0)
-                    }
-                }
+                onClick = scrollToFirstItem
             )
         }
     ) { paddingValues ->
@@ -151,6 +166,8 @@ fun TabScreen(
 
         }
     }
+
+
 
 }
 

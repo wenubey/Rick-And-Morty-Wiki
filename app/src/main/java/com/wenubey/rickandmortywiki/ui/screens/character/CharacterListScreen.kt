@@ -7,11 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.PagerState
@@ -23,6 +24,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -140,7 +142,6 @@ fun CharacterListScreen(
 
         is CharacterListUiState.Success -> {
             val characters = characterUiState.charactersFlow.collectAsLazyPagingItems()
-
             Column(
                 modifier = Modifier
                     .padding()
@@ -184,9 +185,11 @@ fun CharacterListScreen(
                             if (characters.loadState.append is LoadState.Loading) {
                                 CustomProgressIndicator(
                                     modifier = Modifier
-                                        .size(50.dp)
-                                        .padding(16.dp)
+                                        .fillMaxWidth()
+                                        .align(Alignment.CenterHorizontally),
+                                    indicatorSize = 50.dp
                                 )
+
                             }
                         }
                     }
@@ -218,6 +221,21 @@ fun CharacterListScreen(
                                     )
                                 }
 
+                            }
+                        }
+                        item(
+                            span = {
+                                GridItemSpan(2)
+                            }
+                        ) {
+                            if (characters.loadState.append is LoadState.Loading) {
+
+                                CustomProgressIndicator(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(Alignment.CenterHorizontally),
+                                    indicatorSize = 100.dp
+                                )
                             }
                         }
                     }
