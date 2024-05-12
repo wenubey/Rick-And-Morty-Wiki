@@ -55,6 +55,8 @@ class KtorClient {
     suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> {
         return if (characterIds.size == 1) {
             getCharacter(characterIds[0]).map { listOf(it) }
+        } else if (characterIds.isEmpty()) {
+            Result.success(listOf())
         } else {
             safeApiCall {
                 client.get("character/$characterIds")
