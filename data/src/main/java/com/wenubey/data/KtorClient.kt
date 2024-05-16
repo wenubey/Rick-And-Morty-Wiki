@@ -42,14 +42,18 @@ class KtorClient {
         }
     }
 
-    suspend fun getCharacterPage(pageNumber: Int): CharacterPageDto {
-        return client.get("character/?page=$pageNumber")
-            .body<CharacterPageDto>()
+    suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPageDto> {
+        return safeApiCall {
+            client.get("character/?page=$pageNumber")
+                .body<CharacterPageDto>()
+        }
     }
 
-    suspend fun searchCharacter(pageNumber: Int, searchQuery: String): CharacterPageDto {
-        return client.get("character/?page=$pageNumber&name=$searchQuery")
-            .body<CharacterPageDto>()
+    suspend fun searchCharacter(pageNumber: Int, searchQuery: String): Result<CharacterPageDto> {
+        return safeApiCall {
+            client.get("character/?page=$pageNumber&name=$searchQuery")
+                .body<CharacterPageDto>()
+        }
     }
 
     suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> {

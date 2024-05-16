@@ -50,21 +50,27 @@ class CharactersRemoteMediator @Inject constructor(
 
             val searchQuery = searchQueryProvider.getCharacterSearchQuery()
 
-            val characters = if (searchQuery.isBlank()) {
+            if (searchQuery.isBlank()) {
                 ktorClient.getCharacterPage(page)
             } else {
                 ktorClient.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
+                .onSuccess { characterPageDto ->
+                    val characterEntities =
+                        getCharacterEntities(characters = characterPageDto, ktorClient = ktorClient)
+                    if (loadType == LoadType.REFRESH) {
+                        dao.clearAll()
+                    }
+                    dao.insertAll(characterEntities)
+                    val endOfPaginationReached = characterPageDto.info.next == null
+                    MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+                }
+                .onFailure { e ->
+                    MediatorResult.Error(e)
+                }
 
-            val characterEntities =
-                getCharacterEntities(characters = characters, ktorClient = ktorClient)
+            MediatorResult.Success(endOfPaginationReached = true)
 
-            if (loadType == LoadType.REFRESH) {
-                dao.clearAll()
-            }
-            dao.insertAll(characterEntities)
-            val endOfPaginationReached = characters.info.next == null
-            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }
@@ -82,14 +88,14 @@ class CharactersRemoteMediator @Inject constructor(
                 ktorClient.getLocation(locationId).getOrNull()!!
             }
             val originId = characterDto.origin.url.getIdFromUrl()
-            val originDto  = if (originId == -1) {
+            val originDto = if (originId == -1) {
                 LocationDto.default()
             } else {
                 ktorClient.getLocation(originId).getOrNull()!!
             }
             val locationEntity = locationDto.toLocationEntity()
             val originEntity = originDto.toLocationEntity()
-            characterDto.toCharacterEntity(locationEntity,originEntity)
+            characterDto.toCharacterEntity(locationEntity, originEntity)
         }
     }
 }
