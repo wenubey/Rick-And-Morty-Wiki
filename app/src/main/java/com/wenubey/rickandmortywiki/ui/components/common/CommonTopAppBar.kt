@@ -26,6 +26,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.UserPrefUiState
 @Composable
 fun CommonTopAppBar(
     isVisible: Boolean = true,
+    isCopyRightClicked: () -> Unit = {},
     title: String? = null,
     onBackButtonPressed: () -> Unit = {},
     showNavigationIcon: Boolean = true,
@@ -62,7 +63,8 @@ fun CommonTopAppBar(
                     onTopBarLockToggle = onTopBarLockToggle,
                     clearAllSearchHistory = clearAllSearchHistory,
                     uiState = uiState,
-                    userPreferencesOption = userPreferencesOption
+                    userPreferencesOption = userPreferencesOption,
+                    isCopyRightClicked = isCopyRightClicked,
                 )
             }
         )

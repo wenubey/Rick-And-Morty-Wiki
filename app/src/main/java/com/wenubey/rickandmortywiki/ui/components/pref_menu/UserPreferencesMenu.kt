@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Copyright
 import androidx.compose.material.icons.filled.ManageHistory
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
@@ -30,6 +31,7 @@ fun UserPreferencesMenu(
     onScreenLockToggle: (Boolean) -> Unit,
     onTopBarLockToggle: (Boolean) -> Unit,
     clearAllSearchHistory: () -> Unit,
+    isCopyRightClicked: () -> Unit,
 ) {
     val nightModeState = uiState.nightMode
     val linearLayoutState = uiState.linearLayout
@@ -108,6 +110,12 @@ fun UserPreferencesMenu(
                 isTopBarLocked = !isTopBarLocked
                 onTopBarLockToggle(isTopBarLocked)
             }
+        )
+        CommonMenuItem(
+            menuItemNameRes = R.string.cd_copyright_section,
+            iconImageVector = Icons.Default.Copyright,
+            onClick = isCopyRightClicked,
+            contentDescriptionRes = R.string.cd_copyright_section,
         )
 
     }
