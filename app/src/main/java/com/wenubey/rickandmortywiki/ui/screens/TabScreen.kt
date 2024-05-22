@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wenubey.rickandmortywiki.ui.HomeTabs
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
+import com.wenubey.rickandmortywiki.ui.components.common.CopyRightView
 import com.wenubey.rickandmortywiki.ui.components.common.ScrollToTopFAB
 import com.wenubey.rickandmortywiki.ui.components.common.TabScreenTabRow
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
@@ -82,6 +83,7 @@ fun TabScreen(
                         lazyGridState.animateScrollToItem(0)
                     }
                 }
+
                 1 -> {
                     if (isLinearLayout) {
                         lazyGridState.animateScrollToItem(0)
@@ -92,7 +94,12 @@ fun TabScreen(
             }
         }
     }
-
+    var isDialogShowed by remember {
+        mutableStateOf(false)
+    }
+    if (isDialogShowed) {
+        CopyRightView(onDismissRequest = { isDialogShowed = !isDialogShowed })
+    }
 
     Scaffold(
         topBar = {
@@ -116,6 +123,9 @@ fun TabScreen(
                     userPrefViewModel.clearAllSearchHistory()
                 },
                 userPreferencesOption = UserPreferencesOption.LIST,
+                isCopyRightClicked = {
+                    isDialogShowed = true
+                }
             )
         },
         bottomBar = {
@@ -166,7 +176,6 @@ fun TabScreen(
 
         }
     }
-
 
 
 }

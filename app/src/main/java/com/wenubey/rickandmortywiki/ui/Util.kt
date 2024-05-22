@@ -1,7 +1,11 @@
 package com.wenubey.rickandmortywiki.ui
 
+import android.content.Context
 import android.content.res.Configuration
+import android.net.Uri
+import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
@@ -139,4 +143,14 @@ enum class HomeTabs(
         selectedIcon = Icons.Filled.Explore,
         unselectedIcon = Icons.Outlined.Explore,
     )
+}
+
+fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, this.resources.getText(resId), duration).show()
+}
+
+fun Context.openUrlInCustomTabs(url: String) {
+    val intent = CustomTabsIntent.Builder()
+        .build()
+    intent.launchUrl(this, Uri.parse(url))
 }

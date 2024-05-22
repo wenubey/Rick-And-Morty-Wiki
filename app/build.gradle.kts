@@ -110,4 +110,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.paging)
     implementation(libs.room.ktx)
+
+    // Custom Tabs
+    implementation(libs.browser)
 }

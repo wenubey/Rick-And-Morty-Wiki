@@ -19,6 +19,7 @@ navigation = "2.7.7"
 material = "1.11.0"
 pagingCompose = "3.2.1"
 room = "2.6.1"
+browser = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -73,6 +74,9 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room"}
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
+# Custom Tabs
+browser = { group = "androidx.browser", name = "browser", version.ref = "browser"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
