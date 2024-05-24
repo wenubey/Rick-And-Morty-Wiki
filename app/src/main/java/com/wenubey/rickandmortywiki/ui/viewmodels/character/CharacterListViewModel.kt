@@ -1,12 +1,13 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels
+package com.wenubey.rickandmortywiki.ui.viewmodels.character
+
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.wenubey.domain.model.Location
-import com.wenubey.domain.repository.LocationRepository
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.domain.repository.SearchQueryProvider
 import com.wenubey.domain.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,20 +26,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-class LocationListViewModel @Inject constructor(
-    private val locationRepository: LocationRepository,
-    private val searchQueryProvider: SearchQueryProvider,
+class CharacterListViewModel
+@Inject constructor(
+    private val characterRepository: CharacterRepository,
     private val userPreferencesRepository: UserPreferencesRepository,
+    private val searchQueryProvider: SearchQueryProvider,
     private val savedStateHandle: SavedStateHandle,
-): ViewModel() {
-
-    private val _locationListUiState = MutableStateFlow<LocationListUiState>(
-        value = LocationListUiState.Loading
+) : ViewModel(), CharacterListEvents {
+    private val _characterListUiState = MutableStateFlow<CharacterListUiState>(
+        value = CharacterListUiState.Loading
     )
-    val locationListUiState: StateFlow<LocationListUiState> =
-        _locationListUiState.asStateFlow()
+    val characterListUiState: StateFlow<CharacterListUiState> =
+        _characterListUiState.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow(searchQueryProvider.getLocationSearchQuery())
+    private val _searchQuery = MutableStateFlow(searchQueryProvider.getCharacterSearchQuery())
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private val _isSearching = MutableStateFlow(false)
@@ -48,69 +49,67 @@ class LocationListViewModel @Inject constructor(
     val lastItemIndex: StateFlow<Int> = _lastItemIndex.asStateFlow()
 
     init {
-        locationPagingFlow()
+        characterPagingFlow()
     }
 
-
-    private fun locationPagingFlow() {
+    private fun characterPagingFlow() {
         _searchQuery
             .debounce(500)
             .distinctUntilChanged()
             .flatMapLatest { _ ->
-                locationRepository.getLocationPage()
+                characterRepository.getCharacterPage()
             }
-            .cachedIn(viewModelScope).also { locationsFlow ->
-                _locationListUiState.update {
-                    return@update LocationListUiState.Success(locationsFlow = locationsFlow)
+            .cachedIn(viewModelScope).also { charactersFlow ->
+                _characterListUiState.update {
+                    return@update CharacterListUiState.Success(charactersFlow = charactersFlow)
                 }
             }
     }
 
-    fun setSearchQuery(query: String) {
+    override fun setSearchQuery(query: String) {
         _searchQuery.update {
             return@update query
         }
-        searchQueryProvider.setLocationSearchQuery(query)
+        searchQueryProvider.setCharacterSearchQuery(query)
     }
 
-    fun onActiveChange(active: Boolean) {
+    override fun onActiveChange(active: Boolean) {
         _isSearching.update { return@update active }
     }
 
-    fun onSearch(query: String) {
+    override fun onSearch(query: String) {
         setSearchQuery(query)
         onActiveChange(!_isSearching.value)
         saveSearchHistory(query)
     }
 
-    private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
-
-            userPreferencesRepository.saveLocationSearchHistory(historyItem)
-
-    }
-
-    fun setLastItemIndex(index: Int) {
+    override fun setLastItemIndex(index: Int) {
         _lastItemIndex.update {
             savedStateHandle[LAST_ITEM_INDEX] = index
             return@update index
         }
     }
 
-    fun removeAllQuery() {
+    override fun removeAllQuery() {
         _searchQuery.update {
             return@update ""
         }
     }
 
+    private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
+        userPreferencesRepository.saveCharacterSearchHistory(historyItem)
+    }
+
 
     private companion object {
-        const val LAST_ITEM_INDEX = "location_last_item_index"
+        const val LAST_ITEM_INDEX = "character_last_item_index"
     }
+
 }
 
 
-sealed interface LocationListUiState {
-    data object Loading : LocationListUiState
-    data class Error(val message: String) : LocationListUiState
-    data class Success(val locationsFlow: Flow<PagingData<Location>>) : LocationListUiState
+sealed interface CharacterListUiState {
+    data object Loading : CharacterListUiState
+    data class Error(val message: String) : CharacterListUiState
+    data class Success(val charactersFlow: Flow<PagingData<Character>>) : CharacterListUiState
 }

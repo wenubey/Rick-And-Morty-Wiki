@@ -1,15 +1,12 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels
+package com.wenubey.rickandmortywiki.ui.viewmodels.location
 
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import com.wenubey.data.getIdFromUrls
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.LocationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,12 +31,17 @@ class LocationDetailViewModel @Inject constructor(
                 val residents = locationRepository.getCharactersById(residentIds).getOrNull() ?: listOf()
 
                 _locationDetailUiState.update {
-                    return@update LocationDetailUiState.Success(location = location, residents = residents)
+                    return@update LocationDetailUiState.Success(
+                        location = location,
+                        residents = residents
+                    )
                 }
             }
             .onFailure { e ->
                     _locationDetailUiState.update {
-                        return@update LocationDetailUiState.Error(e.message ?: "Unknown error occurred")
+                        return@update LocationDetailUiState.Error(
+                            e.message ?: "Unknown error occurred"
+                        )
                     }
             }
     }
@@ -48,5 +50,6 @@ class LocationDetailViewModel @Inject constructor(
 sealed interface LocationDetailUiState {
     data object Loading : LocationDetailUiState
     data class Error(val message: String) : LocationDetailUiState
-    data class Success(val location: Location, val residents: List<Character>) : LocationDetailUiState
+    data class Success(val location: Location, val residents: List<Character>) :
+        LocationDetailUiState
 }

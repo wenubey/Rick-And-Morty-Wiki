@@ -28,6 +28,7 @@ import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOptio
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -144,15 +145,16 @@ fun TabScreen(
         ) { page ->
             when (page) {
                 0 -> {
+                    val characterListViewModel: CharacterListViewModel = hiltViewModel()
                     CharacterListScreen(
                         onCharacterSelected = onCharacterSelected,
                         navigateUp = navigateUp,
                         lazyListState = lazyListState,
                         lazyGridState = lazyGridState,
-                        onScrollUp = {
-                            isScrollUp = it
-                        },
-                        pagerState = pagerState
+                        onScrollUp = { isScrollUp = it },
+                        pagerState = pagerState,
+                        characterViewModel = characterListViewModel,
+                        characterListEvents = characterListViewModel,
                     )
                 }
 
