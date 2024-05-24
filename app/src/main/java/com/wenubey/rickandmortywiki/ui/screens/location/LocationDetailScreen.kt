@@ -17,8 +17,8 @@ import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailResidentsComponents
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
-import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailUiState
-import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationDetailUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 @Composable

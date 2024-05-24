@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels
+package com.wenubey.rickandmortywiki.ui.viewmodels.character
 
 
 import android.util.Log
@@ -14,11 +14,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/* TODO connect to the UI
- * TODO create UI components for detail
- * TODO don't forget the screen compatibility
- * TODO don't forget the handle config changes like screen orientation change
- */
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
     private val characterRepository: CharacterRepository

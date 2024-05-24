@@ -19,9 +19,9 @@ import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStat
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 
 @Composable

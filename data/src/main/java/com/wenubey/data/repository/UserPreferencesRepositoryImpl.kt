@@ -90,8 +90,6 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         dataStore.edit { preferences ->
             val currentHistory =
                 preferences[CHARACTER_SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
-            Log.i(TAG, "saveCharacterSearchHistory:SEARCH QUERY: $searchQuery")
-            Log.i(TAG, "saveCharacterSearchHistory:SEARCH QUERY is not blank: ${searchQuery.isNotBlank()}")
             if (searchQuery.isNotBlank()) {
                 currentHistory.add(0, searchQuery)
             }

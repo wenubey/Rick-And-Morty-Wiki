@@ -39,9 +39,10 @@ import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListUiState
-import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListEvents
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,12 +54,13 @@ fun CharacterListScreen(
     lazyGridState: LazyGridState,
     onScrollUp: (Boolean) -> Unit,
     pagerState: PagerState,
+    characterViewModel: CharacterListViewModel,
+    characterListEvents: CharacterListEvents,
 ) {
 
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
     val userPrefUiState =
         userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
-    val characterViewModel: CharacterListViewModel = hiltViewModel()
     val characterUiState = characterViewModel.characterListUiState.collectAsState().value
     val lastItemIndex = characterViewModel.lastItemIndex.collectAsState().value
 
@@ -86,7 +88,7 @@ fun CharacterListScreen(
             isLinearLayout -> lazyListState.firstVisibleItemIndex
             else -> lazyGridState.firstVisibleItemIndex
         }
-        characterViewModel.setLastItemIndex(index)
+        characterListEvents.setLastItemIndex(index)
         if (isLinearLayout) {
             lazyListState.scrollToItem(index)
         } else {
@@ -152,11 +154,11 @@ fun CharacterListScreen(
                     isVisible = isVisible,
                     searchQuery = searchQuery,
                     active = active,
-                    onActiveChange = characterViewModel::onActiveChange,
-                    onSearch = characterViewModel::onSearch,
-                    setSearchQuery = characterViewModel::setSearchQuery,
+                    onActiveChange = characterListEvents::onActiveChange,
+                    onSearch = characterListEvents::onSearch,
+                    setSearchQuery = characterListEvents::setSearchQuery,
                     searchHistory = searchHistory,
-                    onRemoveAllClicked = characterViewModel::removeAllQuery
+                    onRemoveAllClicked = characterListEvents::removeAllQuery
                 )
                 if (isLinearLayout) {
                     LazyColumn(

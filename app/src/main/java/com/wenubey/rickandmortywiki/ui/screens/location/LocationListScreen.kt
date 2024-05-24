@@ -36,8 +36,8 @@ import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.components.location.LocationListCard
 import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListUiState
-import com.wenubey.rickandmortywiki.ui.viewmodels.LocationListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 import kotlinx.coroutines.launch
 

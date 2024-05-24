@@ -28,9 +28,7 @@ fun NavGraphBuilder.tabNavGraph(navController: NavController) {
                 tabIndex = tabIndex,
                 onCharacterSelected = { navController.navigateToCharacterDetail(it) },
                 onLocationSelected = { navController.navigateToLocationDetail(it) },
-                navigateUp = {
-                    navController.popBackStack()
-                },
+                navigateUp = { navController.popBackStack() },
             )
         }
     }
