@@ -4,8 +4,8 @@ package com.wenubey.rickandmortywiki.ui.viewmodels.character
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
+import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,12 +54,4 @@ class CharacterDetailViewModel @Inject constructor(
         const val TAG = "characterDetailViewModel"
         const val UNKNOWN_ERROR = "Unknown error occurred."
     }
-}
-
-sealed interface CharacterDetailUiState {
-    data object Loading : CharacterDetailUiState
-    data class Error(val message: String) : CharacterDetailUiState
-    data class Success(
-        val character: Character = Character.default(),
-    ) : CharacterDetailUiState
 }
