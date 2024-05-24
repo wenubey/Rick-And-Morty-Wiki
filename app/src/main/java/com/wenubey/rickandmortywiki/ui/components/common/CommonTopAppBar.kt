@@ -19,7 +19,7 @@ import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesMenu
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPrefUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPrefUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)

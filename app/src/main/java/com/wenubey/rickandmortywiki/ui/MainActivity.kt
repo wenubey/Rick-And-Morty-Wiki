@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.wenubey.rickandmortywiki.ui.nav.RootNavigationGraph
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

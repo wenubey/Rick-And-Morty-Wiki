@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import com.wenubey.data.KtorClient
 import com.wenubey.data.local.LocationEntity
 import com.wenubey.data.local.dao.LocationDao
+import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,7 @@ class LocationsRemoteMediator @Inject constructor(
             }
         }
 
-        val searchQuery = searchQueryProvider.getLocationSearchQuery()
+        val searchQuery = searchQueryProvider.getSearchQuery(DataTypeKey.LOCATION)
         val queryParameters = searchQuery.split(",")
         if (searchQuery.isBlank()) {
             ktorClient.getLocationPage(page)

@@ -1,6 +1,6 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels.character
+package com.wenubey.rickandmortywiki.ui.viewmodels
 
-interface CharacterListEvents {
+interface ListScreenEvents {
     fun setSearchQuery(query: String)
     fun onActiveChange(active: Boolean)
     fun onSearch(query: String)

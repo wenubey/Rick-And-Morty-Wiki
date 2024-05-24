@@ -1,25 +1,16 @@
 package com.wenubey.data.remote
 
+import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 
 class SearchQueryProviderImpl : SearchQueryProvider {
 
-    private var _characterQuery = ""
-    private var _locationQuery = ""
-
-    override fun getCharacterSearchQuery(): String {
-        return _characterQuery
+    private val searchQueries = mutableMapOf<DataTypeKey, String>()
+    override fun getSearchQuery(key: DataTypeKey): String {
+        return searchQueries[key] ?: ""
     }
 
-    override fun setCharacterSearchQuery(query: String) {
-        _characterQuery = query
-    }
-
-    override fun getLocationSearchQuery(): String {
-        return _locationQuery
-    }
-
-    override fun setLocationSearchQuery(query: String) {
-        _locationQuery = query
+    override fun setSearchQuery(key: DataTypeKey, newQuery: String) {
+        searchQueries[key] = newQuery
     }
 }

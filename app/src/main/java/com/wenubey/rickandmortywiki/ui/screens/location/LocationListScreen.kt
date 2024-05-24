@@ -36,9 +36,10 @@ import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.components.location.LocationListCard
 import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -49,17 +50,18 @@ fun LocationListScreen(
     lazyStaggeredGridState: LazyStaggeredGridState,
     lazyGridState: LazyGridState,
     onScrollUp: (Boolean) -> Unit,
-    pagerState: PagerState
+    pagerState: PagerState,
+    locationListViewModel: LocationListViewModel,
+    events: ListScreenEvents
 ) {
-    val locationViewModel: LocationListViewModel = hiltViewModel()
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
 
-    val locationUiState = locationViewModel.locationListUiState.collectAsState().value
+    val locationUiState = locationListViewModel.uiState.collectAsState().value
     val userPrefUiState = userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
 
 
-    val searchQuery = locationViewModel.searchQuery.collectAsState().value
-    val active = locationViewModel.isSearching.collectAsState().value
+    val searchQuery = locationListViewModel.searchQuery.collectAsState().value
+    val active = locationListViewModel.isSearching.collectAsState().value
     val searchHistory = userPrefUiState.locationSearchHistory.searchHistory
     val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
@@ -80,7 +82,7 @@ fun LocationListScreen(
         } else {
             lazyStaggeredGridState.firstVisibleItemIndex
         }
-        locationViewModel.setLastItemIndex(index)
+        locationListViewModel.setLastItemIndex(index)
         if (index > 0) {
             if (isLinearLayout) {
                 lazyGridState.animateScrollToItem(index)
@@ -118,16 +120,16 @@ fun LocationListScreen(
 
 
     when (locationUiState) {
-        is LocationListUiState.Loading -> {
+        is ListScreenUiState.Loading -> {
             CustomProgressIndicator()
         }
 
-        is LocationListUiState.Error -> {
+        is ListScreenUiState.Error -> {
             // TODO add error screen
         }
 
-        is LocationListUiState.Success -> {
-            val locations = locationUiState.locationsFlow.collectAsLazyPagingItems()
+        is ListScreenUiState.Success -> {
+            val locations = locationUiState.dataFlow.collectAsLazyPagingItems()
 
             Column(
                 modifier = Modifier
@@ -138,11 +140,11 @@ fun LocationListScreen(
                     isVisible = isVisible,
                     searchQuery = searchQuery,
                     active = active,
-                    onActiveChange = locationViewModel::onActiveChange,
-                    onSearch = locationViewModel::onSearch,
-                    setSearchQuery = locationViewModel::setSearchQuery,
+                    onActiveChange = events::onActiveChange,
+                    onSearch = events::onSearch,
+                    setSearchQuery = events::setSearchQuery,
                     searchHistory = searchHistory,
-                    onRemoveAllClicked = locationViewModel::removeAllQuery,
+                    onRemoveAllClicked = events::removeAllQuery,
                 )
 
                 if (isLinearLayout) {

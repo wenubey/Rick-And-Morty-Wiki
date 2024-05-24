@@ -22,7 +22,7 @@ class LocationRepositoryImpl @Inject constructor(
         return ktorClient.getLocation(id).map { it.toLocationEntity().toDomainLocation() }
     }
 
-    override suspend fun getLocationPage(): Flow<PagingData<Location>> =
+    override fun getLocationPage(): Flow<PagingData<Location>> =
         pager.flow.map { pagingData ->
             pagingData.map { it.toDomainLocation() }
         }

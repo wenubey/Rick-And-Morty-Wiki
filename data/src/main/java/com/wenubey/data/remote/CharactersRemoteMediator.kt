@@ -1,6 +1,7 @@
 package com.wenubey.data.remote
 
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -11,6 +12,7 @@ import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.LocationDto
+import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -31,15 +33,16 @@ class CharactersRemoteMediator @Inject constructor(
         state: PagingState<Int, CharacterEntity>,
     ): MediatorResult = withContext(ioDispatcher) {
         return@withContext try {
+            Log.i(TAG, "loadType: $loadType")
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     nextPageNumber = 1
                     1
                 }
-
                 LoadType.PREPEND -> return@withContext MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastCharacter = state.lastItemOrNull()
+                    Log.i(TAG, "lastCharacter.name:${lastCharacter?.name}")
                     if (lastCharacter == null) {
                         1
                     } else {
@@ -47,8 +50,8 @@ class CharactersRemoteMediator @Inject constructor(
                     }
                 }
             }
-
-            val searchQuery = searchQueryProvider.getCharacterSearchQuery()
+            Log.i(TAG, "Page: $page")
+            val searchQuery = searchQueryProvider.getSearchQuery(DataTypeKey.CHARACTER)
 
             if (searchQuery.isBlank()) {
                 ktorClient.getCharacterPage(page)
@@ -97,5 +100,9 @@ class CharactersRemoteMediator @Inject constructor(
             val originEntity = originDto.toLocationEntity()
             characterDto.toCharacterEntity(locationEntity, originEntity)
         }
+    }
+
+    private companion object {
+        const val TAG= "charactersRemoteMediator"
     }
 }
