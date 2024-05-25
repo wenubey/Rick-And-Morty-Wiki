@@ -145,7 +145,7 @@ enum class HomeTabs(
     )
 }
 
-fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
+fun Context.makeToast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, this.resources.getText(resId), duration).show()
 }
 

@@ -36,6 +36,10 @@
     Error
     <string name="error_email_app_not_found">No email app found.</string>
     <string name="error_app_not_found">No app found.</string>
+    <string name="error_screen_not_found">The screen you wanted was not found.</string>
+    <string name="error_location_is_null">This location was not found.</string>
+    <string name="error_character_is_null">This character was not found.</string>
+    <string name="error_screen_state">There was an error downloading data.</string>
 
     Content Descriptions
     <string name="cd_copyright_section">Copyright</string>

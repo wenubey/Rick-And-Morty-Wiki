@@ -9,14 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.character.detail.DetailHeaderComponent
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailResidentsComponents
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
+import com.wenubey.rickandmortywiki.ui.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
@@ -29,6 +32,7 @@ fun LocationDetailScreen(
     onBackButtonPressed: () -> Unit,
     onCharacterSelected: (Int) -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.getLocation(locationId)
     }
@@ -39,7 +43,7 @@ fun LocationDetailScreen(
 
     when (detailUiState) {
         is LocationDetailUiState.Error -> {
-            // TODO not yet implemented.
+            context.makeToast(R.string.error_screen_state)
         }
 
         is LocationDetailUiState.Loading -> {

@@ -25,17 +25,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.components.location.LocationListCard
 import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
+import com.wenubey.rickandmortywiki.ui.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
@@ -54,6 +57,7 @@ fun LocationListScreen(
     locationListViewModel: LocationListViewModel,
     events: ListScreenEvents
 ) {
+    val context = LocalContext.current
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
 
     val locationUiState = locationListViewModel.uiState.collectAsState().value
@@ -125,7 +129,7 @@ fun LocationListScreen(
         }
 
         is ListScreenUiState.Error -> {
-            // TODO add error screen
+            context.makeToast(R.string.error_screen_state)
         }
 
         is ListScreenUiState.Success -> {
@@ -202,7 +206,7 @@ fun LocationListScreen(
                                     }
                                 )
                             } else {
-                                // TODO add error screen about location is null
+                                context.makeToast(R.string.error_location_is_null)
                             }
                         }
                         item {

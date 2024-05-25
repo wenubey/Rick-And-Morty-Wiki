@@ -12,13 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterPropertiesComponent
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStatusDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
+import com.wenubey.rickandmortywiki.ui.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
@@ -33,6 +36,7 @@ fun CharacterDetailScreen(
     userPrefViewModel: UserPreferencesViewModel = hiltViewModel(),
     locationViewModel: LocationListViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val characterUiState = characterViewModel.characterDetailUiState.collectAsState().value
     val userPrefUiState =
         userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
@@ -46,7 +50,7 @@ fun CharacterDetailScreen(
 
     when (val currentState = characterUiState) {
         is CharacterDetailUiState.Error -> {
-            // TODO not yet implemented.
+            context.makeToast(R.string.error_screen_state)
         }
 
         is CharacterDetailUiState.Loading -> {

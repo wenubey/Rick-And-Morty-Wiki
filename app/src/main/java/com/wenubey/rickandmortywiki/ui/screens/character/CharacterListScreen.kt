@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -34,14 +34,16 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.wenubey.domain.model.Character
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
+import com.wenubey.rickandmortywiki.ui.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
+import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 import kotlinx.coroutines.launch
@@ -58,6 +60,7 @@ fun CharacterListScreen(
     characterListViewModel: CharacterListViewModel,
     events: ListScreenEvents,
 ) {
+    val context = LocalContext.current
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
     val userPrefUiState =
         userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
@@ -134,8 +137,7 @@ fun CharacterListScreen(
 
     when (characterUiState) {
         is ListScreenUiState.Error<Character> -> {
-            // TODO add Error Screen
-            Text(text = characterUiState.message)
+            context.makeToast(R.string.error_screen_state)
         }
 
         is ListScreenUiState.Loading<Character> -> {
@@ -180,7 +182,7 @@ fun CharacterListScreen(
                                     },
                                 )
                             } else {
-                                Text(text = "CHARACTER NULL")
+                                context.makeToast(R.string.error_character_is_null)
                             }
                         }
                         item {
