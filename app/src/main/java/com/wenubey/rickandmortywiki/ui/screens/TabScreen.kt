@@ -18,13 +18,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.HomeTabs
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CopyRightView
 import com.wenubey.rickandmortywiki.ui.components.common.ScrollToTopFAB
 import com.wenubey.rickandmortywiki.ui.components.common.TabScreenTabRow
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
+import com.wenubey.rickandmortywiki.ui.makeToast
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
@@ -43,7 +46,7 @@ fun TabScreen(
     userPreferencesViewModel: UserPreferencesViewModel,
     events: UserPreferencesEvents,
 ) {
-
+    val context = LocalContext.current
     val pagerState =
         rememberPagerState(initialPage = tabIndex, pageCount = { HomeTabs.entries.size })
     val currentTabIndex by remember {
@@ -178,7 +181,7 @@ fun TabScreen(
                 }
 
                 else -> {
-                    // TODO Error screen not yet implemented.
+                    context.makeToast(R.string.error_screen_not_found)
                 }
             }
 

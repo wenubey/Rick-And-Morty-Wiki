@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.openUrlInCustomTabs
-import com.wenubey.rickandmortywiki.ui.toast
+import com.wenubey.rickandmortywiki.ui.makeToast
 
 
 @Composable
@@ -95,7 +95,7 @@ private fun CopyrightSection() {
                     try {
                         context.startActivity(intent)
                     } catch (ex: ActivityNotFoundException) {
-                        context.toast(R.string.error_email_app_not_found)
+                        context.makeToast(R.string.error_email_app_not_found)
                     }
                 }
             text.getStringAnnotations(tag = "play_developer", start = offset, end = offset)
@@ -105,7 +105,7 @@ private fun CopyrightSection() {
                             Intent(Intent.ACTION_VIEW, Uri.parse(link.item))
                         context.startActivity(playStoreWebsiteIntent)
                     } catch (e: ActivityNotFoundException) {
-                        context.toast(R.string.error_email_app_not_found)
+                        context.makeToast(R.string.error_email_app_not_found)
                     }
                 }
         },
