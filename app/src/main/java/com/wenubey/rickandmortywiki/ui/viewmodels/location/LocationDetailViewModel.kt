@@ -6,6 +6,7 @@ import com.wenubey.data.getIdFromUrls
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.LocationRepository
+import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,9 +48,3 @@ class LocationDetailViewModel @Inject constructor(
     }
 }
 
-sealed interface LocationDetailUiState {
-    data object Loading : LocationDetailUiState
-    data class Error(val message: String) : LocationDetailUiState
-    data class Success(val location: Location, val residents: List<Character>) :
-        LocationDetailUiState
-}

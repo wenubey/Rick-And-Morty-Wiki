@@ -1,6 +1,7 @@
 package com.wenubey.domain.repository
 
 
+import com.wenubey.domain.model.DataTypeKey
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesRepository {
@@ -11,11 +12,9 @@ interface UserPreferencesRepository {
 
     val isScreenLocked: Flow<Boolean>
 
-    val characterSearchHistory: Flow<List<String>>
-
-    val locationSearchHistory: Flow<List<String>>
-
     val isTopBarLocked: Flow<Boolean>
+
+    fun getSearchHistory(dataTypeKey: DataTypeKey): Flow<List<String>>
 
     suspend fun saveLayoutPreference(isLinearLayout: Boolean)
 
@@ -25,9 +24,7 @@ interface UserPreferencesRepository {
 
     suspend fun saveTopBarLockedPreference(isTopBarLocked: Boolean)
 
-    suspend fun saveCharacterSearchHistory(searchQuery: String)
-
-    suspend fun saveLocationSearchHistory(searchQuery: String)
+    suspend fun saveSearchHistory(dataTypeKey: DataTypeKey, searchQuery: String)
 
     suspend fun cleanAllSearchHistory()
 

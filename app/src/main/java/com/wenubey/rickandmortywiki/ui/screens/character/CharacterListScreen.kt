@@ -33,16 +33,17 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.isScrollingUp
 import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListEvents
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -54,18 +55,17 @@ fun CharacterListScreen(
     lazyGridState: LazyGridState,
     onScrollUp: (Boolean) -> Unit,
     pagerState: PagerState,
-    characterViewModel: CharacterListViewModel,
-    characterListEvents: CharacterListEvents,
+    characterListViewModel: CharacterListViewModel,
+    events: ListScreenEvents,
 ) {
-
     val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
     val userPrefUiState =
         userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
-    val characterUiState = characterViewModel.characterListUiState.collectAsState().value
-    val lastItemIndex = characterViewModel.lastItemIndex.collectAsState().value
+    val characterUiState = characterListViewModel.uiState.collectAsState().value
+    val lastItemIndex = characterListViewModel.lastItemIndex.collectAsState().value
 
-    val searchQuery = characterViewModel.searchQuery.collectAsState().value
-    val active = characterViewModel.isSearching.collectAsState().value
+    val searchQuery = characterListViewModel.searchQuery.collectAsState().value
+    val active = characterListViewModel.isSearching.collectAsState().value
     val searchHistory = userPrefUiState.characterSearchHistory.searchHistory
 
     val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
@@ -88,7 +88,7 @@ fun CharacterListScreen(
             isLinearLayout -> lazyListState.firstVisibleItemIndex
             else -> lazyGridState.firstVisibleItemIndex
         }
-        characterListEvents.setLastItemIndex(index)
+        events.setLastItemIndex(index)
         if (isLinearLayout) {
             lazyListState.scrollToItem(index)
         } else {
@@ -133,17 +133,17 @@ fun CharacterListScreen(
 
 
     when (characterUiState) {
-        is CharacterListUiState.Error -> {
+        is ListScreenUiState.Error<Character> -> {
             // TODO add Error Screen
             Text(text = characterUiState.message)
         }
 
-        CharacterListUiState.Loading -> {
+        is ListScreenUiState.Loading<Character> -> {
             CustomProgressIndicator()
         }
 
-        is CharacterListUiState.Success -> {
-            val characters = characterUiState.charactersFlow.collectAsLazyPagingItems()
+        is ListScreenUiState.Success<Character> -> {
+            val characters = characterUiState.dataFlow.collectAsLazyPagingItems()
             Column(
                 modifier = Modifier
                     .padding()
@@ -154,11 +154,11 @@ fun CharacterListScreen(
                     isVisible = isVisible,
                     searchQuery = searchQuery,
                     active = active,
-                    onActiveChange = characterListEvents::onActiveChange,
-                    onSearch = characterListEvents::onSearch,
-                    setSearchQuery = characterListEvents::setSearchQuery,
+                    onActiveChange = events::onActiveChange,
+                    onSearch = events::onSearch,
+                    setSearchQuery = events::setSearchQuery,
                     searchHistory = searchHistory,
-                    onRemoveAllClicked = characterListEvents::removeAllQuery
+                    onRemoveAllClicked = events::removeAllQuery
                 )
                 if (isLinearLayout) {
                     LazyColumn(

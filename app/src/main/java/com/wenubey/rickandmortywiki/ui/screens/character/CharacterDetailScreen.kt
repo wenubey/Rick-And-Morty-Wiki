@@ -19,10 +19,10 @@ import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStat
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
-import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 
 @Composable
 fun CharacterDetailScreen(
@@ -45,8 +45,6 @@ fun CharacterDetailScreen(
     val lazyListState = rememberLazyListState()
 
     when (val currentState = characterUiState) {
-
-
         is CharacterDetailUiState.Error -> {
             // TODO not yet implemented.
         }

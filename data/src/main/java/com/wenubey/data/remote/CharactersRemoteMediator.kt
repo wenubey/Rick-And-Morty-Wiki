@@ -11,6 +11,7 @@ import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.LocationDto
+import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,6 @@ class CharactersRemoteMediator @Inject constructor(
         loadType: LoadType,
         state: PagingState<Int, CharacterEntity>,
     ): MediatorResult = withContext(ioDispatcher) {
-        return@withContext try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     nextPageNumber = 1
@@ -47,8 +47,7 @@ class CharactersRemoteMediator @Inject constructor(
                     }
                 }
             }
-
-            val searchQuery = searchQueryProvider.getCharacterSearchQuery()
+            val searchQuery = searchQueryProvider.getSearchQuery(DataTypeKey.CHARACTER)
 
             if (searchQuery.isBlank()) {
                 ktorClient.getCharacterPage(page)
@@ -63,17 +62,12 @@ class CharactersRemoteMediator @Inject constructor(
                     }
                     dao.insertAll(characterEntities)
                     val endOfPaginationReached = characterPageDto.info.next == null
-                    MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+                    return@withContext MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
                 .onFailure { e ->
-                    MediatorResult.Error(e)
+                    return@withContext MediatorResult.Error(e)
                 }
-
             MediatorResult.Success(endOfPaginationReached = true)
-
-        } catch (e: Exception) {
-            MediatorResult.Error(e)
-        }
     }
 
     private suspend fun getCharacterEntities(

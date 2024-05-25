@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPrefUiState
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPrefUiState
 
 
 @Composable

@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels
+package com.wenubey.rickandmortywiki.ui.viewmodels.user_pref
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -11,70 +11,7 @@ import androidx.compose.material.icons.filled.ScreenRotation
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.wenubey.data.combine
-import com.wenubey.domain.repository.UserPreferencesRepository
 import com.wenubey.rickandmortywiki.R
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-
-@HiltViewModel
-class UserPreferencesViewModel @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository,
-) : ViewModel() {
-
-    val userPreferencesUserPrefUiState: StateFlow<UserPrefUiState> =
-        combine(
-            userPreferencesRepository.isScreenLocked,
-            userPreferencesRepository.isLinearLayout,
-            userPreferencesRepository.isNightMode,
-            userPreferencesRepository.characterSearchHistory,
-            userPreferencesRepository.locationSearchHistory,
-            userPreferencesRepository.isTopBarLocked,
-        ) { isScreenLocked, isLinearLayout, isNightMode, characterSearchHistory, locationSearchHistory, isTopBarLocked ->
-            UserPrefUiState(
-                screenLock = ScreenLock(isScreenLocked = isScreenLocked),
-                linearLayout = LinearLayout(isLinearLayout = isLinearLayout),
-                nightMode = NightMode(isNightMode = isNightMode),
-                characterSearchHistory = CharacterSearchHistory(searchHistory = characterSearchHistory),
-                locationSearchHistory = LocationSearchHistory(searchHistory = locationSearchHistory),
-                topBarLock = TopBarLock(isTopBarLocked = isTopBarLocked),
-            )
-        }.stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = UserPrefUiState()
-        )
-
-
-    fun selectLayout(isLinearLayout: Boolean) = viewModelScope.launch {
-        userPreferencesRepository.saveLayoutPreference(isLinearLayout)
-    }
-
-    fun selectNightMode(isNightMode: Boolean) = viewModelScope.launch {
-        userPreferencesRepository.saveNightModePreference(isNightMode)
-    }
-
-    fun selectScreenLock(isScreenLocked: Boolean) = viewModelScope.launch {
-        userPreferencesRepository.saveScreenLockedPreference(isScreenLocked)
-    }
-
-    fun selectTopBarLock(isTopBarLocked: Boolean) = viewModelScope.launch {
-        userPreferencesRepository.saveTopBarLockedPreference(isTopBarLocked)
-    }
-
-
-    fun clearAllSearchHistory() = viewModelScope.launch {
-        userPreferencesRepository.cleanAllSearchHistory()
-    }
-
-}
-
 
 data class UserPrefUiState(
     val screenLock: ScreenLock = ScreenLock(),
@@ -151,5 +88,4 @@ data class TopBarLock(
     enabledContent = R.string.top_bar_locked_toggle,
     disabledContent = R.string.top_bar_not_locked_toggle
 )
-
 

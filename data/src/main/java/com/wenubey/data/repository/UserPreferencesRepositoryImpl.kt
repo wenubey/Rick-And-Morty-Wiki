@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -44,22 +45,6 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 preferences[IS_SCREEN_LOCKED] ?: false
             }
 
-    override val characterSearchHistory: Flow<List<String>>
-        get() = dataStore.data
-            .catch {
-                Log.e(TAG, "Error reading character search history:", it)
-            }.map { preferences ->
-                preferences[CHARACTER_SEARCH_HISTORY]?.split(",") ?: listOf()
-            }
-
-    override val locationSearchHistory: Flow<List<String>>
-        get() = dataStore.data
-            .catch {
-                Log.e(TAG, "Error reading location search history:", it)
-            }.map { preferences ->
-                preferences[LOCATION_SEARCH_HISTORY]?.split(",") ?: listOf()
-            }
-
     override val isTopBarLocked: Flow<Boolean>
         get() = dataStore.data
             .catch {
@@ -67,6 +52,16 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             }.map { preferences ->
                 preferences[IS_TOP_BAR_LOCKED] ?: false
             }
+
+    override fun getSearchHistory(dataTypeKey: DataTypeKey): Flow<List<String>> =
+        dataStore.data
+            .catch {
+                Log.e(TAG, "Error reading search history", it)
+            }.map { preferences ->
+                val preferenceKey = getPreferenceKeyFromType(dataTypeKey)
+                preferences[preferenceKey]?.split(",") ?: listOf()
+            }
+
 
     override suspend fun saveLayoutPreference(isLinearLayout: Boolean) {
         dataStore.edit { preferences ->
@@ -86,40 +81,18 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveCharacterSearchHistory(searchQuery: String) {
+    override suspend fun saveSearchHistory(dataTypeKey: DataTypeKey, searchQuery: String) {
         dataStore.edit { preferences ->
+            val preferenceKey = getPreferenceKeyFromType(dataTypeKey)
             val currentHistory =
-                preferences[CHARACTER_SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
+                preferences[preferenceKey]?.split(",")?.toMutableList() ?: mutableListOf()
             if (searchQuery.isNotBlank()) {
                 currentHistory.add(0, searchQuery)
             }
-            if (currentHistory.size > 10) {
+            if (currentHistory.size > 7) {
                 currentHistory.removeLast()
             }
-
-            preferences[CHARACTER_SEARCH_HISTORY] = currentHistory.joinToString(",")
-        }
-    }
-
-    override suspend fun saveLocationSearchHistory(searchQuery: String) {
-        dataStore.edit { preferences ->
-            val currentHistory =
-                preferences[LOCATION_SEARCH_HISTORY]?.split(",")?.toMutableList() ?: mutableListOf()
-            val queryParameters = searchQuery.split(",")
-            if (searchQuery.isNotBlank() && queryParameters.size < 2) {
-                currentHistory.add(0, searchQuery)
-            }
-            if (currentHistory.size > 10) {
-                currentHistory.removeLast()
-            }
-            if (currentHistory.contains("")) {
-                currentHistory.removeAll(listOf(""))
-            }
-
-            Log.i(TAG, "currentHistoryAfterADD: $currentHistory")
-
-            preferences[LOCATION_SEARCH_HISTORY] = currentHistory.joinToString(",")
-
+            preferences[preferenceKey] = currentHistory.joinToString(",")
         }
     }
 
@@ -133,6 +106,13 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     override suspend fun saveTopBarLockedPreference(isTopBarLocked: Boolean) {
         dataStore.edit { preferences ->
             preferences[IS_TOP_BAR_LOCKED] = isTopBarLocked
+        }
+    }
+
+    private fun getPreferenceKeyFromType(dataTypeKey: DataTypeKey): Preferences.Key<String> {
+        return when(dataTypeKey) {
+            DataTypeKey.LOCATION -> LOCATION_SEARCH_HISTORY
+            DataTypeKey.CHARACTER -> CHARACTER_SEARCH_HISTORY
         }
     }
 

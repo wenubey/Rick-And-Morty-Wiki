@@ -27,8 +27,10 @@ import com.wenubey.rickandmortywiki.ui.components.common.TabScreenTabRow
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
-import com.wenubey.rickandmortywiki.ui.viewmodels.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesEvents
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -38,6 +40,8 @@ fun TabScreen(
     onCharacterSelected: (Int) -> Unit,
     onLocationSelected: (Int) -> Unit,
     navigateUp: () -> Unit,
+    userPreferencesViewModel: UserPreferencesViewModel,
+    events: UserPreferencesEvents,
 ) {
 
     val pagerState =
@@ -52,9 +56,8 @@ fun TabScreen(
     }
     val scope = rememberCoroutineScope()
 
-    val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
     val userPrefUiState =
-        userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
+        userPreferencesViewModel.userPreferencesUserPrefUiState.collectAsState().value
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
     val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
 
@@ -109,19 +112,19 @@ fun TabScreen(
                 isVisible = isVisible,
                 uiState = userPrefUiState,
                 onNightModeToggle = { isNightMode ->
-                    userPrefViewModel.selectNightMode(isNightMode)
+                    events.selectNightMode(isNightMode)
                 },
                 onTopBarLockToggle = { isTopBarLocked ->
-                    userPrefViewModel.selectTopBarLock(isTopBarLocked)
+                    events.selectTopBarLock(isTopBarLocked)
                 },
                 onScreenLockToggle = { isScreenLocked ->
-                    userPrefViewModel.selectScreenLock(isScreenLocked)
+                    events.selectScreenLock(isScreenLocked)
                 },
                 onLinearLayoutToggle = { isLinearLayout ->
-                    userPrefViewModel.selectLayout(isLinearLayout)
+                    events.selectLayout(isLinearLayout)
                 },
                 clearAllSearchHistory = {
-                    userPrefViewModel.clearAllSearchHistory()
+                    events.clearAllSearchHistory()
                 },
                 userPreferencesOption = UserPreferencesOption.LIST,
                 isCopyRightClicked = {
@@ -145,7 +148,7 @@ fun TabScreen(
         ) { page ->
             when (page) {
                 0 -> {
-                    val characterListViewModel: CharacterListViewModel = hiltViewModel()
+                    val characterViewModel: CharacterListViewModel = hiltViewModel()
                     CharacterListScreen(
                         onCharacterSelected = onCharacterSelected,
                         navigateUp = navigateUp,
@@ -153,12 +156,13 @@ fun TabScreen(
                         lazyGridState = lazyGridState,
                         onScrollUp = { isScrollUp = it },
                         pagerState = pagerState,
-                        characterViewModel = characterListViewModel,
-                        characterListEvents = characterListViewModel,
+                        characterListViewModel = characterViewModel,
+                        events = characterViewModel,
                     )
                 }
 
                 1 -> {
+                    val locationViewModel: LocationListViewModel = hiltViewModel()
                     LocationListScreen(
                         onLocationSelected = onLocationSelected,
                         navigateUp = navigateUp,
@@ -167,7 +171,9 @@ fun TabScreen(
                             isScrollUp = it
                         },
                         pagerState = pagerState,
-                        lazyGridState = lazyGridState
+                        lazyGridState = lazyGridState,
+                        locationListViewModel = locationViewModel,
+                        events = locationViewModel
                     )
                 }
 

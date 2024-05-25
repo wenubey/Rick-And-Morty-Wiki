@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.NoRippleTheme
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
-import com.wenubey.rickandmortywiki.ui.viewmodels.NightMode
+import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.NightMode
 
 
 @Composable
