@@ -1,7 +1,6 @@
 package com.wenubey.data.remote
 
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -32,17 +31,15 @@ class CharactersRemoteMediator @Inject constructor(
         loadType: LoadType,
         state: PagingState<Int, CharacterEntity>,
     ): MediatorResult = withContext(ioDispatcher) {
-        return@withContext try {
-            Log.i(TAG, "loadType: $loadType")
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     nextPageNumber = 1
                     1
                 }
+
                 LoadType.PREPEND -> return@withContext MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastCharacter = state.lastItemOrNull()
-                    Log.i(TAG, "lastCharacter.name:${lastCharacter?.name}")
                     if (lastCharacter == null) {
                         1
                     } else {
@@ -50,7 +47,6 @@ class CharactersRemoteMediator @Inject constructor(
                     }
                 }
             }
-            Log.i(TAG, "Page: $page")
             val searchQuery = searchQueryProvider.getSearchQuery(DataTypeKey.CHARACTER)
 
             if (searchQuery.isBlank()) {
@@ -66,17 +62,12 @@ class CharactersRemoteMediator @Inject constructor(
                     }
                     dao.insertAll(characterEntities)
                     val endOfPaginationReached = characterPageDto.info.next == null
-                    MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+                    return@withContext MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
                 .onFailure { e ->
-                    MediatorResult.Error(e)
+                    return@withContext MediatorResult.Error(e)
                 }
-
             MediatorResult.Success(endOfPaginationReached = true)
-
-        } catch (e: Exception) {
-            MediatorResult.Error(e)
-        }
     }
 
     private suspend fun getCharacterEntities(
@@ -100,9 +91,5 @@ class CharactersRemoteMediator @Inject constructor(
             val originEntity = originDto.toLocationEntity()
             characterDto.toCharacterEntity(locationEntity, originEntity)
         }
-    }
-
-    private companion object {
-        const val TAG= "charactersRemoteMediator"
     }
 }
