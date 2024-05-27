@@ -1,7 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.components.character.detail
 
 import android.content.res.Configuration
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -11,27 +10,27 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.Episode
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.formatSeasonEpisode
 import com.wenubey.rickandmortywiki.ui.parseDate
@@ -78,83 +77,89 @@ fun CharacterPropertiesComponent(
         )
         Spacer(modifier = Modifier.height(24.dp))
         DetailHeaderComponent(headerTitle = stringResource(R.string.character_episodes_header))
-        DetailEpisodeProperties(character = character)
+        DetailEpisodeProperties(episodes = character.episodes)
     }
 }
 
 @Composable
 fun DetailEpisodeProperties(
-    character: Character,
+    episodes: List<Episode>,
 ) {
     var isLoadMoreClicked by remember {
         mutableStateOf(false)
     }
+    val listState = rememberLazyListState()
+    val groupedEpisodes = episodes.groupBy { it.seasonNumber }
+    val lazyListSize = if (episodes.size <= 3) episodes.size * 0.15 else 0.5
+    val screenHeight = (LocalConfiguration.current.screenHeightDp * lazyListSize).dp
+
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(screenHeight),
+        state = listState,
+    ) {
+        groupedEpisodes.forEach { (season, episodes) ->
+            item {
+                SeasonHeader(season = season)
+            }
+            items(episodes) { episode ->
+                EpisodeCard(episode = episode, onClick = { isLoadMoreClicked = !isLoadMoreClicked })
+            }
+        }
+    }
+}
+
+@Composable
+fun SeasonHeader(season: Int) {
+    DetailHeaderComponent(
+        modifier = Modifier.padding(vertical = 8.dp),
+        headerTitle = "${season}. Season", horizontalPadding = 48.dp
+    )
+}
+
+@Composable
+fun EpisodeCard(episode: Episode, onClick: () -> Unit) {
     val interactionSource = remember {
         MutableInteractionSource()
     }
-    var episodeSize by remember {
-        mutableIntStateOf(character.episodes.size)
-    }
 
-    LaunchedEffect(isLoadMoreClicked) {
-        episodeSize = if (isLoadMoreClicked) {
-            character.episodes.size
-        } else {
-            3
-        }
-    }
-
-    val buttonRes = if (isLoadMoreClicked) {
-        R.string.episode_list_show_less
-    } else {
-        R.string.episode_list_show_more
-    }
-
-    Column {
-        character.episodes.take(episodeSize).forEach { episode ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = { isLoadMoreClicked = !isLoadMoreClicked })
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
-            ) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = formatSeasonEpisode(episode.seasonNumber, episode.episodeNumber),
-                            modifier = Modifier,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                        )
-
-                        Text(
-                            text = episode.airDate.parseDate(),
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Light),
-                        )
-
-                    }
-                    Text(text = episode.name, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal))
-                }
-            }
-        }
-        OutlinedButton(
-            onClick = { isLoadMoreClicked = !isLoadMoreClicked },
-            border = BorderStroke(1.dp, Color.Magenta),
-            shape = RoundedCornerShape(4.dp),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(4.dp)
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            horizontalAlignment = Alignment.Start
         ) {
-            Text(text = stringResource(id = buttonRes), style = MaterialTheme.typography.bodyLarge)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = formatSeasonEpisode(episode.seasonNumber, episode.episodeNumber),
+                    modifier = Modifier,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                )
+
+                Text(
+                    text = episode.airDate.parseDate(),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Light),
+                )
+
+            }
+            Text(
+                text = episode.name,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal)
+            )
         }
     }
 }

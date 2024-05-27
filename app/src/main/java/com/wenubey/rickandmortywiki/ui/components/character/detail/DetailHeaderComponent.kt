@@ -11,16 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun DetailHeaderComponent(
+    modifier: Modifier = Modifier,
     headerTitle: String,
+    horizontalPadding: Dp = 32.dp
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         HorizontalDivider(
