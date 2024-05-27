@@ -64,7 +64,7 @@ fun String.getColorFromCharacterStatus(): Color {
 fun formatSeasonEpisode(seasonNumber: Int, episodeNumber: Int): String {
     val formattedSeason = String.format("%02d", seasonNumber)
     val formattedEpisode = String.format("%02d", episodeNumber)
-    return "S" + formattedSeason + "E" + formattedEpisode
+    return "S$formattedSeason-E$formattedEpisode"
 }
 
 fun String.parseDate(): String {
@@ -75,7 +75,7 @@ fun String.parseDate(): String {
 }
 
 @Composable
- fun LazyListState.isScrollingUp(): Boolean {
+fun LazyListState.isScrollingUp(): Boolean {
     var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
     var previousScrollOffset by remember(this) { mutableIntStateOf(firstVisibleItemScrollOffset) }
     return remember(this) {
@@ -153,4 +153,12 @@ fun Context.openUrlInCustomTabs(url: String) {
     val intent = CustomTabsIntent.Builder()
         .build()
     intent.launchUrl(this, Uri.parse(url))
+}
+
+fun String.shrinkParentheses(): String {
+    val index = this.indexOf('(')
+
+    if (index == -1) { return this }
+
+    return this.substring(0, index).trim()
 }

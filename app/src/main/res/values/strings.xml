@@ -13,7 +13,7 @@
     <string name="character_status">Status</string>
     <string name="character_properties_header">PROPERTIES</string>
     <string name="character_whereabouts_header">WHEREABOUTS</string>
-    <string name="character_episodes_header">FEATURED CHAPTERS</string>
+    <string name="character_episodes_header">CHAPTERS</string>
     <string name="tab_characters">Characters</string>
     <string name="tabs_locations">Locations</string>
 
@@ -32,6 +32,7 @@
     <string name="menu_night_mode">Night Mode</string>
     <string name="menu_screen_lock">Screen Lock</string>
     <string name="menu_linear_layout">Linear Layout</string>
+    <string name="copyright_section">Copyright Section</string>
 
     Error
     <string name="error_email_app_not_found">No email app found.</string>
@@ -42,7 +43,6 @@
     <string name="error_screen_state">There was an error downloading data.</string>
 
     Content Descriptions
-    <string name="cd_copyright_section">Copyright</string>
     <string name="cd_scroll_to_top">Scroll to the top</string>
     <string name="cd_remove_all_query">Remove all query.</string>
     <string name="cd_search_history_item">Search history item</string>
@@ -51,13 +51,15 @@
     <string name="cd_dropdown_menu_open_close">Dropdown menu open/close.</string>
 
     Copyright Section
-    <string name="copyright_part_first">"\t\t\tThis application is not an official app of "</string>
+    <string name="copyright_header">Copyright ©</string>
+    <string name="copyright_part_first">"This application is not an official app of "</string>
     <string name="copyright_part_second">" or its creators. It is an independent project developed by wenubey and is not endorsed by or affiliated with "</string>
-    <string name="copyright_part_third">", or any related entities.\n\n\t\t\tAll images, characters, names, and related indicia are © and ™ of their respective owners. The use of any materials belonging to "</string>
-    <string name="copyright_part_fourth">" is for informational and educational purposes only, under the principles of fair use.\n\n\t\t\tRick and Morty is created by Justin Roiland and Dan Harmon.\n\n\t\t\tFor any inquiries or concerns regarding this application, please contact via"</string>
-    <string name="copyright_part_fifth">". \n\n\t\t\tAlso you can visit "</string>
+    <string name="copyright_part_third">", or any related entities.\n\nAll images, characters, names, and related indicia are © and ™ of their respective owners. The use of any materials belonging to "</string>
+    <string name="copyright_part_fourth">" is for informational and educational purposes only, under the principles of fair use.\n\nRick and Morty is created by Justin Roiland and Dan Harmon.\n\nFor any inquiries or concerns regarding this application, please contact via"</string>
+    <string name="copyright_part_fifth">". \n\nAlso you can visit "</string>
     <string name="copyright_part_sixth">"\'s play store account to check the other applications.\n\n"</string>
-    <string name="copyright_part_seventh">"\t\t\tCopyright © 2024 Rick and Morty Wikipedia Contributors. All rights reserved.\n"</string>
-    <string name="copyright_part_eighth">\t\t\tThank you for using the Rick and Morty Wikipedia app!</string>
+    <string name="copyright_part_seventh">"Copyright © 2024 Rick and Morty Wikipedia Contributors. All rights reserved.\n"</string>
+    <string name="copyright_part_eighth">Thank you for using the Rick and Morty Wikipedia app!</string>
+
 
 </resources>

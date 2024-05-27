@@ -112,10 +112,10 @@ fun UserPreferencesMenu(
             }
         )
         CommonMenuItem(
-            menuItemNameRes = R.string.cd_copyright_section,
+            menuItemNameRes = R.string.copyright_section,
             iconImageVector = Icons.Default.Copyright,
             onClick = isCopyRightClicked,
-            contentDescriptionRes = R.string.cd_copyright_section,
+            contentDescriptionRes = R.string.copyright_section,
         )
 
     }

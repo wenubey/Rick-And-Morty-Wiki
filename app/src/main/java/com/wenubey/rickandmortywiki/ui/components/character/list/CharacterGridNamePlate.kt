@@ -6,6 +6,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun CharacterGridNamePlate(
     ) {
         Text(
             text = character.name,
-            fontSize = 24.sp,
+            style = MaterialTheme.typography.bodyLarge,
             maxLines = if (isDoubleClicked) Int.MAX_VALUE else 1,
             overflow = TextOverflow.Clip,
         )

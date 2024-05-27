@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.components.common.CharacterImage
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
@@ -50,20 +51,20 @@ fun CharacterListCard(
             }
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = character.name,
-                    fontSize = 32.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    fontWeight = FontWeight.SemiBold
+                    overflow = TextOverflow.Clip,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    textAlign = TextAlign.Center
                 )
                 Text(
                     text = character.location.name,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Normal,
+                    textAlign = TextAlign.Center
                 )
             }
 
@@ -71,16 +72,6 @@ fun CharacterListCard(
     }
 }
 
-@Preview(name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-@Preview(name = "Light mode", uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
-@Composable
-private fun CharacterListCardPreviewPortrait() {
-    RickAndMortyWikiTheme {
-        Surface {
-            CharacterListCard()
-        }
-    }
-}
 
 @Preview(
     name = "Dark mode Landscape",
@@ -95,6 +86,20 @@ private fun CharacterListCardPreviewPortrait() {
     showBackground = true,
     showSystemUi = true,
     device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
+)
+@Preview(
+    name = "Dark mode Portrait",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=portrait"
+)
+@Preview(
+    name = "Light mode Portrait",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=portrait"
 )
 @Composable
 private fun CharacterListCardPreviewLandscape() {
