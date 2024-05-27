@@ -6,11 +6,16 @@ import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,26 +23,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontSynthesis
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.openUrlInCustomTabs
 import com.wenubey.rickandmortywiki.ui.makeToast
+import com.wenubey.rickandmortywiki.ui.openUrlInCustomTabs
+import com.wenubey.rickandmortywiki.ui.theme.sourceCodeFamily
 
 
 @Composable
 fun CopyRightView(
     onDismissRequest: () -> Unit
 ) {
+    val color = MaterialTheme.colorScheme.primary
     AlertDialog(
         modifier = Modifier.border(
             width = 1.dp,
@@ -48,7 +56,7 @@ fun CopyRightView(
         title = {
             // TODO change color to when color palette created.
             Text(
-                text = "Copyright ©",
+                text = stringResource(R.string.copyright_header),
                 fontSize = 32.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
@@ -57,9 +65,20 @@ fun CopyRightView(
         text = {
             Column(
                 modifier = Modifier
-                    .padding(4.dp),
+                    .padding(4.dp)
+
             ) {
-                CopyrightSection()
+                CopyrightSection(color = color)
+                // TODO change color to when color palette created.
+                HorizontalDivider(color = Color.Magenta, modifier = Modifier.padding(vertical = 6.dp))
+                Text(
+                    text = stringResource(id = R.string.copyright_part_eighth),
+                    fontSize = 16.sp,
+                    color = color,
+                    textAlign = TextAlign.Center,
+                    fontFamily = sourceCodeFamily,
+                )
+
             }
         },
         confirmButton = {},
@@ -68,12 +87,17 @@ fun CopyRightView(
 }
 
 @Composable
-private fun CopyrightSection() {
+private fun CopyrightSection(color: Color) {
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
-    val text = getCopyRightText()
+    val text = getCopyRightText(color = color)
 
     ClickableText(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.4f)
+            .verticalScroll(scrollState),
         text = text,
         onClick = { offset ->
             text.getStringAnnotations(tag = "rick_and_morty", start = offset, end = offset)
@@ -109,17 +133,30 @@ private fun CopyrightSection() {
                     }
                 }
         },
-        style = TextStyle(fontSize = 14.sp, fontSynthesis = FontSynthesis.Style, textAlign = TextAlign.Justify, hyphens = Hyphens.Auto),
+        style = TextStyle(
+            fontSize = 16.sp,
+            fontSynthesis = FontSynthesis.Style,
+            textAlign = TextAlign.Justify,
+            hyphens = Hyphens.Auto,
+            fontFamily = sourceCodeFamily,
+            textIndent = TextIndent(firstLine = 16.sp),
+            lineBreak = LineBreak.Paragraph,
+            lineHeight = 16.sp
 
-    )
+        ),
+
+        )
 
 }
 
 @Composable
-private fun getCopyRightText(): AnnotatedString {
-    val context = LocalContext.current
+private fun getCopyRightText(color: Color): AnnotatedString {
     return buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.White)) {
+        withStyle(
+            style = SpanStyle(
+                color = color,
+            )
+        ) {
             append(stringResource(R.string.copyright_part_first))
             pushStringAnnotation(
                 "rick_and_morty",
@@ -171,7 +208,7 @@ private fun getCopyRightText(): AnnotatedString {
                     color = Color.Magenta
                 )
             ) {
-                append("email")
+                append(" email")
             }
             pop()
             append(stringResource(R.string.copyright_part_fifth))
@@ -191,10 +228,7 @@ private fun getCopyRightText(): AnnotatedString {
             pop()
             append(stringResource(id = R.string.copyright_part_sixth))
             append(stringResource(id = R.string.copyright_part_seventh))
-            withStyle(style = ParagraphStyle(textAlign = TextAlign.Center)) {
-                append(context.getString(R.string.copyright_part_eighth))
-            }
-
         }
+
     }
 }

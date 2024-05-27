@@ -22,7 +22,7 @@ data class Character(
             id = 0,
             imageUrl = "",
             location = Location.default(),
-            name = "Rick Sanchez",
+            name = "Abadango Cluster",
             origin = Location.default(),
             species = "Human",
             status = "Unknown",

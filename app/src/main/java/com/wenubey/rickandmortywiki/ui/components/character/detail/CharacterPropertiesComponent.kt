@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -125,10 +126,13 @@ fun DetailEpisodeProperties(
                         Text(
                             text = formatSeasonEpisode(episode.seasonNumber, episode.episodeNumber),
                             modifier = Modifier,
-                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                         )
 
-                        Text(text = episode.airDate.parseDate(), fontWeight = FontWeight.Light)
+                        Text(
+                            text = episode.airDate.parseDate(),
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Light),
+                        )
 
                     }
                     Text(text = episode.name, fontWeight = FontWeight.Normal)

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wenubey.domain.model.Location
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
@@ -59,7 +62,7 @@ fun DetailPropertiesComponent(
                         .padding(8.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = title)
+                    Text(text = title, style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.Bold))
                 }
             }
             DetailPropertiesDescription(
@@ -137,7 +140,8 @@ fun DetailPropertiesDescription(
             ) {
                 Text(
                     text = description,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.Normal)
                 )
                 if (hasAdditionalData) {
                     Icon(
