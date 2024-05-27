@@ -60,6 +60,8 @@
     <string name="copyright_part_sixth">"\'s play store account to check the other applications.\n\n"</string>
     <string name="copyright_part_seventh">"Copyright © 2024 Rick and Morty Wikipedia Contributors. All rights reserved.\n"</string>
     <string name="copyright_part_eighth">Thank you for using the Rick and Morty Wikipedia app!</string>
+    <string name="episode_list_show_less">SHOW LESS</string>
+    <string name="episode_list_show_more">SHOW MORE</string>
 
 
 </resources>

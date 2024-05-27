@@ -103,6 +103,13 @@ fun DetailEpisodeProperties(
             3
         }
     }
+
+    val buttonRes = if (isLoadMoreClicked) {
+        R.string.episode_list_show_less
+    } else {
+        R.string.episode_list_show_more
+    }
+
     Column {
         character.episodes.take(episodeSize).forEach { episode ->
             Card(
@@ -135,7 +142,7 @@ fun DetailEpisodeProperties(
                         )
 
                     }
-                    Text(text = episode.name, fontWeight = FontWeight.Normal)
+                    Text(text = episode.name, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal))
                 }
             }
         }
@@ -147,7 +154,7 @@ fun DetailEpisodeProperties(
                 .align(Alignment.CenterHorizontally)
                 .padding(4.dp)
         ) {
-            Text(text = "LOAD MORE")
+            Text(text = stringResource(id = buttonRes), style = MaterialTheme.typography.bodyLarge)
         }
     }
 }
