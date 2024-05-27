@@ -45,7 +45,6 @@ fun CharacterDetailScreen(
     LaunchedEffect(Unit) {
         characterViewModel.getCharacter(characterId)
     }
-
     val lazyListState = rememberLazyListState()
 
     when (val currentState = characterUiState) {
