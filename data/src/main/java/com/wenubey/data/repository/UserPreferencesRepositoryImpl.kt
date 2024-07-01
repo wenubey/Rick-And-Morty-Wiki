@@ -12,6 +12,9 @@ import com.wenubey.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class UserPreferencesRepositoryImpl @Inject constructor(
@@ -59,7 +62,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 Log.e(TAG, "Error reading search history", it)
             }.map { preferences ->
                 val preferenceKey = getPreferenceKeyFromType(dataTypeKey)
-                preferences[preferenceKey]?.split(",") ?: listOf()
+                preferences[preferenceKey]?.let {
+                    Json.decodeFromString<List<String>>(it)
+                } ?: emptyList()
             }
 
 
@@ -85,14 +90,17 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         dataStore.edit { preferences ->
             val preferenceKey = getPreferenceKeyFromType(dataTypeKey)
             val currentHistory =
-                preferences[preferenceKey]?.split(",")?.toMutableList() ?: mutableListOf()
+                preferences[preferenceKey]?.let {
+                    Json.decodeFromString<List<String>>(it)
+                        .toMutableList()
+                } ?: mutableListOf()
             if (searchQuery.isNotBlank()) {
                 currentHistory.add(0, searchQuery)
             }
             if (currentHistory.size > 7) {
                 currentHistory.removeLast()
             }
-            preferences[preferenceKey] = currentHistory.joinToString(",")
+            preferences[preferenceKey] = Json.encodeToString(currentHistory)
         }
     }
 
