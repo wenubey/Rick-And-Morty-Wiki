@@ -41,6 +41,7 @@
     <string name="error_location_is_null">This location was not found.</string>
     <string name="error_character_is_null">This character was not found.</string>
     <string name="error_screen_state">There was an error downloading data.</string>
+    <string name="error_unknown_field">UNKNOWN</string>
 
     Content Descriptions
     <string name="cd_scroll_to_top">Scroll to the top</string>
