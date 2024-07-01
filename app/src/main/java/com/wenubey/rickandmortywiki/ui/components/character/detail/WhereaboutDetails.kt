@@ -37,7 +37,7 @@ fun WhereaboutsDetails(location: Location, onDetailClicked: (String) -> Unit) {
         WhereaboutsDetailComponent(
             header = stringResource(R.string.location_population),
             description = location.residents.size.toString(),
-            onDetailClicked = onDetailClicked,
+            onDetailClicked = null,
         )
     }
 }
@@ -46,8 +46,10 @@ fun WhereaboutsDetails(location: Location, onDetailClicked: (String) -> Unit) {
 fun WhereaboutsDetailComponent(
     header: String,
     description: String,
-    onDetailClicked: (String) -> Unit,
+    onDetailClicked: ((String) -> Unit)?,
 ) {
+    val isDescriptionUnknown = description.contentEquals("unknown", ignoreCase = true)
+
     Row(
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -57,7 +59,9 @@ fun WhereaboutsDetailComponent(
             text = description,
             modifier = Modifier
                 .clickable {
-                    onDetailClicked("${header.lowercase()},$description")
+                    if (!isDescriptionUnknown) {
+                        onDetailClicked?.invoke("${header.lowercase()},$description")
+                    }
                 },
             textDecoration = TextDecoration.Underline
         )
