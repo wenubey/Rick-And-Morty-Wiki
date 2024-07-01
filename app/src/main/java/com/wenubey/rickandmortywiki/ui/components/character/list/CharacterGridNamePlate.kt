@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
-// TODO map to header and sub-header particular texts
 @Composable
 fun CharacterGridNamePlate(
     modifier: Modifier = Modifier,
@@ -42,7 +41,7 @@ fun CharacterGridNamePlate(
                 verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
                 Text(text = character.species, fontSize = 16.sp)
-                Text(text = character.location.name, fontSize = 16.sp)
+                Text(text = character.gender.displayName, fontSize = 16.sp)
             }
         }
     }

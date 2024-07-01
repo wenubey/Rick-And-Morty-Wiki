@@ -6,11 +6,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.wenubey.data.KtorClient
-import com.wenubey.data.getIdFromUrl
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.dao.CharacterDao
-import com.wenubey.data.remote.dto.CharacterPageDto
-import com.wenubey.data.remote.dto.LocationDto
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
@@ -55,8 +52,8 @@ class CharactersRemoteMediator @Inject constructor(
                 ktorClient.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
                 .onSuccess { characterPageDto ->
-                    val characterEntities =
-                        getCharacterEntities(characters = characterPageDto, ktorClient = ktorClient)
+                    val characterEntities = characterPageDto.results.map { it.toCharacterEntity(null, null) }
+
                     if (loadType == LoadType.REFRESH) {
                         dao.clearAll()
                     }
@@ -70,26 +67,5 @@ class CharactersRemoteMediator @Inject constructor(
             MediatorResult.Success(endOfPaginationReached = true)
     }
 
-    private suspend fun getCharacterEntities(
-        characters: CharacterPageDto,
-        ktorClient: KtorClient
-    ): List<CharacterEntity> {
-        return characters.results.map { characterDto ->
-            val locationId = characterDto.location.url.getIdFromUrl()
-            val locationDto = if (locationId == -1) {
-                LocationDto.default()
-            } else {
-                ktorClient.getLocation(locationId).getOrNull()!!
-            }
-            val originId = characterDto.origin.url.getIdFromUrl()
-            val originDto = if (originId == -1) {
-                LocationDto.default()
-            } else {
-                ktorClient.getLocation(originId).getOrNull()!!
-            }
-            val locationEntity = locationDto.toLocationEntity()
-            val originEntity = originDto.toLocationEntity()
-            characterDto.toCharacterEntity(locationEntity, originEntity)
-        }
-    }
+
 }
