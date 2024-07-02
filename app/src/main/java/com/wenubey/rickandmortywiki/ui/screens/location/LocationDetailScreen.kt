@@ -62,7 +62,6 @@ fun LocationDetailScreen(
         is LocationDetailUiState.Success -> {
             val location = detailUiState.location
             val residents = detailUiState.residents
-            // TODO Handle Landscape UI
             Scaffold(
                 topBar = {
                     CommonTopAppBar(
