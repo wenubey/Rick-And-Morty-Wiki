@@ -26,11 +26,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wenubey.domain.model.Location
+import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable
@@ -113,13 +115,14 @@ fun DetailPropertiesDescription(
     description: String,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val isDescriptionBlankOrEmpty = description.isEmpty() || description.isBlank()
     Card(
         modifier = modifier
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = {
-                    if (hasAdditionalData) {
+                    if (hasAdditionalData && !isDescriptionBlankOrEmpty) {
                         onDescriptionClicked()
                     }
                 },
@@ -139,11 +142,11 @@ fun DetailPropertiesDescription(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Text(
-                    text = description,
+                    text = if (isDescriptionBlankOrEmpty) stringResource(id = R.string.error_unknown_field) else description,
                     modifier = Modifier.align(Alignment.Center),
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.Normal)
                 )
-                if (hasAdditionalData) {
+                if (hasAdditionalData && !isDescriptionBlankOrEmpty) {
                     Icon(
                         imageVector = if (expanded) Icons.Default.ArrowDropUp else Icons.Default.ArrowDropDown,
                         contentDescription = null,
@@ -166,7 +169,8 @@ private fun DetailPropertiesComponentPreview() {
         Surface {
             DetailPropertiesComponent(
                 title = "Title",
-                description = "Description",
+                description = "Post-Apocalyptic Earth",
+                hasAdditionalData = true,
             )
         }
     }

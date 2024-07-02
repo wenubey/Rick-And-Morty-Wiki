@@ -84,7 +84,7 @@ abstract class BaseViewModel<T : Any> (
     }
 
     override fun removeAllQuery() {
-        _searchQuery.update { "" }
+        setSearchQuery("")
     }
 
     private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
