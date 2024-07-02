@@ -4,21 +4,25 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -41,36 +45,43 @@ import com.wenubey.rickandmortywiki.ui.openUrlInCustomTabs
 import com.wenubey.rickandmortywiki.ui.theme.sourceCodeFamily
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CopyRightView(
     onDismissRequest: () -> Unit
 ) {
     val color = MaterialTheme.colorScheme.primary
-    AlertDialog(
-        modifier = Modifier.border(
-            width = 1.dp,
-            color = Color.Magenta,
-            shape = RoundedCornerShape(16.dp)
-        ),
-        onDismissRequest = onDismissRequest,
-        title = {
-            // TODO change color to when color palette created.
-            Text(
-                text = stringResource(R.string.copyright_header),
-                fontSize = 32.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
+    BasicAlertDialog(
+        modifier = Modifier
+            .border(
+                width = 1.dp,
+                // TODO change color to when color palette created.
+                color = Color.Magenta,
+                shape = RoundedCornerShape(16.dp)
             )
-        },
-        text = {
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(16.dp)
+            .fillMaxSize(),
+        onDismissRequest = onDismissRequest,
+        content = {
             Column(
                 modifier = Modifier
                     .padding(4.dp)
-
+                    .fillMaxSize()
             ) {
-                CopyrightSection(color = color)
+                Text(
+                    text = stringResource(R.string.copyright_header),
+                    fontSize = 32.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                CopyrightSection(modifier  = Modifier.weight(1f) ,color = color)
                 // TODO change color to when color palette created.
-                HorizontalDivider(color = Color.Magenta, modifier = Modifier.padding(vertical = 6.dp))
+                HorizontalDivider(
+                    color = Color.Magenta,
+                    modifier = Modifier.padding(vertical = 6.dp)
+                )
                 Text(
                     text = stringResource(id = R.string.copyright_part_eighth),
                     fontSize = 16.sp,
@@ -81,20 +92,18 @@ fun CopyRightView(
 
             }
         },
-        confirmButton = {},
-        shape = RoundedCornerShape(16.dp)
     )
 }
 
 @Composable
-private fun CopyrightSection(color: Color) {
+private fun CopyrightSection(modifier: Modifier = Modifier, color: Color) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     val text = getCopyRightText(color = color)
 
     ClickableText(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(0.4f)
             .verticalScroll(scrollState),
