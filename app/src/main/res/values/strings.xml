@@ -63,6 +63,8 @@
     <string name="copyright_part_eighth">Thank you for using the Rick and Morty Wikipedia app!</string>
     <string name="episode_list_show_less">SHOW LESS</string>
     <string name="episode_list_show_more">SHOW MORE</string>
+    <string name="residents_header">RESIDENTS</string>
+    <string name="location_detail_population">Population: %1$s</string>
 
 
 </resources>
