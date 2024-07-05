@@ -1,10 +1,7 @@
 package com.wenubey.rickandmortywiki.ui.components.character.detail
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +20,7 @@ import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
     val characterStatusColor = characterStatus.getColorFromCharacterStatus()
 
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+//    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         GlowingCard(
             modifier = Modifier
                 .size(300.dp)
@@ -43,7 +40,7 @@ fun CharacterStatusDetailComponent(characterStatus: String, imageUrl: String) {
             )
         }
 
-    }
+//    }
 }
 
 @Preview(name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

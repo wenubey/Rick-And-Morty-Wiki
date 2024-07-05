@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,62 +46,58 @@ fun DetailPropertiesComponent(
     var expanded by remember {
         mutableStateOf(false)
     }
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        Card(
+            modifier = Modifier
+                .weight(0.3f),
         ) {
-            Card(
+            Row(
                 modifier = Modifier
-                    .weight(0.3f),
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(text = title, style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.Bold))
-                }
+                Text(text = title, style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.Bold))
             }
-            DetailPropertiesDescription(
-                hasAdditionalData = hasAdditionalData,
-                modifier = Modifier.weight(0.7f),
-                expanded = expanded,
-                description = description,
-                onDescriptionClicked = {
-                    expanded = !expanded
-                }
-            )
         }
-        if (expanded) {
-            Card(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth(),
-                onClick = {
-                    expanded = !expanded
-                },
+        DetailPropertiesDescription(
+            hasAdditionalData = hasAdditionalData,
+            modifier = Modifier.weight(0.7f),
+            expanded = expanded,
+            description = description,
+            onDescriptionClicked = {
+                expanded = !expanded
+            }
+        )
+    }
+    if (expanded) {
+        Card(
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth(),
+            onClick = {
+                expanded = !expanded
+            },
 
-                ) {
-                origin?.let {
-                    WhereaboutsDetails(
-                        location = it,
-                        onDetailClicked = onLocationClicked,
-                    )
-                }
-                location?.let {
-                    WhereaboutsDetails(
-                        location = it,
-                        onDetailClicked = onLocationClicked,
-                    )
-                }
-
+            ) {
+            origin?.let {
+                WhereaboutsDetails(
+                    location = it,
+                    onDetailClicked = onLocationClicked,
+                )
+            }
+            location?.let {
+                WhereaboutsDetails(
+                    location = it,
+                    onDetailClicked = onLocationClicked,
+                )
             }
 
         }
+
     }
 }
 

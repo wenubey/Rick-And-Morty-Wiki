@@ -33,6 +33,7 @@ import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Episode
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.formatSeasonEpisode
+import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.ui.parseDate
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
@@ -45,7 +46,9 @@ fun CharacterPropertiesComponent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        if (isSystemInPortraitOrientation()) {
+            Spacer(modifier = Modifier.height(24.dp))
+        }
         DetailHeaderComponent(headerTitle = stringResource(R.string.character_properties_header))
         DetailPropertiesComponent(
             title = stringResource(R.string.character_gender),
