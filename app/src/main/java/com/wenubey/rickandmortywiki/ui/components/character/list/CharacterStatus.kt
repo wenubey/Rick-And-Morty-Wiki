@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wenubey.rickandmortywiki.ui.getColorFromCharacterStatus
+import com.wenubey.rickandmortywiki.utils.getColorFromCharacterStatus
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable

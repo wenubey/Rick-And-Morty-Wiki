@@ -21,13 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.HomeTabs
+import com.wenubey.rickandmortywiki.utils.HomeTabs
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CopyRightView
 import com.wenubey.rickandmortywiki.ui.components.common.ScrollToTopFAB
 import com.wenubey.rickandmortywiki.ui.components.common.TabScreenTabRow
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
-import com.wenubey.rickandmortywiki.ui.makeToast
+import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
@@ -101,11 +101,19 @@ fun TabScreen(
             }
         }
     }
-    var isDialogShowed by remember {
+    var isCopyRightDialogShowed by remember {
         mutableStateOf(false)
     }
-    if (isDialogShowed) {
-        CopyRightView(onDismissRequest = { isDialogShowed = !isDialogShowed })
+    var isHowToUseDialogShowed by remember {
+        mutableStateOf(false)
+    }
+    if (isCopyRightDialogShowed) {
+        CopyRightView(onDismissRequest = { isCopyRightDialogShowed = !isCopyRightDialogShowed })
+    }
+    if (isHowToUseDialogShowed) {
+            HowToUseScreen(onDismissRequest = {
+                isHowToUseDialogShowed = !isHowToUseDialogShowed
+            })
     }
 
     Scaffold(
@@ -131,7 +139,7 @@ fun TabScreen(
                 },
                 userPreferencesOption = UserPreferencesOption.LIST,
                 isCopyRightClicked = {
-                    isDialogShowed = true
+                    isCopyRightDialogShowed = true
                 }
             )
         },

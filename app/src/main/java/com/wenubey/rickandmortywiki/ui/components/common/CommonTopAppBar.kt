@@ -37,6 +37,7 @@ fun CommonTopAppBar(
     onScreenLockToggle: (Boolean) -> Unit = {},
     onTopBarLockToggle: (Boolean) -> Unit = {},
     clearAllSearchHistory: () -> Unit = {},
+    onHowToUseClicked: () -> Unit = {},
     uiState: UserPrefUiState = UserPrefUiState(),
     userPreferencesOption: UserPreferencesOption = UserPreferencesOption.LIST,
 ) {
@@ -74,7 +75,8 @@ fun CommonTopAppBar(
                     clearAllSearchHistory = clearAllSearchHistory,
                     uiState = uiState,
                     userPreferencesOption = userPreferencesOption,
-                    isCopyRightClicked = isCopyRightClicked,
+                    onCopyRightClicked = isCopyRightClicked,
+                    onHowToUseClicked = onHowToUseClicked
                 )
             }
         )

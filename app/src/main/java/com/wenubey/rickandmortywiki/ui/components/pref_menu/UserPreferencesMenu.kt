@@ -3,6 +3,7 @@ package com.wenubey.rickandmortywiki.ui.components.pref_menu
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Copyright
 import androidx.compose.material.icons.filled.ManageHistory
@@ -31,7 +32,8 @@ fun UserPreferencesMenu(
     onScreenLockToggle: (Boolean) -> Unit,
     onTopBarLockToggle: (Boolean) -> Unit,
     clearAllSearchHistory: () -> Unit,
-    isCopyRightClicked: () -> Unit,
+    onCopyRightClicked: () -> Unit,
+    onHowToUseClicked: () -> Unit,
 ) {
     val nightModeState = uiState.nightMode
     val linearLayoutState = uiState.linearLayout
@@ -114,10 +116,15 @@ fun UserPreferencesMenu(
         CommonMenuItem(
             menuItemNameRes = R.string.copyright_section,
             iconImageVector = Icons.Default.Copyright,
-            onClick = isCopyRightClicked,
+            onClick = onCopyRightClicked,
             contentDescriptionRes = R.string.copyright_section,
         )
-
+        CommonMenuItem(
+            menuItemNameRes = R.string.how_to_use_section,
+            iconImageVector = Icons.AutoMirrored.Filled.Help,
+            onClick = onHowToUseClicked,
+            contentDescriptionRes = R.string.how_to_use_section
+        )
     }
 }
 

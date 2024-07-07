@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.wenubey.rickandmortywiki.ui.HomeTabs
+import com.wenubey.rickandmortywiki.utils.HomeTabs
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterDetailScreen
 
 fun NavGraphBuilder.characterNavGraph(navController: NavController) {
