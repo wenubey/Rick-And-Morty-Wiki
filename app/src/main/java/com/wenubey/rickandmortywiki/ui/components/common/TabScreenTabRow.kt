@@ -2,8 +2,10 @@ package com.wenubey.rickandmortywiki.ui.components.common
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
@@ -14,6 +16,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wenubey.rickandmortywiki.utils.HomeTabs
 import kotlinx.coroutines.launch
 
@@ -27,6 +31,7 @@ fun TabScreenTabRow(
     val scope = rememberCoroutineScope()
 
     TabRow(
+        modifier = Modifier.padding(vertical = 8.dp),
         selectedTabIndex = currentTabIndex,
         indicator = { tabPositions ->
             TabRowDefaults.SecondaryIndicator(
@@ -53,7 +58,7 @@ fun TabScreenTabRow(
                     imageVector = if (isSelected) tab.selectedIcon else tab.unselectedIcon,
                     contentDescription = stringResource(id = tab.text)
                 )
-                Text(text = stringResource(id = tab.text))
+                Text(text = stringResource(id = tab.text), style = MaterialTheme.typography.bodyLarge.copy(fontSize = 22.sp))
             }
         }
     }

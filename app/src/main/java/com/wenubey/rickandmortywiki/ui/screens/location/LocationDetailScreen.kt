@@ -25,18 +25,15 @@ import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailResidentsComponents
-import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.utils.shrinkParentheses
 import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationDetailViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 
 @Composable
 fun LocationDetailScreen(
     viewModel: LocationDetailViewModel = hiltViewModel(),
-    userPrefViewModel: UserPreferencesViewModel = hiltViewModel(),
     locationId: Int,
     onBackButtonPressed: () -> Unit,
     onCharacterSelected: (Int) -> Unit
@@ -47,7 +44,6 @@ fun LocationDetailScreen(
     }
 
     val detailUiState = viewModel.locationDetailUiState.collectAsState().value
-    val userPrefUiState = userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
 
 
     when (detailUiState) {
@@ -69,17 +65,6 @@ fun LocationDetailScreen(
                         title = location.name.shrinkParentheses(),
                         showNavigationIcon = true,
                         onBackButtonPressed = onBackButtonPressed,
-                        uiState = userPrefUiState,
-                        onNightModeToggle = { nightMode ->
-                            userPrefViewModel.selectNightMode(nightMode)
-                        },
-                        onScreenLockToggle = { screenLock ->
-                            userPrefViewModel.selectScreenLock(screenLock)
-                        },
-                        onTopBarLockToggle = { isTopBarLocked ->
-                            userPrefViewModel.selectTopBarLock(isTopBarLocked)
-                        },
-                        userPreferencesOption = UserPreferencesOption.DETAIL
                     )
                 }
             ) { paddingValues ->

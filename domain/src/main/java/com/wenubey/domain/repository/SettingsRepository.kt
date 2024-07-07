@@ -4,7 +4,7 @@ package com.wenubey.domain.repository
 import com.wenubey.domain.model.DataTypeKey
 import kotlinx.coroutines.flow.Flow
 
-interface UserPreferencesRepository {
+interface SettingsRepository {
 
     val isLinearLayout: Flow<Boolean>
 

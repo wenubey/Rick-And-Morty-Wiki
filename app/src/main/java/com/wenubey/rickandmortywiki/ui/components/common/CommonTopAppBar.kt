@@ -18,28 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesMenu
-import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPrefUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonTopAppBar(
     isVisible: Boolean = true,
-    isCopyRightClicked: () -> Unit = {},
     title: String? = null,
     onBackButtonPressed: () -> Unit = {},
     showNavigationIcon: Boolean = true,
-    onNightModeToggle: (Boolean) -> Unit = {},
-    onLinearLayoutToggle: (Boolean) -> Unit = {},
-    onScreenLockToggle: (Boolean) -> Unit = {},
-    onTopBarLockToggle: (Boolean) -> Unit = {},
-    clearAllSearchHistory: () -> Unit = {},
-    onHowToUseClicked: () -> Unit = {},
-    uiState: UserPrefUiState = UserPrefUiState(),
-    userPreferencesOption: UserPreferencesOption = UserPreferencesOption.LIST,
 ) {
     AnimatedVisibility(
         visible = isVisible,
@@ -66,19 +54,6 @@ fun CommonTopAppBar(
                     }
                 }
             },
-            actions = {
-                UserPreferencesMenu(
-                    onNightModeToggle = onNightModeToggle,
-                    onLinearLayoutToggle = onLinearLayoutToggle,
-                    onScreenLockToggle = onScreenLockToggle,
-                    onTopBarLockToggle = onTopBarLockToggle,
-                    clearAllSearchHistory = clearAllSearchHistory,
-                    uiState = uiState,
-                    userPreferencesOption = userPreferencesOption,
-                    onCopyRightClicked = isCopyRightClicked,
-                    onHowToUseClicked = onHowToUseClicked
-                )
-            }
         )
     }
 

@@ -6,7 +6,7 @@ import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.LocationRepository
 import com.wenubey.domain.repository.SearchQueryProvider
-import com.wenubey.domain.repository.UserPreferencesRepository
+import com.wenubey.domain.repository.SettingsRepository
 import com.wenubey.rickandmortywiki.ui.viewmodels.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,11 +16,11 @@ import javax.inject.Inject
 class LocationListViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     searchQueryProvider: SearchQueryProvider,
-    userPreferencesRepository: UserPreferencesRepository,
+    settingsRepository: SettingsRepository,
     savedStateHandle: SavedStateHandle,
 ): BaseViewModel<Location> (
     searchQueryProvider,
-    userPreferencesRepository,
+    settingsRepository,
     savedStateHandle,
     dataTypeKey = DataTypeKey.LOCATION
 ) {

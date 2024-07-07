@@ -26,13 +26,12 @@ import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterProp
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStatusDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
-import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
 
 @Composable
 fun CharacterDetailScreen(
@@ -40,13 +39,13 @@ fun CharacterDetailScreen(
     onBackButtonPressed: () -> Unit,
     navigateToLocationScreen: () -> Unit,
     characterViewModel: CharacterDetailViewModel = hiltViewModel(),
-    userPrefViewModel: UserPreferencesViewModel = hiltViewModel(),
+    userPrefViewModel: SettingsViewModel = hiltViewModel(),
     locationViewModel: LocationListViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val characterUiState = characterViewModel.characterDetailUiState.collectAsState().value
     val userPrefUiState =
-        userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
+        userPrefViewModel.settingsUiState.collectAsState().value
 
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
     LaunchedEffect(Unit) {
@@ -79,17 +78,6 @@ fun CharacterDetailScreen(
                         showNavigationIcon = true,
                         title = character.name,
                         onBackButtonPressed = onBackButtonPressed,
-                        uiState = userPrefUiState,
-                        onNightModeToggle = { isNightMode ->
-                            userPrefViewModel.selectNightMode(isNightMode)
-                        },
-                        onTopBarLockToggle = { isTopBarLocked ->
-                            userPrefViewModel.selectTopBarLock(isTopBarLocked)
-                        },
-                        onScreenLockToggle = { isScreenLocked ->
-                            userPrefViewModel.selectScreenLock(isScreenLocked)
-                        },
-                        userPreferencesOption = UserPreferencesOption.DETAIL
                     )
                 }
             ) { paddingValues ->

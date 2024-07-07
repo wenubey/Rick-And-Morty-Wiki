@@ -1,6 +1,5 @@
 package com.wenubey.rickandmortywiki.ui.nav
 
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -8,7 +7,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.wenubey.rickandmortywiki.ui.screens.TabScreen
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
 
 fun NavGraphBuilder.tabNavGraph(navController: NavController) {
     navigation(
@@ -26,14 +24,11 @@ fun NavGraphBuilder.tabNavGraph(navController: NavController) {
             val tabIndex: Int =
                 backStackEntry.arguments?.getInt("tabIndex") ?: 0
 
-            val userPreferencesViewModel: UserPreferencesViewModel = hiltViewModel()
             TabScreen(
                 tabIndex = tabIndex,
                 onCharacterSelected = { navController.navigateToCharacterDetail(it) },
                 onLocationSelected = { navController.navigateToLocationDetail(it) },
                 navigateUp = { navController.popBackStack() },
-                userPreferencesViewModel = userPreferencesViewModel,
-                events = userPreferencesViewModel,
             )
         }
     }

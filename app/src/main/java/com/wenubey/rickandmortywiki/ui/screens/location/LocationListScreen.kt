@@ -41,7 +41,7 @@ import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
 import kotlinx.coroutines.launch
 
@@ -58,10 +58,10 @@ fun LocationListScreen(
     events: ListScreenEvents
 ) {
     val context = LocalContext.current
-    val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
+    val userPrefViewModel: SettingsViewModel = hiltViewModel()
 
     val locationUiState = locationListViewModel.uiState.collectAsState().value
-    val userPrefUiState = userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
+    val userPrefUiState = userPrefViewModel.settingsUiState.collectAsState().value
 
 
     val searchQuery = locationListViewModel.searchQuery.collectAsState().value

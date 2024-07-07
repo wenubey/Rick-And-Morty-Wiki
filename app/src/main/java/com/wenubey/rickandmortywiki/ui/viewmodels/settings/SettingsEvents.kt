@@ -1,10 +1,10 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels.user_pref
+package com.wenubey.rickandmortywiki.ui.viewmodels.settings
 
 import kotlinx.coroutines.flow.StateFlow
 
-interface UserPreferencesEvents {
+interface SettingsEvents {
 
-    val userPreferencesUserPrefUiState: StateFlow<UserPrefUiState>
+    val settingsUiState: StateFlow<SettingsUiState>
 
     fun selectLayout(isLinearLayout: Boolean)
 

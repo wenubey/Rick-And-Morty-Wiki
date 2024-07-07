@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.wenubey.domain.model.DataTypeKey
-import com.wenubey.domain.repository.UserPreferencesRepository
+import com.wenubey.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -16,9 +16,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-class UserPreferencesRepositoryImpl @Inject constructor(
+class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-) : UserPreferencesRepository {
+) : SettingsRepository {
 
     override val isLinearLayout: Flow<Boolean>
         get() = dataStore.data
@@ -131,6 +131,6 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val IS_TOP_BAR_LOCKED = booleanPreferencesKey("is_top_bar_locked")
         val CHARACTER_SEARCH_HISTORY = stringPreferencesKey("character_search_history")
         val LOCATION_SEARCH_HISTORY = stringPreferencesKey("location_search_history")
-        const val TAG = "UserPreferencesRepo"
+        const val TAG = "SettingsPreferencesRepo"
     }
 }

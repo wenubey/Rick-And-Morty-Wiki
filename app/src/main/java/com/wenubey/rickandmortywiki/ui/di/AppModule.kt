@@ -20,12 +20,12 @@ import com.wenubey.data.remote.SearchQueryProviderImpl
 import com.wenubey.data.repository.CharacterRepositoryImpl
 import com.wenubey.data.repository.EpisodeRepositoryImpl
 import com.wenubey.data.repository.LocationRepositoryImpl
-import com.wenubey.data.repository.UserPreferencesRepositoryImpl
+import com.wenubey.data.repository.SettingsRepositoryImpl
 import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.domain.repository.EpisodeRepository
 import com.wenubey.domain.repository.LocationRepository
 import com.wenubey.domain.repository.SearchQueryProvider
-import com.wenubey.domain.repository.UserPreferencesRepository
+import com.wenubey.domain.repository.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -107,8 +107,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserPreferencesRepository(dataStore: DataStore<Preferences>): UserPreferencesRepository =
-        UserPreferencesRepositoryImpl(dataStore)
+    fun provideUserPreferencesRepository(dataStore: DataStore<Preferences>): SettingsRepository =
+        SettingsRepositoryImpl(dataStore)
 
     @Provides
     @Singleton

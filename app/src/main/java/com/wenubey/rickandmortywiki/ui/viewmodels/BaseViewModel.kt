@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
-import com.wenubey.domain.repository.UserPreferencesRepository
+import com.wenubey.domain.repository.SettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 abstract class BaseViewModel<T : Any> (
     private val searchQueryProvider: SearchQueryProvider,
-    private val userPreferencesRepository: UserPreferencesRepository,
+    private val settingsRepository: SettingsRepository,
     private val savedStateHandle: SavedStateHandle,
     private val dataTypeKey: DataTypeKey,
 ) : ViewModel(), ListScreenEvents {
@@ -88,6 +88,6 @@ abstract class BaseViewModel<T : Any> (
     }
 
     private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
-        userPreferencesRepository.saveSearchHistory(dataTypeKey, historyItem)
+        settingsRepository.saveSearchHistory(dataTypeKey, historyItem)
     }
 }

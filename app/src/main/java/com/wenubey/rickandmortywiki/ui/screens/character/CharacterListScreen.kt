@@ -45,7 +45,7 @@ import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -61,9 +61,9 @@ fun CharacterListScreen(
     events: ListScreenEvents,
 ) {
     val context = LocalContext.current
-    val userPrefViewModel: UserPreferencesViewModel = hiltViewModel()
+    val userPrefViewModel: SettingsViewModel = hiltViewModel()
     val userPrefUiState =
-        userPrefViewModel.userPreferencesUserPrefUiState.collectAsState().value
+        userPrefViewModel.settingsUiState.collectAsState().value
     val characterUiState = characterListViewModel.uiState.collectAsState().value
     val lastItemIndex = characterListViewModel.lastItemIndex.collectAsState().value
 

@@ -26,14 +26,14 @@ import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CopyRightView
 import com.wenubey.rickandmortywiki.ui.components.common.ScrollToTopFAB
 import com.wenubey.rickandmortywiki.ui.components.common.TabScreenTabRow
-import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
 import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.screens.character.CharacterListScreen
 import com.wenubey.rickandmortywiki.ui.screens.location.LocationListScreen
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.screens.settings.SettingsScreen
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesEvents
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsEvents
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -43,8 +43,6 @@ fun TabScreen(
     onCharacterSelected: (Int) -> Unit,
     onLocationSelected: (Int) -> Unit,
     navigateUp: () -> Unit,
-    userPreferencesViewModel: UserPreferencesViewModel,
-    events: UserPreferencesEvents,
 ) {
     val context = LocalContext.current
     val pagerState =
@@ -59,8 +57,11 @@ fun TabScreen(
     }
     val scope = rememberCoroutineScope()
 
+    val userPreferencesViewModel: SettingsViewModel = hiltViewModel()
+    val events: SettingsEvents = userPreferencesViewModel
+
     val userPrefUiState =
-        userPreferencesViewModel.userPreferencesUserPrefUiState.collectAsState().value
+        userPreferencesViewModel.settingsUiState.collectAsState().value
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
     val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
 
@@ -98,6 +99,7 @@ fun TabScreen(
                         lazyStaggeredGridState.animateScrollToItem(0)
                     }
                 }
+
             }
         }
     }
@@ -111,9 +113,9 @@ fun TabScreen(
         CopyRightView(onDismissRequest = { isCopyRightDialogShowed = !isCopyRightDialogShowed })
     }
     if (isHowToUseDialogShowed) {
-            HowToUseScreen(onDismissRequest = {
-                isHowToUseDialogShowed = !isHowToUseDialogShowed
-            })
+        HowToUseScreen(onDismissRequest = {
+            isHowToUseDialogShowed = !isHowToUseDialogShowed
+        })
     }
 
     Scaffold(
@@ -121,33 +123,15 @@ fun TabScreen(
             CommonTopAppBar(
                 showNavigationIcon = false,
                 isVisible = isVisible,
-                uiState = userPrefUiState,
-                onNightModeToggle = { isNightMode ->
-                    events.selectNightMode(isNightMode)
-                },
-                onTopBarLockToggle = { isTopBarLocked ->
-                    events.selectTopBarLock(isTopBarLocked)
-                },
-                onScreenLockToggle = { isScreenLocked ->
-                    events.selectScreenLock(isScreenLocked)
-                },
-                onLinearLayoutToggle = { isLinearLayout ->
-                    events.selectLayout(isLinearLayout)
-                },
-                clearAllSearchHistory = {
-                    events.clearAllSearchHistory()
-                },
-                userPreferencesOption = UserPreferencesOption.LIST,
-                isCopyRightClicked = {
-                    isCopyRightDialogShowed = true
-                }
             )
         },
         bottomBar = {
             TabScreenTabRow(pagerState = pagerState, currentTabIndex = currentTabIndex)
         },
         floatingActionButton = {
+            val isUserOnTheSettingsScreen = pagerState.currentPage != 2
             ScrollToTopFAB(
+                isUserOnTheSettingsScreen = isUserOnTheSettingsScreen,
                 onClick = scrollToFirstItem
             )
         }
@@ -188,6 +172,11 @@ fun TabScreen(
                     )
                 }
 
+                2 -> {
+                    SettingsScreen(uiState = userPrefUiState, events = events)
+
+                }
+
                 else -> {
                     context.makeToast(R.string.error_screen_not_found)
                 }
@@ -198,5 +187,6 @@ fun TabScreen(
 
 
 }
+
 
 

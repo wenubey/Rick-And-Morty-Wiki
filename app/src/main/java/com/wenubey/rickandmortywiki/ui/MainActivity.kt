@@ -14,13 +14,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.wenubey.rickandmortywiki.ui.nav.RootNavigationGraph
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
-import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
-    private val viewModel: UserPreferencesViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             navController = rememberNavController()
 
 
-            val userPrefUiState = viewModel.userPreferencesUserPrefUiState.collectAsState().value
+            val userPrefUiState = viewModel.settingsUiState.collectAsState().value
             val isScreenLocked = userPrefUiState.screenLock.isScreenLocked
             val isSystemInDarkMode = userPrefUiState.nightMode.isNightMode
 

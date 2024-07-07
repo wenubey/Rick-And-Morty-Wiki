@@ -1,5 +1,6 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels.user_pref
+package com.wenubey.rickandmortywiki.ui.viewmodels.settings
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DarkMode
@@ -13,7 +14,7 @@ import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.wenubey.rickandmortywiki.R
 
-data class UserPrefUiState(
+data class SettingsUiState(
     val screenLock: ScreenLock = ScreenLock(),
     val nightMode: NightMode = NightMode(),
     val linearLayout: LinearLayout = LinearLayout(),
@@ -26,14 +27,14 @@ abstract class ToggleFeature(
     var isEnabled: Boolean = false,
     val enabledIcon: ImageVector,
     val disabledIcon: ImageVector,
-    val enabledContent: Int,
-    val disabledContent: Int,
+    @StringRes val headerContent: Int,
+    @StringRes val detailContent: Int,
 ) {
     val toggleIcon: ImageVector
         get() = if (isEnabled) enabledIcon else disabledIcon
 
     val contentDescriptionRes: Int
-        get() = if (isEnabled) enabledContent else disabledContent
+        get() = if (isEnabled) headerContent else detailContent
 
 }
 
@@ -55,8 +56,8 @@ data class ScreenLock(
     isEnabled = isScreenLocked,
     enabledIcon = Icons.Filled.ScreenLockRotation,
     disabledIcon = Icons.Filled.ScreenRotation,
-    enabledContent = R.string.screen_locked_toggle,
-    disabledContent = R.string.screen_not_locked_toggle,
+    headerContent = R.string.screen_locked_header,
+    detailContent = R.string.screen_locked_detail,
 )
 
 data class NightMode(
@@ -65,8 +66,8 @@ data class NightMode(
     isEnabled = isNightMode,
     enabledIcon = Icons.Filled.DarkMode,
     disabledIcon = Icons.Filled.LightMode,
-    enabledContent = R.string.dark_mode_toggle,
-    disabledContent = R.string.light_mode_toggle,
+    headerContent = R.string.night_light_header,
+    detailContent = R.string.night_light_detail,
 )
 
 data class LinearLayout(
@@ -75,8 +76,8 @@ data class LinearLayout(
     isEnabled = isLinearLayout,
     enabledIcon = Icons.AutoMirrored.Filled.List,
     disabledIcon = Icons.Filled.GridOn,
-    enabledContent = R.string.linear_layout_toggle,
-    disabledContent = R.string.grid_layout_toggle,
+    headerContent = R.string.grid_list_layout_header,
+    detailContent = R.string.grid_list_layout_detail,
 )
 
 data class TopBarLock(
@@ -85,7 +86,7 @@ data class TopBarLock(
     isEnabled = isTopBarLocked,
     enabledIcon = Icons.Outlined.Lock,
     disabledIcon = Icons.Outlined.LockOpen,
-    enabledContent = R.string.top_bar_locked_toggle,
-    disabledContent = R.string.top_bar_not_locked_toggle
+    headerContent = R.string.top_bar_header,
+    detailContent = R.string.top_bar_detail
 )
 
