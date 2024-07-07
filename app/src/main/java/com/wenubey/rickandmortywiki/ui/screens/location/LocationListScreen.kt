@@ -36,9 +36,9 @@ import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
 import com.wenubey.rickandmortywiki.ui.components.location.LocationListCard
-import com.wenubey.rickandmortywiki.ui.isScrollingUp
-import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.makeToast
+import com.wenubey.rickandmortywiki.utils.isScrollingUp
+import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
+import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel

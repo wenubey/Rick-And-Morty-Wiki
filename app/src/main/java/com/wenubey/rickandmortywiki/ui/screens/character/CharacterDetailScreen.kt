@@ -27,8 +27,8 @@ import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStat
 import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
-import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.makeToast
+import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
+import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel

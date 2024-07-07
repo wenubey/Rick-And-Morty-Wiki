@@ -21,7 +21,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.NoRippleTheme
+import com.wenubey.rickandmortywiki.utils.NoRippleTheme
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.NightMode
 

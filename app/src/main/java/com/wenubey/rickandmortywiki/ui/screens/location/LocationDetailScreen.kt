@@ -26,9 +26,9 @@ import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailComponent
 import com.wenubey.rickandmortywiki.ui.components.location.LocationDetailResidentsComponents
 import com.wenubey.rickandmortywiki.ui.components.pref_menu.UserPreferencesOption
-import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.makeToast
-import com.wenubey.rickandmortywiki.ui.shrinkParentheses
+import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
+import com.wenubey.rickandmortywiki.utils.makeToast
+import com.wenubey.rickandmortywiki.utils.shrinkParentheses
 import com.wenubey.rickandmortywiki.ui.viewmodels.LocationDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.user_pref.UserPreferencesViewModel

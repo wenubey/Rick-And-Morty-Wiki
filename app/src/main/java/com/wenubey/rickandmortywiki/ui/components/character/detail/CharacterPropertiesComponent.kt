@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.dp
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Episode
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.formatSeasonEpisode
-import com.wenubey.rickandmortywiki.ui.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.ui.parseDate
+import com.wenubey.rickandmortywiki.utils.formatSeasonEpisode
+import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
+import com.wenubey.rickandmortywiki.utils.parseDate
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
 
 @Composable

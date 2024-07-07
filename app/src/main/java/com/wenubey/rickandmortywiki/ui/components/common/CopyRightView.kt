@@ -40,8 +40,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.makeToast
-import com.wenubey.rickandmortywiki.ui.openUrlInCustomTabs
+import com.wenubey.rickandmortywiki.utils.makeToast
+import com.wenubey.rickandmortywiki.utils.openUrlInCustomTabs
 import com.wenubey.rickandmortywiki.ui.theme.sourceCodeFamily
 
 
