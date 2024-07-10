@@ -14,12 +14,15 @@
     <string name="character_properties_header">PROPERTIES</string>
     <string name="character_whereabouts_header">WHEREABOUTS</string>
     <string name="character_episodes_header">CHAPTERS</string>
-    <string name="tab_characters">Characters</string>
-    <string name="tabs_locations">Locations</string>
     <string name="episode_list_show_less">SHOW LESS</string>
     <string name="episode_list_show_more">SHOW MORE</string>
     <string name="residents_header">RESIDENTS</string>
     <string name="location_detail_population">Population: %1$s</string>
+
+    Tabs
+    <string name="tab_characters">Characters</string>
+    <string name="tabs_locations">Locations</string>
+    <string name="tabs_settings">Settings</string>
 
     User Preferences
     <string name="top_bar_header">Top Bar Lock/Unlock</string>
@@ -30,17 +33,16 @@
     <string name="night_light_detail">This will change to the application night/light mode behavior.</string>
     <string name="screen_locked_header">Screen Lock/Unlock</string>
     <string name="screen_locked_detail">This will change to the screen orientation lock behavior.</string>
-
-
-
+    <string name="copyright_header">Copyright ©</string>
+    <string name="copyright_detail">You can navigate to copyright screen when clicked to button.</string>
+    <string name="how_to_use_header">How to use?</string>
+    <string name="how_to_use_detail">You can navigate to how to use screen when clicked to button.</string>
     <string name="clear_all_search_history_toggle">Clear search history</string>
     <string name="delete_the_search_history_toggle">Delete the search history</string>
     <string name="default_toggle">Default</string>
     <string name="menu_night_mode">Night Mode</string>
     <string name="menu_screen_lock">Screen Lock</string>
     <string name="menu_linear_layout">Linear Layout</string>
-    <string name="copyright_section">Copyright Section</string>
-    <string name="how_to_use_section">How to use?</string>
 
     Error
     <string name="error_email_app_not_found">No email app found.</string>
@@ -61,7 +63,6 @@
     <string name="cd_play_pause_button">Play/pause button.</string>
 
     Copyright Section
-    <string name="copyright_header">Copyright ©</string>
     <string name="copyright_part_first">"This application is not an official app of "</string>
     <string name="copyright_part_second">" or its creators. It is an independent project developed by wenubey and is not endorsed by or affiliated with "</string>
     <string name="copyright_part_third">", or any related entities.\n\nAll images, characters, names, and related indicia are © and ™ of their respective owners. The use of any materials belonging to "</string>
@@ -70,7 +71,8 @@
     <string name="copyright_part_sixth">"\'s play store account to check the other applications.\n\n"</string>
     <string name="copyright_part_seventh">"Copyright © 2024 Rick and Morty Wikipedia Contributors. All rights reserved.\n"</string>
     <string name="copyright_part_eighth">Thank you for using the Rick and Morty Wikipedia app!</string>
-    <string name="tabs_settings">Settings</string>
+
+    Animation Labels
     <string name="label_fab_animation">FAB animation label</string>
 
 

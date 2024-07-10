@@ -29,7 +29,7 @@ import com.wenubey.rickandmortywiki.utils.VideoPlayer
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HowToUseScreen(
-    onDismissRequest: () -> Unit,
+    onNavigateBack: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -37,7 +37,7 @@ fun HowToUseScreen(
             TopAppBar(
                 title = {
                     Row {
-                        IconButton(onClick = onDismissRequest) {
+                        IconButton(onClick = onNavigateBack) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(

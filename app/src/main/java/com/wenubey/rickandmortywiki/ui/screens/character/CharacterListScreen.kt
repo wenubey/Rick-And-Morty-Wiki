@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,13 +39,13 @@ import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterGridCa
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterListCard
 import com.wenubey.rickandmortywiki.ui.components.common.CustomProgressIndicator
 import com.wenubey.rickandmortywiki.ui.components.common.CustomSearchBar
-import com.wenubey.rickandmortywiki.utils.isScrollingUp
-import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
-import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenEvents
 import com.wenubey.rickandmortywiki.ui.viewmodels.ListScreenUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
+import com.wenubey.rickandmortywiki.utils.isScrollingUp
+import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
+import com.wenubey.rickandmortywiki.utils.makeToast
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,12 +53,11 @@ import kotlinx.coroutines.launch
 fun CharacterListScreen(
     onCharacterSelected: (id: Int) -> Unit,
     navigateUp: () -> Unit,
-    lazyListState: LazyListState,
-    lazyGridState: LazyGridState,
     onScrollUp: (Boolean) -> Unit,
     pagerState: PagerState,
     characterListViewModel: CharacterListViewModel,
     events: ListScreenEvents,
+    onScrollToTopInvoked: Boolean,
 ) {
     val context = LocalContext.current
     val userPrefViewModel: SettingsViewModel = hiltViewModel()
@@ -74,13 +73,31 @@ fun CharacterListScreen(
     val isLinearLayout = userPrefUiState.linearLayout.isLinearLayout
     val isTopBarLocked = userPrefUiState.topBarLock.isTopBarLocked
 
+    val lazyListState = rememberLazyListState()
+    val lazyGridState = rememberLazyGridState()
+
+
+    LaunchedEffect(key1 = onScrollToTopInvoked) {
+        if (isLinearLayout) {
+            lazyListState.animateScrollToItem(0)
+        } else {
+            lazyGridState.animateScrollToItem(0)
+        }
+    }
+
+
+
     LaunchedEffect(Unit) {
-        lazyListState.animateScrollToItem(lastItemIndex)
+        if (isLinearLayout) {
+            lazyListState.animateScrollToItem(lastItemIndex)
+        } else {
+            lazyGridState.animateScrollToItem(lastItemIndex)
+        }
     }
 
     onScrollUp(
         if (isLinearLayout) {
-            lazyListState.isScrollingUp()
+           lazyListState.isScrollingUp()
         } else {
             lazyGridState.isScrollingUp()
         }
