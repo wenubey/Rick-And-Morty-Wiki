@@ -66,8 +66,8 @@
     <string name="copyright_part_first">"This application is not an official app of "</string>
     <string name="copyright_part_second">" or its creators. It is an independent project developed by wenubey and is not endorsed by or affiliated with "</string>
     <string name="copyright_part_third">", or any related entities.\n\nAll images, characters, names, and related indicia are © and ™ of their respective owners. The use of any materials belonging to "</string>
-    <string name="copyright_part_fourth">" is for informational and educational purposes only, under the principles of fair use.\n\nRick and Morty is created by Justin Roiland and Dan Harmon.\n\nFor any inquiries or concerns regarding this application, please contact via"</string>
-    <string name="copyright_part_fifth">". \n\nAlso you can visit "</string>
+    <string name="copyright_part_fourth">" is for informational and educational purposes only, under the principles of fair use.\n\nRick and Morty is created by Justin Roiland and Dan Harmon.For any inquiries or concerns regarding this application, please contact via"</string>
+    <string name="copyright_part_fifth">".Also you can visit "</string>
     <string name="copyright_part_sixth">"\'s play store account to check the other applications.\n\n"</string>
     <string name="copyright_part_seventh">"Copyright © 2024 Rick and Morty Wikipedia Contributors. All rights reserved.\n"</string>
     <string name="copyright_part_eighth">Thank you for using the Rick and Morty Wikipedia app!</string>

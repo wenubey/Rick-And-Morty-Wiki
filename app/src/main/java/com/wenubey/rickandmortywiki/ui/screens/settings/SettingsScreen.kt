@@ -1,6 +1,8 @@
 package com.wenubey.rickandmortywiki.ui.screens.settings
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,19 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,13 +30,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.settings.InfoText
-import com.wenubey.rickandmortywiki.ui.components.settings.SettingsSwitch
 import com.wenubey.rickandmortywiki.ui.components.settings.SettingsItemDivider
-import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsUiState
+import com.wenubey.rickandmortywiki.ui.components.settings.SettingsSwitch
 import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsEvents
-import com.wenubey.rickandmortywiki.utils.NoRippleTheme
+import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsUiState
 
 @Composable
 fun SettingsScreen(
@@ -61,12 +61,15 @@ fun SettingsScreen(
         mutableStateOf(lockedTopBarState.isTopBarLocked)
     }
 
+    val scrollState = rememberScrollState()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(scrollState)
                     .padding(paddingValues)
                     .padding(8.dp)
             ) {
@@ -126,9 +129,17 @@ fun SettingsScreen(
                     }
                 )
                 SettingsItemDivider()
-                SettingsSection(headerRes = R.string.copyright_header, detailRes = R.string.copyright_detail, onNavigateTo = onNavigateToCopyrightScreen)
+                SettingsSection(
+                    headerRes = R.string.copyright_header,
+                    detailRes = R.string.copyright_detail,
+                    onNavigateTo = onNavigateToCopyrightScreen
+                )
                 SettingsItemDivider()
-                SettingsSection(headerRes = R.string.how_to_use_header, detailRes = R.string.how_to_use_detail, onNavigateTo = onNavigateToHowToUseScreen)
+                SettingsSection(
+                    headerRes = R.string.how_to_use_header,
+                    detailRes = R.string.how_to_use_detail,
+                    onNavigateTo = onNavigateToHowToUseScreen
+                )
             }
         }
     )
@@ -141,17 +152,31 @@ fun SettingsSection(
     navigationVector: ImageVector = Icons.AutoMirrored.Filled.ArrowForward,
     onNavigateTo: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(
+                interactionSource = interactionSource,
+                onClick = onNavigateTo,
+                indication = null
+            )
             .padding(4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        InfoText(modifier = Modifier.weight(0.7f), headerRes = headerRes, detailedInfoRes = detailRes)
-        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
-            IconButton(modifier = Modifier.size(64.dp), onClick = onNavigateTo) {
-                Icon(modifier = Modifier.size(32.dp),imageVector = navigationVector, contentDescription = stringResource(id = headerRes), tint = Color.Magenta.copy(alpha = 0.7f))
-            }
-        }
+        InfoText(
+            modifier = Modifier.weight(0.7f),
+            headerRes = headerRes,
+            detailedInfoRes = detailRes
+        )
+        Icon(
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .size(40.dp),
+            imageVector = navigationVector,
+            contentDescription = stringResource(id = headerRes),
+            tint = Color.Magenta
+        )
     }
 }
