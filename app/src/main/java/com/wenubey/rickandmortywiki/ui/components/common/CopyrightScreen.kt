@@ -3,26 +3,21 @@ package com.wenubey.rickandmortywiki.ui.components.common
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BasicAlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -40,49 +35,41 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wenubey.rickandmortywiki.R
+import com.wenubey.rickandmortywiki.ui.theme.sourceCodeFamily
 import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.utils.openUrlInCustomTabs
-import com.wenubey.rickandmortywiki.ui.theme.sourceCodeFamily
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CopyRightView(
-    onDismissRequest: () -> Unit
+fun CopyrightScreen(
+    onNavigateBack: () -> Unit,
 ) {
     val color = MaterialTheme.colorScheme.primary
-    BasicAlertDialog(
+    Scaffold(
         modifier = Modifier
-            .border(
-                width = 1.dp,
-                // TODO change color to when color palette created.
-                color = Color.Magenta,
-                shape = RoundedCornerShape(16.dp)
-            )
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp)
             .fillMaxSize(),
-        onDismissRequest = onDismissRequest,
-        content = {
+        topBar = {
+            CommonTopAppBar(
+                onBackButtonPressed = onNavigateBack,
+                showNavigationIcon = true,
+                title = stringResource(id = R.string.copyright_header),
+            )
+        },
+        content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(4.dp)
+                    .padding(paddingValues)
+                    .padding(16.dp)
                     .fillMaxSize()
             ) {
-                Text(
-                    text = stringResource(R.string.copyright_header),
-                    fontSize = 32.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                CopyrightSection(modifier  = Modifier.weight(1f) ,color = color)
-                // TODO change color to when color palette created.
+                CopyrightSection(modifier = Modifier.weight(1f), color = color)
+
                 HorizontalDivider(
                     color = Color.Magenta,
                     modifier = Modifier.padding(vertical = 6.dp)
                 )
                 Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = stringResource(id = R.string.copyright_part_eighth),
                     fontSize = 16.sp,
                     color = color,
@@ -122,7 +109,6 @@ private fun CopyrightSection(modifier: Modifier = Modifier, color: Color) {
                 ?.let { link ->
                     val intent = Intent(Intent.ACTION_SENDTO).apply {
                         setData(Uri.parse("mailto:"))
-                        Log.i("TAG", "link.item: ${link.item}")
                         putExtra(Intent.EXTRA_EMAIL, arrayOf(link.item))
                     }
                     try {

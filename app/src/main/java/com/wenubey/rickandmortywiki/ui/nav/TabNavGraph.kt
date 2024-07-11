@@ -29,9 +29,18 @@ fun NavGraphBuilder.tabNavGraph(navController: NavController) {
                 onCharacterSelected = { navController.navigateToCharacterDetail(it) },
                 onLocationSelected = { navController.navigateToLocationDetail(it) },
                 navigateUp = { navController.popBackStack() },
+                onNavigateToCopyrightScreen = { navController.navigateToCopyrightScreen() },
+                onNavigateToHowToUseScreen = { navController.navigateToHowToUseScreen() }
             )
         }
     }
+}
+
+fun NavController.navigateToCopyrightScreen() {
+    this.navigate(SettingsScreens.COPYRIGHT)
+}
+fun NavController.navigateToHowToUseScreen() {
+    this.navigate(SettingsScreens.HOW_TO_USE)
 }
 
 fun NavController.navigateToTabScreen(tabIndex: Int?) {

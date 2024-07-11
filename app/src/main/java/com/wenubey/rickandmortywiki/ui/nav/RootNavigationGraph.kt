@@ -12,9 +12,9 @@ fun RootNavigationGraph(
         tabNavGraph(navController)
         characterNavGraph(navController)
         locationNavGraph(navController)
+        settingsNavGraph(navController)
     }
 }
-
 
 
 object Graph {
@@ -22,4 +22,5 @@ object Graph {
     const val TAB = "tab_graph"
     const val CHARACTER = "character_graph"
     const val LOCATION = "location_graph"
+    const val SETTINGS = "settings_graph"
 }

@@ -21,9 +21,9 @@ import com.wenubey.rickandmortywiki.utils.appSwitchColors
 
 
 @Composable
-fun SettingsItem(
-    @StringRes infoTextHeader: Int,
-    @StringRes infoTextDetail: Int,
+fun SettingsSwitch(
+    @StringRes infoTextHeaderRes: Int,
+    @StringRes infoTextDetailRes: Int,
     switchIconVector: ImageVector,
     @StringRes switchIconContentDescription: Int,
     checked: Boolean,
@@ -39,8 +39,8 @@ fun SettingsItem(
     ) {
         InfoText(
             modifier = Modifier.weight(0.8f),
-            text = stringResource(id = infoTextHeader),
-            detailedInfo = stringResource(id = infoTextDetail)
+            headerRes =  infoTextHeaderRes,
+            detailedInfoRes =  infoTextDetailRes
         )
         Switch(
             modifier = Modifier
