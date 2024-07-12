@@ -113,4 +113,8 @@ dependencies {
 
     // Custom Tabs
     implementation(libs.browser)
+
+    // Exoplayer
+    implementation(libs.media3.ui)
+    implementation(libs.media3.exoplayer)
 }
