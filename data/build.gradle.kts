@@ -69,4 +69,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.paging)
     implementation(libs.room.ktx)
+
+    // Exoplayer
+    implementation(libs.media3.ui)
+    implementation(libs.media3.exoplayer)
 }

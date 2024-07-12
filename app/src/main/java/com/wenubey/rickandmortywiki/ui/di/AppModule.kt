@@ -8,11 +8,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
+import com.wenubey.data.ExoPlayerProvider
 import com.wenubey.data.KtorClient
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.LocationEntity
-import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.RickAndMortyDatabase
+import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.data.remote.CharactersRemoteMediator
 import com.wenubey.data.remote.LocationsRemoteMediator
@@ -21,11 +22,13 @@ import com.wenubey.data.repository.CharacterRepositoryImpl
 import com.wenubey.data.repository.EpisodeRepositoryImpl
 import com.wenubey.data.repository.LocationRepositoryImpl
 import com.wenubey.data.repository.SettingsRepositoryImpl
+import com.wenubey.data.repository.VideoPlayerRepositoryImpl
 import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.domain.repository.EpisodeRepository
 import com.wenubey.domain.repository.LocationRepository
 import com.wenubey.domain.repository.SearchQueryProvider
 import com.wenubey.domain.repository.SettingsRepository
+import com.wenubey.domain.repository.VideoPlayerRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -121,6 +124,17 @@ object AppModule {
         ktorClient: KtorClient,
         pager: Pager<Int, LocationEntity>
     ): LocationRepository = LocationRepositoryImpl(ktorClient, pager)
+
+    @Provides
+    @Singleton
+    fun provideVideoPlayerRepository(
+        @ApplicationContext context: Context,
+    ): VideoPlayerRepository = VideoPlayerRepositoryImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideExoPlayerProvider(@ApplicationContext context: Context): ExoPlayerProvider =
+        ExoPlayerProvider(context)
 
     @Provides
     @Singleton
