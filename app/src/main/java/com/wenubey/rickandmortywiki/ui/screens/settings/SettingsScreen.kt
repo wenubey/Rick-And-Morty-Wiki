@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwitchDefaults
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import com.wenubey.rickandmortywiki.ui.components.settings.SettingsItemDivider
 import com.wenubey.rickandmortywiki.ui.components.settings.SettingsSwitch
 import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsEvents
 import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsUiState
+import com.wenubey.rickandmortywiki.utils.makeToast
 
 @Composable
 fun SettingsScreen(
@@ -43,6 +46,8 @@ fun SettingsScreen(
     onNavigateToCopyrightScreen: () -> Unit,
     onNavigateToHowToUseScreen: () -> Unit,
 ) {
+    val context = LocalContext.current
+
     val nightModeState = uiState.nightMode
     val linearLayoutState = uiState.linearLayout
     val screenLockState = uiState.screenLock
@@ -130,15 +135,25 @@ fun SettingsScreen(
                 )
                 SettingsItemDivider()
                 SettingsSection(
+                    headerRes = R.string.clear_all_search_header,
+                    detailRes = R.string.clear_all_search_detail,
+                    navigationVector = Icons.Default.History,
+                    onClick = {
+                        events.clearAllSearchHistory()
+                        context.makeToast(R.string.notification_search_history_clear)
+                    },
+                )
+                SettingsItemDivider()
+                SettingsSection(
                     headerRes = R.string.copyright_header,
                     detailRes = R.string.copyright_detail,
-                    onNavigateTo = onNavigateToCopyrightScreen
+                    onClick = onNavigateToCopyrightScreen
                 )
                 SettingsItemDivider()
                 SettingsSection(
                     headerRes = R.string.how_to_use_header,
                     detailRes = R.string.how_to_use_detail,
-                    onNavigateTo = onNavigateToHowToUseScreen
+                    onClick = onNavigateToHowToUseScreen
                 )
             }
         }
@@ -150,7 +165,7 @@ fun SettingsSection(
     @StringRes headerRes: Int,
     @StringRes detailRes: Int,
     navigationVector: ImageVector = Icons.AutoMirrored.Filled.ArrowForward,
-    onNavigateTo: () -> Unit,
+    onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
@@ -158,7 +173,7 @@ fun SettingsSection(
             .fillMaxWidth()
             .clickable(
                 interactionSource = interactionSource,
-                onClick = onNavigateTo,
+                onClick = onClick,
                 indication = null
             )
             .padding(4.dp),
