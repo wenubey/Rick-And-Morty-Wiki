@@ -133,14 +133,14 @@ private fun CopyrightSection(modifier: Modifier = Modifier, color: Color) {
                 }
         },
         style = TextStyle(
-            fontSize = 16.sp,
+            fontSize = 24.sp,
             fontSynthesis = FontSynthesis.Style,
             textAlign = TextAlign.Justify,
             hyphens = Hyphens.Auto,
             fontFamily = sourceCodeFamily,
             textIndent = TextIndent(firstLine = 16.sp),
             lineBreak = LineBreak.Paragraph,
-            lineHeight = 16.sp
+            lineHeight = 24.sp
 
         ),
 
