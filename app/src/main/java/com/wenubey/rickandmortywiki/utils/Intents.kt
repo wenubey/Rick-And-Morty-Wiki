@@ -35,19 +35,17 @@ fun sendEmail(
 }
 
 fun visitPlayStore(context: Context) {
-    val marketUri = Uri.parse("market://details?id=${context.packageName}")
-    val websiteUri = Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+    val marketUri = Uri.parse(context.getString(R.string.google_player_developer_link))
 
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = marketUri
         setPackage(context.getString(R.string.play_market_package_name))
     }
-    val websiteIntent = Intent(Intent.ACTION_VIEW, websiteUri)
 
     try {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-        context.startActivity(websiteIntent)
+        return
     }
 }
 
