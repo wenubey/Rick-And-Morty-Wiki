@@ -1,8 +1,5 @@
 package com.wenubey.rickandmortywiki.ui.components.common
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,8 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.theme.sourceCodeFamily
-import com.wenubey.rickandmortywiki.utils.makeToast
 import com.wenubey.rickandmortywiki.utils.openUrlInCustomTabs
+import com.wenubey.rickandmortywiki.utils.sendEmail
+import com.wenubey.rickandmortywiki.utils.visitPlayStore
 
 
 @Composable
@@ -96,36 +94,42 @@ private fun CopyrightSection(modifier: Modifier = Modifier, color: Color) {
             .verticalScroll(scrollState),
         text = text,
         onClick = { offset ->
-            text.getStringAnnotations(tag = "rick_and_morty", start = offset, end = offset)
+            text.getStringAnnotations(
+                tag = context.getString(R.string.annotation_tag_rick_and_morty),
+                start = offset,
+                end = offset
+            )
                 .firstOrNull()?.let { link ->
-                    context.openUrlInCustomTabs(link.item)
+                    openUrlInCustomTabs(context, link.item)
                 }
-            text.getStringAnnotations(tag = "adult_swim", start = offset, end = offset)
+            text.getStringAnnotations(
+                tag = context.getString(R.string.annotation_tag_adult_swim),
+                start = offset,
+                end = offset
+            )
                 .firstOrNull()
                 ?.let { link ->
-                    context.openUrlInCustomTabs(link.item)
+                    openUrlInCustomTabs(context, link.item)
                 }
-            text.getStringAnnotations(tag = "email", start = offset, end = offset).firstOrNull()
-                ?.let { link ->
-                    val intent = Intent(Intent.ACTION_SENDTO).apply {
-                        setData(Uri.parse("mailto:"))
-                        putExtra(Intent.EXTRA_EMAIL, arrayOf(link.item))
-                    }
-                    try {
-                        context.startActivity(intent)
-                    } catch (ex: ActivityNotFoundException) {
-                        context.makeToast(R.string.error_email_app_not_found)
-                    }
+            text.getStringAnnotations(
+                tag = context.getString(R.string.annotation_tag_email),
+                start = offset,
+                end = offset
+            ).firstOrNull()
+                ?.let {
+                    sendEmail(
+                        mailSubject = context.getString(R.string.copyright_mail_subject),
+                        mailText = context.getString(R.string.feedback_mail_text),
+                        context
+                    )
                 }
-            text.getStringAnnotations(tag = "play_developer", start = offset, end = offset)
-                .firstOrNull()?.let { link ->
-                    try {
-                        val playStoreWebsiteIntent =
-                            Intent(Intent.ACTION_VIEW, Uri.parse(link.item))
-                        context.startActivity(playStoreWebsiteIntent)
-                    } catch (e: ActivityNotFoundException) {
-                        context.makeToast(R.string.error_email_app_not_found)
-                    }
+            text.getStringAnnotations(
+                tag = context.getString(R.string.annotation_tag_play_developer),
+                start = offset,
+                end = offset
+            )
+                .firstOrNull()?.let {
+                    visitPlayStore(context)
                 }
         },
         style = TextStyle(
@@ -154,8 +158,8 @@ private fun getCopyRightText(color: Color): AnnotatedString {
         ) {
             append(stringResource(R.string.copyright_part_first))
             pushStringAnnotation(
-                "rick_and_morty",
-                annotation = "https://www.adultswim.com/videos/rick-and-morty"
+                stringResource(id = R.string.annotation_tag_rick_and_morty),
+                annotation = stringResource(R.string.rick_and_mort_website_link)
             )
             // TODO change color to when color palette created.
             withStyle(
@@ -164,52 +168,14 @@ private fun getCopyRightText(color: Color): AnnotatedString {
                     color = Color.Magenta
                 )
             ) {
-                append("Rick And Morty")
+                append(stringResource(R.string.copyright_rick_and_morty))
             }
             pop()
 
             append(stringResource(R.string.copyright_part_second))
-            pushStringAnnotation("adult_swim", annotation = "https://www.adultswim.com")
-            // TODO change color to when color palette created.
-            withStyle(
-                style = SpanStyle(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Magenta
-                )
-            ) {
-                append("Adult Swim")
-            }
-            pop()
-            append(stringResource(R.string.copyright_part_third))
-
-            pushStringAnnotation("adult_swim", annotation = "https://www.adultswim.com")
-            // TODO change color to when color palette created.
-            withStyle(
-                style = SpanStyle(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Magenta
-                )
-            ) {
-                append("Adult Swim")
-            }
-            pop()
-
-            append(stringResource(R.string.copyright_part_fourth))
-            pushStringAnnotation("email", annotation = "mertfatihsimsek06@gmail.com")
-            // TODO change color to when color palette created.
-            withStyle(
-                style = SpanStyle(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Magenta
-                )
-            ) {
-                append(" email")
-            }
-            pop()
-            append(stringResource(R.string.copyright_part_fifth))
             pushStringAnnotation(
-                "play_developer",
-                annotation = "https://play.google.com/store/apps/developer?id=wenubey"
+                stringResource(id = R.string.annotation_tag_adult_swim),
+                annotation = stringResource(id = R.string.adult_swim_link)
             )
             // TODO change color to when color palette created.
             withStyle(
@@ -218,7 +184,54 @@ private fun getCopyRightText(color: Color): AnnotatedString {
                     color = Color.Magenta
                 )
             ) {
-                append("wenubey")
+                append(stringResource(R.string.copyright_adult_swim))
+            }
+            pop()
+            append(stringResource(R.string.copyright_part_third))
+
+            pushStringAnnotation(
+                stringResource(id = R.string.annotation_tag_adult_swim),
+                annotation = stringResource(id = R.string.adult_swim_link)
+            )
+            // TODO change color to when color palette created.
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Magenta
+                )
+            ) {
+                append(stringResource(R.string.copyright_adult_swim))
+            }
+            pop()
+
+            append(stringResource(R.string.copyright_part_fourth))
+            pushStringAnnotation(
+                stringResource(id = R.string.annotation_tag_email),
+                annotation = stringResource(R.string.developer_mail)
+            )
+            // TODO change color to when color palette created.
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Magenta
+                )
+            ) {
+                append(stringResource(R.string.copyright_email))
+            }
+            pop()
+            append(stringResource(R.string.copyright_part_fifth))
+            pushStringAnnotation(
+                stringResource(id = R.string.annotation_tag_play_developer),
+                annotation = stringResource(R.string.google_player_developer_link)
+            )
+            // TODO change color to when color palette created.
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Magenta
+                )
+            ) {
+                append(stringResource(R.string.copyright_developer_name))
             }
             pop()
             append(stringResource(id = R.string.copyright_part_sixth))

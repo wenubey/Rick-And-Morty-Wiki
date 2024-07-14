@@ -71,9 +71,37 @@
     <string name="copyright_part_sixth">"\'s play store account to check the other applications.\n\n"</string>
     <string name="copyright_part_seventh">"Copyright © 2024 Rick and Morty Wikipedia Contributors. All rights reserved.\n"</string>
     <string name="copyright_part_eighth">Thank you for using the Rick and Morty Wikipedia app!</string>
+    <string name="copyright_rick_and_morty">Rick And Morty</string>
+    <string name="copyright_adult_swim">Adult Swim</string>
+    <string name="copyright_email">" email"</string>
+    <string name="copyright_developer_name">wenubey</string>
+    <string name="copyright_mail_subject">Copyright on Rick and Morty Wiki</string>
 
     Animation Labels
     <string name="label_fab_animation">FAB animation label</string>
+    <string name="how_to_use_part_one">1. If you double clicked to grid character item you can see more information about that character</string>
+
+    Feedback Constants
+    <string name="feedback_first_part">"For feedback or issues, please "</string>
+    <string name="feedback_second_part">send an email</string>
+    <string name="feedback_third_part">" or "</string>
+    <string name="feedback_fourth_part">visit my Play Store page.</string>
+    <string name="feedback_mail_subject">Feedback on Rick and Morty Wiki</string>
+    <string name="feedback_mail_text">Dear Developer,</string>
+
+
+    Annotation and Intent Constants
+    <string name="rick_and_mort_website_link">https://www.adultswim.com/videos/rick-and-morty</string>
+    <string name="adult_swim_link">https://www.adultswim.com</string>
+    <string name="developer_mail_uri">mailto:mertfatihsimsek06@gmail.com</string>
+    <string name="developer_mail">mertfatihsimsek06@gmail.com</string>
+    <string name="google_player_developer_link">https://play.google.com/store/apps/developer?id=wenubey</string>
+    <string name="send_email">Send email…</string>
+    <string name="play_market_package_name">com.android.vending</string>
+    <string name="annotation_tag_rick_and_morty">rick_and_morty</string>
+    <string name="annotation_tag_adult_swim">adult_swim</string>
+    <string name="annotation_tag_email">email</string>
+    <string name="annotation_tag_play_developer">play_developer</string>
 
 
 </resources>
