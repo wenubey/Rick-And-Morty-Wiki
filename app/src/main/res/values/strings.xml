@@ -52,6 +52,7 @@
     <string name="cd_character_image">Character image</string>
     <string name="cd_navigate_back">Navigate back</string>
     <string name="cd_play_pause_button">Play/pause button.</string>
+    <string name="cd_loading">Loading</string>
 
     Copyright Section
     <string name="copyright_part_first">"This application is not an official app of "</string>
@@ -70,6 +71,10 @@
 
     Animation Labels
     <string name="label_fab_animation">FAB animation label</string>
+    <string name="label_loading_indicator_animation">loading_indicator_animation</string>
+    <string name="label_loading_indicator_angle">loading_indicator_angle</string>
+
+    How to Use Section
     <string name="how_to_use_part_one">1. If you double clicked to grid character item you can see more information about that character</string>
 
     Feedback Constants
