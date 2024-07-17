@@ -117,4 +117,9 @@ dependencies {
     // Exoplayer
     implementation(libs.media3.ui)
     implementation(libs.media3.exoplayer)
+
+    // Glance Widget
+    implementation(libs.glance.material3)
+    implementation(libs.glance.appwidget)
+
 }
