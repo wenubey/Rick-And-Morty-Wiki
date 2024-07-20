@@ -26,7 +26,7 @@ class CharacterWidget : GlanceAppWidget() {
 
     override val sizeMode: SizeMode =
         SizeMode.Responsive(
-            setOf(SMALL_SQUARE, HORIZONTAL_RECTANGLE),
+            setOf(SMALL_SQUARE, MEDIUM_RECTANGLE, BIG_RECTANGLE),
         )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -42,13 +42,15 @@ class CharacterWidget : GlanceAppWidget() {
 
         when (size) {
             SMALL_SQUARE -> CharacterSmallSquare(characterInfo = characterInfo)
-            HORIZONTAL_RECTANGLE -> CharacterHorizontalRectangle(characterInfo = characterInfo)
+            MEDIUM_RECTANGLE -> CharacterSmallSquare(characterInfo = characterInfo)
+            BIG_RECTANGLE -> CharacterHorizontalRectangle(characterInfo = characterInfo)
         }
     }
 
     companion object {
-        private val SMALL_SQUARE = DpSize(120.dp, 120.dp)
-        private val HORIZONTAL_RECTANGLE = DpSize(250.dp, 120.dp)
+        private val SMALL_SQUARE = DpSize(100.dp, 100.dp)
+        private val MEDIUM_RECTANGLE = DpSize(200.dp, 100.dp)
+        private val BIG_RECTANGLE = DpSize(300.dp, 100.dp)
     }
 }
 
