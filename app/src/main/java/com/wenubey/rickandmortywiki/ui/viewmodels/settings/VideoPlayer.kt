@@ -47,11 +47,10 @@ fun VideoPlayer(modifier: Modifier = Modifier, @RawRes videoResource: Int) {
         viewModel.onVideoReady(videoResource)
     }
 
-    Box(modifier = modifier) {
+    Box {
         state?.exoPlayer?.let { exoPlayer ->
             AndroidView(
-                modifier = Modifier
-                    .size(height = 300.dp, width = 250.dp)
+                modifier = modifier
                     .clickable(
                         indication = null, interactionSource = interactionSource,
                         onClick = {

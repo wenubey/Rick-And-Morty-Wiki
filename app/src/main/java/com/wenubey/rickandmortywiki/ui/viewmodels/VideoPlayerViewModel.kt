@@ -28,8 +28,8 @@ class VideoPlayerViewModel @Inject constructor(
             exoPlayer.setMediaItem(MediaItem.fromUri(videoUri))
             exoPlayer.repeatMode = ExoPlayer.REPEAT_MODE_ALL
             exoPlayer.prepare()
-            exoPlayer.playWhenReady = true
-            _videoPlayers.value += (videoResource to VideoPlayerState(exoPlayer, true))
+            exoPlayer.playWhenReady = false
+            _videoPlayers.value += (videoResource to VideoPlayerState(exoPlayer, false))
         }
     }
 

@@ -76,6 +76,8 @@
 
     How to Use Section
     <string name="how_to_use_part_one">1. If you double clicked to grid character item you can see more information about that character</string>
+    <string name="how_to_use_part_two">"2.You can create widget like that. We strongly recommend you to use just one widget. Due to the power consumption."</string>
+    <string name="how_to_use_part_three">3.Widget have relative layout you can change like this. But recommended sizes are 2x2 and 4x2.</string>
 
     Feedback Constants
     <string name="feedback_first_part">"For feedback or issues, please "</string>
@@ -84,7 +86,6 @@
     <string name="feedback_fourth_part">visit my Play Store page.</string>
     <string name="feedback_mail_subject">Feedback on Rick and Morty Wiki</string>
     <string name="feedback_mail_text">Dear Developer,</string>
-
 
     Annotation and Intent Constants
     <string name="rick_and_mort_website_link">https://www.adultswim.com/videos/rick-and-morty</string>
@@ -98,6 +99,9 @@
     <string name="annotation_tag_adult_swim">adult_swim</string>
     <string name="annotation_tag_email">email</string>
     <string name="annotation_tag_play_developer">play_developer</string>
+    <string name="annotation_send_an_email">Send an email</string>
+    <string name="annotation_visit_our_play_store_page">Visit our Play Store page</string>
+    <string name="annotation_tag_feedback">Feedback</string>
 
     Notification Constants
     <string name="notification_search_history_clear">Your search history has been cleared.</string>
