@@ -29,6 +29,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @OptIn(ExperimentalPagingApi::class)
@@ -41,14 +42,16 @@ object RepoModule {
     fun provideCharacterPager(
         ktorClient: KtorClient,
         dao: CharacterDao,
-        searchQueryProvider: SearchQueryProvider
+        searchQueryProvider: SearchQueryProvider,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): Pager<Int, CharacterEntity> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = CharactersRemoteMediator(
                 ktorClient = ktorClient,
                 dao = dao,
-                searchQueryProvider = searchQueryProvider
+                searchQueryProvider = searchQueryProvider,
+                ioDispatcher = ioDispatcher
             ),
             pagingSourceFactory = {
                 dao.pagingSource()
@@ -61,14 +64,16 @@ object RepoModule {
     fun provideLocationPager(
         ktorClient: KtorClient,
         dao: LocationDao,
-        searchQueryProvider: SearchQueryProvider
+        searchQueryProvider: SearchQueryProvider,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): Pager<Int, LocationEntity> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = LocationsRemoteMediator(
                 ktorClient = ktorClient,
                 dao = dao,
-                searchQueryProvider = searchQueryProvider
+                searchQueryProvider = searchQueryProvider,
+                ioDispatcher = ioDispatcher
             ),
             pagingSourceFactory = {
                 dao.pagingSource()
@@ -81,16 +86,21 @@ object RepoModule {
     fun provideCharacterRepository(
         ktorClient: KtorClient,
         pager: Pager<Int, CharacterEntity>,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CharacterRepository =
         CharacterRepositoryImpl(
             ktorClient = ktorClient,
             pager = pager,
+            ioDispatcher = ioDispatcher
         )
 
     @Provides
     @Singleton
-    fun provideUserPreferencesRepository(dataStore: DataStore<Preferences>): SettingsRepository =
-        SettingsRepositoryImpl(dataStore)
+    fun provideUserPreferencesRepository(
+        dataStore: DataStore<Preferences>,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+    ): SettingsRepository =
+        SettingsRepositoryImpl(dataStore, ioDispatcher)
 
     @Provides
     @Singleton
@@ -101,8 +111,9 @@ object RepoModule {
     @Singleton
     fun provideLocationRepository(
         ktorClient: KtorClient,
-        pager: Pager<Int, LocationEntity>
-    ): LocationRepository = LocationRepositoryImpl(ktorClient, pager)
+        pager: Pager<Int, LocationEntity>,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+    ): LocationRepository = LocationRepositoryImpl(ktorClient, pager, ioDispatcher)
 
     @Provides
     @Singleton

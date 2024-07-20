@@ -16,9 +16,13 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class KtorClient {
+class KtorClient(
+    private val ioDispatcher: CoroutineDispatcher,
+) {
     private val client = HttpClient(OkHttp) {
         defaultRequest { url(BASE_URL) }
 
@@ -34,89 +38,104 @@ class KtorClient {
     }
 
 
-    suspend fun getCharacter(id: Int): Result<CharacterDto> {
-        return safeApiCall {
+    suspend fun getCharacter(id: Int): Result<CharacterDto> = withContext(ioDispatcher) {
+        safeApiCall {
             client.get("character/$id")
                 .body<CharacterDto>()
 
         }
     }
 
-    suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPageDto> {
-        return safeApiCall {
-            client.get("character/?page=$pageNumber")
-                .body<CharacterPageDto>()
-        }
-    }
-
-    suspend fun searchCharacter(pageNumber: Int, searchQuery: String): Result<CharacterPageDto> {
-        return safeApiCall {
-            client.get("character/?page=$pageNumber&name=$searchQuery")
-                .body<CharacterPageDto>()
-        }
-    }
-
-    suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> {
-        return if (characterIds.size == 1) {
-            getCharacter(characterIds[0]).map { listOf(it) }
-        } else if (characterIds.isEmpty()) {
-            Result.success(listOf())
-        } else {
+    suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPageDto> =
+        withContext(ioDispatcher) {
             safeApiCall {
-                client.get("character/$characterIds")
-                    .body<List<CharacterDto>>()
+                client.get("character/?page=$pageNumber")
+                    .body<CharacterPageDto>()
             }
         }
-    }
 
-    suspend fun getEpisode(id: Int): Result<EpisodeDto> {
-        return safeApiCall {
-            client.get("episode/$id")
-                .body<EpisodeDto>()
-
-        }
-    }
-
-    suspend fun getEpisodes(ids: List<Int>): Result<List<EpisodeDto>> {
-        return if (ids.size == 1) {
-            getEpisode(ids[0]).map { listOf(it) }
-        } else {
-            val idsCommaSeparated = ids.joinToString(separator = ",")
+    suspend fun searchCharacter(pageNumber: Int, searchQuery: String): Result<CharacterPageDto> =
+        withContext(ioDispatcher) {
             safeApiCall {
-                client.get("episode/$idsCommaSeparated")
-                    .body<List<EpisodeDto>>()
+                client.get("character/?page=$pageNumber&name=$searchQuery")
+                    .body<CharacterPageDto>()
             }
         }
-    }
 
-    suspend fun getLocation(id: Int): Result<LocationDto> {
-        return safeApiCall {
-            client.get("location/$id")
-                .body<LocationDto>()
+    suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> =
+        withContext(ioDispatcher) {
+            if (characterIds.size == 1) {
+                getCharacter(characterIds[0]).map { listOf(it) }
+            } else if (characterIds.isEmpty()) {
+                Result.success(listOf())
+            } else {
+                safeApiCall {
+                    client.get("character/$characterIds")
+                        .body<List<CharacterDto>>()
+                }
+            }
         }
-    }
 
-    suspend fun getLocationPage(pageNumber: Int): Result<LocationPageDto> {
-        return safeApiCall {
-            client.get("location?page=$pageNumber")
-                .body<LocationPageDto>()
-        }
-    }
+    suspend fun getEpisode(id: Int): Result<EpisodeDto> =
+        withContext(ioDispatcher) {
+            safeApiCall {
+                client.get("episode/$id")
+                    .body<EpisodeDto>()
 
-    suspend fun searchLocationWithParameter(pageNumber: Int, searchQuery: String) : Result<LocationPageDto> {
-        return safeApiCall {
-            val queryParameters = searchQuery.split(",")
-            client.get("location/?page=$pageNumber&${queryParameters.first()}=${queryParameters.last()}")
-                .body<LocationPageDto>()
+            }
         }
-    }
 
-    suspend fun searchLocationWithoutParameter(pageNumber: Int, searchQuery: String) : Result<LocationPageDto> {
-        return safeApiCall {
-            client.get("location/?page=$pageNumber&name=$searchQuery")
-                .body<LocationPageDto>()
+    suspend fun getEpisodes(ids: List<Int>): Result<List<EpisodeDto>> =
+        withContext(ioDispatcher) {
+            if (ids.size == 1) {
+                getEpisode(ids[0]).map { listOf(it) }
+            } else {
+                val idsCommaSeparated = ids.joinToString(separator = ",")
+                safeApiCall {
+                    client.get("episode/$idsCommaSeparated")
+                        .body<List<EpisodeDto>>()
+                }
+            }
         }
-    }
+
+    suspend fun getLocation(id: Int): Result<LocationDto> =
+        withContext(ioDispatcher) {
+            safeApiCall {
+                client.get("location/$id")
+                    .body<LocationDto>()
+            }
+        }
+
+    suspend fun getLocationPage(pageNumber: Int): Result<LocationPageDto> =
+        withContext(ioDispatcher) {
+            safeApiCall {
+                client.get("location?page=$pageNumber")
+                    .body<LocationPageDto>()
+            }
+        }
+
+    suspend fun searchLocationWithParameter(
+        pageNumber: Int,
+        searchQuery: String
+    ): Result<LocationPageDto> =
+        withContext(ioDispatcher) {
+            safeApiCall {
+                val queryParameters = searchQuery.split(",")
+                client.get("location/?page=$pageNumber&${queryParameters.first()}=${queryParameters.last()}")
+                    .body<LocationPageDto>()
+            }
+        }
+
+    suspend fun searchLocationWithoutParameter(
+        pageNumber: Int,
+        searchQuery: String
+    ): Result<LocationPageDto> =
+        withContext(ioDispatcher) {
+            safeApiCall {
+                client.get("location/?page=$pageNumber&name=$searchQuery")
+                    .body<LocationPageDto>()
+            }
+        }
 
     private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
         return try {

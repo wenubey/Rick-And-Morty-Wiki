@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import com.wenubey.domain.repository.SettingsRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -22,11 +23,13 @@ import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-abstract class BaseViewModel<T : Any> (
+abstract class BaseViewModel<T : Any>(
     private val searchQueryProvider: SearchQueryProvider,
     private val settingsRepository: SettingsRepository,
     private val savedStateHandle: SavedStateHandle,
     private val dataTypeKey: DataTypeKey,
+    private val ioDispatcher: CoroutineDispatcher,
+    private val mainDispatcher: CoroutineDispatcher,
 ) : ViewModel(), ListScreenEvents {
 
     private val _uiState = MutableStateFlow<ListScreenUiState<T>>(ListScreenUiState.Loading())
@@ -55,19 +58,27 @@ abstract class BaseViewModel<T : Any> (
             .flatMapLatest { getPage() }
             .cachedIn(viewModelScope)
             .also { dataFlow ->
-                _uiState.update {
-                    return@update ListScreenUiState.Success(dataFlow)
+                viewModelScope.launch(mainDispatcher) {
+                    _uiState.update {
+                        return@update ListScreenUiState.Success(dataFlow)
+                    }
                 }
             }
     }
 
     override fun setSearchQuery(query: String) {
-        _searchQuery.update { query }
-        searchQueryProvider.setSearchQuery(dataTypeKey, query)
+        viewModelScope.launch(mainDispatcher) {
+            _searchQuery.update { query }
+        }
+        viewModelScope.launch(ioDispatcher) {
+            searchQueryProvider.setSearchQuery(dataTypeKey, query)
+        }
     }
 
     override fun onActiveChange(active: Boolean) {
-        _isSearching.update { active }
+        viewModelScope.launch(mainDispatcher) {
+            _isSearching.update { active }
+        }
     }
 
     override fun onSearch(query: String) {
@@ -77,17 +88,21 @@ abstract class BaseViewModel<T : Any> (
     }
 
     override fun setLastItemIndex(index: Int) {
-        _lastItemIndex.update {
-            savedStateHandle["${dataTypeKey}_last_item_index"] = index
-            index
+        viewModelScope.launch(mainDispatcher) {
+            _lastItemIndex.update {
+                savedStateHandle["${dataTypeKey}_last_item_index"] = index
+                index
+            }
         }
+
     }
 
     override fun removeAllQuery() {
         setSearchQuery("")
     }
 
-    private fun saveSearchHistory(historyItem: String) = viewModelScope.launch {
-        settingsRepository.saveSearchHistory(dataTypeKey, historyItem)
-    }
+    private fun saveSearchHistory(historyItem: String) =
+        viewModelScope.launch(ioDispatcher) {
+            settingsRepository.saveSearchHistory(dataTypeKey, historyItem)
+        }
 }
