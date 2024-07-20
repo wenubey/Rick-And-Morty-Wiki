@@ -10,7 +10,6 @@ import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -19,7 +18,7 @@ import javax.inject.Inject
 class LocationsRemoteMediator @Inject constructor(
     private val ktorClient: KtorClient,
     private val dao: LocationDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val ioDispatcher: CoroutineDispatcher,
     private val searchQueryProvider: SearchQueryProvider
 ) : RemoteMediator<Int, LocationEntity>() {
     private var nextPageNumber: Int = 1
