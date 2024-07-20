@@ -3,21 +3,16 @@ package com.wenubey.rickandmortywiki.ui.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.room.Room
-import com.wenubey.data.ExoPlayerProvider
 import com.wenubey.data.KtorClient
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.LocationEntity
-import com.wenubey.data.local.RickAndMortyDatabase
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.data.remote.CharactersRemoteMediator
 import com.wenubey.data.remote.LocationsRemoteMediator
-import com.wenubey.data.remote.SearchQueryProviderImpl
 import com.wenubey.data.repository.CharacterRepositoryImpl
 import com.wenubey.data.repository.EpisodeRepositoryImpl
 import com.wenubey.data.repository.LocationRepositoryImpl
@@ -36,26 +31,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
-private const val USER_PREFERENCE_NAME = "user_preferences"
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = USER_PREFERENCE_NAME
-)
-
 @OptIn(ExperimentalPagingApi::class)
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
-
-    @Provides
-    @Singleton
-    fun provideKtorClient(): KtorClient = KtorClient()
-
-    @Provides
-    @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
-        context.dataStore
-
+object RepoModule {
 
     @Provides
     @Singleton
@@ -130,31 +109,4 @@ object AppModule {
     fun provideVideoPlayerRepository(
         @ApplicationContext context: Context,
     ): VideoPlayerRepository = VideoPlayerRepositoryImpl(context)
-
-    @Provides
-    @Singleton
-    fun provideExoPlayerProvider(@ApplicationContext context: Context): ExoPlayerProvider =
-        ExoPlayerProvider(context)
-
-    @Provides
-    @Singleton
-    fun provideRickAndMortyDatabase(@ApplicationContext context: Context): RickAndMortyDatabase {
-        return Room.databaseBuilder(
-            context,
-            RickAndMortyDatabase::class.java,
-            "characters.db"
-        ).build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideCharacterDao(db: RickAndMortyDatabase): CharacterDao = db.characterDao
-
-    @Provides
-    @Singleton
-    fun provideLocationDao(db: RickAndMortyDatabase): LocationDao = db.locationDao
-
-    @Provides
-    @Singleton
-    fun provideSearchQueryProvider(): SearchQueryProvider = SearchQueryProviderImpl()
 }
