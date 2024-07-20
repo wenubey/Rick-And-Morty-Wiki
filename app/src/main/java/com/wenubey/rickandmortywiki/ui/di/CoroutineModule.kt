@@ -20,7 +20,7 @@ object CoroutineModule {
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     @MainDispatcher
     fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
 
