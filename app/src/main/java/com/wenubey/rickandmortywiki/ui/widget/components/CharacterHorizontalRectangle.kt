@@ -13,7 +13,6 @@ import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -40,106 +39,106 @@ fun CharacterHorizontalRectangle(
 
     WidgetTheme {
         val context = LocalContext.current
-        Scaffold(
-            modifier = GlanceModifier.fillMaxSize()
+
+        Row(
+            modifier = GlanceModifier
+                .background(
+                    ImageProvider(R.drawable.corner_16)
+                ).fillMaxSize()
                 .clickable(actionRunCallback<WidgetCallback>()),
-            backgroundColor = GlanceTheme.colors.background,
+            horizontalAlignment = Alignment.Start,
+            verticalAlignment = Alignment.Vertical.CenterVertically,
         ) {
-            Row(
-                modifier = GlanceModifier.fillMaxSize().padding(4.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalAlignment = Alignment.Vertical.CenterVertically,
-            ) {
-                Box(modifier = GlanceModifier.defaultWeight()) {
-                    Image(
-                        modifier = GlanceModifier.padding(4.dp).fillMaxSize(),
-                        provider = getImageProvider(characterInfo.characterImageUrl),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds
+            Box(modifier = GlanceModifier.defaultWeight().padding(end = 4.dp)) {
+                Image(
+                    modifier = GlanceModifier.fillMaxSize(),
+                    provider = getImageProvider(characterInfo.characterImageUrl),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds
+                )
+                CharacterInfoButton(contentAlignment = Alignment.BottomStart)
+            }
+            val cardColor = GlanceTheme.colors.surfaceVariant.getColor(context)
+                .copy(alpha = 0.4f)
+            Box(
+                modifier = GlanceModifier
+                    .defaultWeight()
+                    .clickable {
+                        Log.i("TAG", "clicked: ")
+                    }
+                    .background(
+                        ImageProvider(R.drawable.corner_16),
+                        contentScale = ContentScale.FillBounds,
+                        colorFilter = ColorFilter.tint(ColorProvider(cardColor))
                     )
-                    CharacterInfoButton(contentAlignment = Alignment.BottomStart)
-                }
-                val cardColor = GlanceTheme.colors.surfaceVariant.getColor(context)
-                        .copy(alpha = 0.4f)
-                Box(
+            ) {
+                LazyColumn(
                     modifier = GlanceModifier
                         .defaultWeight()
-                        .clickable{
-                            Log.i("TAG", "clicked: ")
-                        }
-                        .background(
-                            ImageProvider(R.drawable.corner_16),
-                            contentScale = ContentScale.FillBounds,
-                            colorFilter = ColorFilter.tint(ColorProvider(cardColor))
-                        )
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.Start,
                 ) {
-                    LazyColumn(
-                        modifier = GlanceModifier
-                            .defaultWeight()
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        item {
-                            CharacterInfoHeader(content = characterInfo.characterName)
-                        }
-                        item {
-                            CharacterInfoRow(
-                                headerRes = R.string.character_status,
-                                content = characterInfo.characterStatus
-                            )
-                        }
-                        item {
-                            Spacer(
-                                modifier = GlanceModifier.fillMaxWidth().height(1.dp)
-                                    .background(ColorProvider(Color.Magenta))
-                            )
-                        }
-                        item {
-                            CharacterInfoRow(
-                                headerRes = R.string.character_location,
-                                content = characterInfo.characterLocation.shrinkParentheses()
-                            )
-                        }
-                        item {
-                            Spacer(
-                                modifier = GlanceModifier.fillMaxWidth().height(1.dp)
-                                    .background(ColorProvider(Color.Magenta))
-                            )
-                        }
-                        item {
-                            CharacterInfoRow(
-                                headerRes = R.string.character_species,
-                                content = characterInfo.characterSpecies
-                            )
-                        }
-                        item {
-                            Spacer(
-                                modifier = GlanceModifier.fillMaxWidth().height(1.dp)
-                                    .background(ColorProvider(Color.Magenta))
-                            )
-                        }
-                        item {
-                            CharacterInfoRow(
-                                headerRes = R.string.character_gender,
-                                content = characterInfo.characterGender
-                            )
-                        }
-                        item {
-                            Spacer(
-                                modifier = GlanceModifier.fillMaxWidth().height(1.dp)
-                                    .background(ColorProvider(Color.Magenta))
-                            )
-                        }
-                        item {
-                            CharacterInfoRow(
-                                headerRes = R.string.location_type,
-                                content = characterInfo.characterType
-                            )
-                        }
+                    item {
+                        CharacterInfoHeader(content = characterInfo.characterName)
+                    }
+                    item {
+                        CharacterInfoRow(
+                            headerRes = R.string.character_status,
+                            content = characterInfo.characterStatus
+                        )
+                    }
+                    item {
+                        Spacer(
+                            modifier = GlanceModifier.fillMaxWidth().height(1.dp)
+                                .background(ColorProvider(Color.Magenta))
+                        )
+                    }
+                    item {
+                        CharacterInfoRow(
+                            headerRes = R.string.character_location,
+                            content = characterInfo.characterLocation.shrinkParentheses()
+                        )
+                    }
+                    item {
+                        Spacer(
+                            modifier = GlanceModifier.fillMaxWidth().height(1.dp)
+                                .background(ColorProvider(Color.Magenta))
+                        )
+                    }
+                    item {
+                        CharacterInfoRow(
+                            headerRes = R.string.character_species,
+                            content = characterInfo.characterSpecies
+                        )
+                    }
+                    item {
+                        Spacer(
+                            modifier = GlanceModifier.fillMaxWidth().height(1.dp)
+                                .background(ColorProvider(Color.Magenta))
+                        )
+                    }
+                    item {
+                        CharacterInfoRow(
+                            headerRes = R.string.character_gender,
+                            content = characterInfo.characterGender
+                        )
+                    }
+                    item {
+                        Spacer(
+                            modifier = GlanceModifier.fillMaxWidth().height(1.dp)
+                                .background(ColorProvider(Color.Magenta))
+                        )
+                    }
+                    item {
+                        CharacterInfoRow(
+                            headerRes = R.string.location_type,
+                            content = characterInfo.characterType
+                        )
                     }
                 }
             }
         }
     }
 }
+
 
