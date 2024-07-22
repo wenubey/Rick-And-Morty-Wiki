@@ -36,7 +36,7 @@ fun CharacterImage(
         loading = {
             CustomProgressIndicator(modifier = Modifier
                 .padding(16.dp)
-                .size(25.dp))
+                .size(100.dp))
         },
         error = {
             Image(

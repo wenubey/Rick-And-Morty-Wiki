@@ -29,17 +29,17 @@ class VideoPlayerViewModel @Inject constructor(
     val videoPlayers: StateFlow<Map<Int, VideoPlayerState>> = _videoPlayers
 
 
-    fun onVideoReady(@RawRes videoResource: Int) = viewModelScope.launch(ioDispatcher) {
+    fun onVideoReady(@RawRes videoResource: Int) = viewModelScope.launch(mainDispatcher) {
         if (!_videoPlayers.value.containsKey(videoResource)) {
+            val videoUri = withContext(ioDispatcher) {
+                videoPlayerRepository.getVideoUri(videoResource)
+            }
             val exoPlayer = exoPlayerProvider.createPlayer()
-            val videoUri = videoPlayerRepository.getVideoUri(videoResource)
             exoPlayer.setMediaItem(MediaItem.fromUri(videoUri))
             exoPlayer.repeatMode = ExoPlayer.REPEAT_MODE_ALL
             exoPlayer.prepare()
             exoPlayer.playWhenReady = false
-            withContext(mainDispatcher) {
-                _videoPlayers.value += (videoResource to VideoPlayerState(exoPlayer, false))
-            }
+            _videoPlayers.value += (videoResource to VideoPlayerState(exoPlayer, false))
         }
     }
 
