@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
 import com.wenubey.rickandmortywiki.R
+import com.wenubey.rickandmortywiki.ui.components.common.CommonTopAppBar
 import com.wenubey.rickandmortywiki.ui.components.how_to_use.FeedbackText
 import com.wenubey.rickandmortywiki.ui.components.how_to_use.VideoSectionDivider
 import com.wenubey.rickandmortywiki.ui.components.how_to_use.VideoSectionHorizontal
@@ -42,20 +43,11 @@ fun HowToUseScreen(
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(
             title = {
-                Row {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(
-                                id = R.string.cd_navigate_back
-                            )
-                        )
-                    }
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                }
+                CommonTopAppBar(
+                    onBackButtonPressed = onNavigateBack,
+                    showNavigationIcon = true,
+                    title = stringResource(id = R.string.how_to_use_header),
+                )
             },
         )
     }) { paddingValues ->
