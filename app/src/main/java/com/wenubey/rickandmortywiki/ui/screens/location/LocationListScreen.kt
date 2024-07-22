@@ -76,18 +76,20 @@ fun LocationListScreen(
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()
 
     LaunchedEffect(key1 = onScrollToTopInvoked) {
-        if (isLinearLayout) {
+
+        if (isLinearLayout && onScrollToTopInvoked) {
             lazyGridState.animateScrollToItem(0)
         } else {
-            lazyStaggeredGridState.animateScrollToItem(0)
+           // lazyStaggeredGridState.animateScrollToItem(0)
         }
     }
-
-    LaunchedEffect(Unit) {
-        if (isLinearLayout) {
-            lazyGridState.animateScrollToItem(lastItemIndex)
-        } else {
-            lazyStaggeredGridState.animateScrollToItem(lastItemIndex)
+    LaunchedEffect(lastItemIndex) {
+        if (lastItemIndex != 0) {
+            if (isLinearLayout) {
+                lazyGridState.animateScrollToItem(lastItemIndex)
+            } else {
+                lazyStaggeredGridState.animateScrollToItem(lastItemIndex)
+            }
         }
     }
 
