@@ -3,8 +3,7 @@
 Explore the Universe of Rick and Morty Like Never Before!
 
 <div style="display:flex">
-<img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/ic_launcher-playstore.png
-" alt="not found" width="240" height="240">
+<img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/ic_launcher-playstore.png" alt="not found" width="240" height="240">
 </div>
 
 
@@ -51,15 +50,15 @@ using [Android Architecture Components][8], [Repository Pattern][9], [MVVM][10],
 ## Screenshots and Videos
 
 <div style="display:flex">
-    <img src="https://github.com/wenubey/RickAndMortyWiki/blob/readme-md/app/src/main/assets/phone_1.png" alt="not found" width="240" height="480">
-    <img src="https://github.com/wenubey/RickAndMortyWiki/blob/readme-md/app/src/main/assets/phone_2.png" alt="not found" width="240" height="480">
-    <img src="https://github.com/wenubey/RickAndMortyWiki/blob/readme-md/app/src/main/assets/phone_3.png" alt="not found" width="240" height="480">
+    <img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/assets/phone_1.png" alt="not found" width="240" height="480">
+    <img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/assets/phone_2.png" alt="not found" width="240" height="480">
+    <img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/assets/phone_3.png" alt="not found" width="240" height="480">
 </div>
 
 <div style="display:flex">
-    <img src="https://github.com/wenubey/RickAndMortyWiki/blob/readme-md/app/src/main/assets/phone_4.png" alt="not found" width="240" height="480">
-    <img src="https://github.com/wenubey/RickAndMortyWiki/blob/readme-md/app/src/main/assets/phone_5.png" alt="not found" width="240" height="480">
-    <img src="https://github.com/wenubey/RickAndMortyWiki/blob/readme-md/app/src/main/assets/phone_6.png" alt="not found" width="240" height="480">
+    <img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/assets/phone_4.png" alt="not found" width="240" height="480">
+    <img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/assets/phone_5.png" alt="not found" width="240" height="480">
+    <img src="https://github.com/wenubey/Rick-And-Morty-Wiki/blob/main/app/src/main/assets/phone_6.png" alt="not found" width="240" height="480">
 </div>
 
 
