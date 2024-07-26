@@ -4,7 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.wenubey.data.KtorClient
+import com.wenubey.data.RickAndMortyApi
 import com.wenubey.data.local.LocationEntity
 import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.domain.model.DataTypeKey
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class LocationsRemoteMediator @Inject constructor(
-    private val ktorClient: KtorClient,
+    private val rickAndMortyApi: RickAndMortyApi,
     private val dao: LocationDao,
     private val ioDispatcher: CoroutineDispatcher,
     private val searchQueryProvider: SearchQueryProvider
@@ -48,12 +48,16 @@ class LocationsRemoteMediator @Inject constructor(
         val searchQuery = searchQueryProvider.getSearchQuery(DataTypeKey.LOCATION)
         val queryParameters = searchQuery.split(",")
         if (searchQuery.isBlank()) {
-            ktorClient.getLocationPage(page)
+            rickAndMortyApi.getLocationPage(page)
         } else {
             if (queryParameters.size > 1) {
-                ktorClient.searchLocationWithParameter(page, searchQuery)
+                rickAndMortyApi.searchLocation(
+                    pageNumber = page,
+                    searchQuery = queryParameters[1],
+                    searchParameter = queryParameters[0]
+                )
             } else {
-                ktorClient.searchLocationWithoutParameter(page, searchQuery)
+                rickAndMortyApi.searchLocation(page, searchQuery)
             }
         }
             .onSuccess { locationPageDto ->

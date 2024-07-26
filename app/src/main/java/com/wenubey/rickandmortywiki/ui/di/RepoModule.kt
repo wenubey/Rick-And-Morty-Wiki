@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.wenubey.data.KtorClient
+import com.wenubey.data.RickAndMortyApi
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.LocationEntity
 import com.wenubey.data.local.dao.CharacterDao
@@ -40,7 +40,7 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideCharacterPager(
-        ktorClient: KtorClient,
+        rickAndMortyApi: RickAndMortyApi,
         dao: CharacterDao,
         searchQueryProvider: SearchQueryProvider,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
@@ -48,7 +48,7 @@ object RepoModule {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = CharactersRemoteMediator(
-                ktorClient = ktorClient,
+                rickAndMortyApi = rickAndMortyApi,
                 dao = dao,
                 searchQueryProvider = searchQueryProvider,
                 ioDispatcher = ioDispatcher
@@ -62,7 +62,7 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideLocationPager(
-        ktorClient: KtorClient,
+        rickAndMortyApi: RickAndMortyApi,
         dao: LocationDao,
         searchQueryProvider: SearchQueryProvider,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
@@ -70,7 +70,7 @@ object RepoModule {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = LocationsRemoteMediator(
-                ktorClient = ktorClient,
+                rickAndMortyApi = rickAndMortyApi,
                 dao = dao,
                 searchQueryProvider = searchQueryProvider,
                 ioDispatcher = ioDispatcher
@@ -84,12 +84,12 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideCharacterRepository(
-        ktorClient: KtorClient,
+        rickAndMortyApi: RickAndMortyApi,
         pager: Pager<Int, CharacterEntity>,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CharacterRepository =
         CharacterRepositoryImpl(
-            ktorClient = ktorClient,
+            rickAndMortyApi = rickAndMortyApi,
             pager = pager,
             ioDispatcher = ioDispatcher
         )
@@ -104,16 +104,16 @@ object RepoModule {
 
     @Provides
     @Singleton
-    fun provideEpisodeRepository(ktorClient: KtorClient): EpisodeRepository =
-        EpisodeRepositoryImpl(ktorClient)
+    fun provideEpisodeRepository(rickAndMortyApi: RickAndMortyApi): EpisodeRepository =
+        EpisodeRepositoryImpl(rickAndMortyApi)
 
     @Provides
     @Singleton
     fun provideLocationRepository(
-        ktorClient: KtorClient,
+        rickAndMortyApi: RickAndMortyApi,
         pager: Pager<Int, LocationEntity>,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): LocationRepository = LocationRepositoryImpl(ktorClient, pager, ioDispatcher)
+    ): LocationRepository = LocationRepositoryImpl(rickAndMortyApi, pager, ioDispatcher)
 
     @Provides
     @Singleton
