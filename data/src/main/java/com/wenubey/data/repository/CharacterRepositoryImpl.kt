@@ -3,7 +3,7 @@ package com.wenubey.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.wenubey.data.KtorClient
+import com.wenubey.data.RickAndMortyApi
 import com.wenubey.data.getIdFromUrl
 import com.wenubey.data.getIdFromUrls
 import com.wenubey.data.local.CharacterEntity
@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CharacterRepositoryImpl @Inject constructor(
-    private val ktorClient: KtorClient,
+    private val rickAndMortyApi: RickAndMortyApi,
     private val pager: Pager<Int, CharacterEntity>,
     private val ioDispatcher: CoroutineDispatcher,
 ) : CharacterRepository {
@@ -30,15 +30,15 @@ class CharacterRepositoryImpl @Inject constructor(
 
 
     override suspend fun getCharacter(id: Int): Result<Character> = withContext(ioDispatcher) {
-        ktorClient.getCharacter(id).map { characterDto ->
+        rickAndMortyApi.getCharacter(id).map { characterDto ->
             val locationEntity =
-                (ktorClient.getLocation(characterDto.location.url.getIdFromUrl()).getOrNull()
+                (rickAndMortyApi.getLocation(characterDto.location.url.getIdFromUrl()).getOrNull()
                     ?: LocationDto.default())
                     .toLocationEntity()
             val originEntity =
-                (ktorClient.getLocation(characterDto.origin.url.getIdFromUrl()).getOrNull()
+                (rickAndMortyApi.getLocation(characterDto.origin.url.getIdFromUrl()).getOrNull()
                     ?: LocationDto.default()).toLocationEntity()
-            val episodes = (ktorClient.getEpisodes(characterDto.episode.getIdFromUrls())
+            val episodes = (rickAndMortyApi.getEpisodes(characterDto.episode.getIdFromUrls())
                 .getOrNull())?.map { it.toDomainEpisode() } ?: listOf()
             characterDto.toCharacterEntity(locationEntity, originEntity).toDomainCharacter(episodes)
         }

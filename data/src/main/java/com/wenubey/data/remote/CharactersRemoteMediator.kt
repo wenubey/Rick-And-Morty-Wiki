@@ -5,7 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.wenubey.data.KtorClient
+import com.wenubey.data.RickAndMortyApi
 import com.wenubey.data.local.CharacterEntity
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.domain.model.DataTypeKey
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRemoteMediator @Inject constructor(
-    private val ktorClient: KtorClient,
+    private val rickAndMortyApi: RickAndMortyApi,
     private val dao: CharacterDao,
     private val ioDispatcher: CoroutineDispatcher,
     private val searchQueryProvider: SearchQueryProvider
@@ -46,9 +46,9 @@ class CharactersRemoteMediator @Inject constructor(
             val searchQuery = searchQueryProvider.getSearchQuery(DataTypeKey.CHARACTER)
 
             if (searchQuery.isBlank()) {
-                ktorClient.getCharacterPage(page)
+                rickAndMortyApi.getCharacterPage(page)
             } else {
-                ktorClient.searchCharacter(pageNumber = page, searchQuery = searchQuery)
+                rickAndMortyApi.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
                 .onSuccess { characterPageDto ->
                     val characterEntities = characterPageDto.results.map { it.toCharacterEntity(null, null) }
