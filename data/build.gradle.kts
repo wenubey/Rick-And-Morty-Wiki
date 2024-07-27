@@ -73,4 +73,14 @@ dependencies {
     // Exoplayer
     implementation(libs.media3.ui)
     implementation(libs.media3.exoplayer)
+
+    // Unit Test
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.ktor.client.mock)
+
 }

@@ -85,10 +85,12 @@ dependencies {
     // Coil
     implementation(libs.coil)
 
-    // Hilt
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigationCompose)
+    //Ktor
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.okhttp)
+    implementation(libs.ktor.contentnegotiation)
+    implementation(libs.ktor.serialization)
+    implementation(libs.ktor.logging)
 
     // DataStore Preferences
     implementation(libs.dataStore)
