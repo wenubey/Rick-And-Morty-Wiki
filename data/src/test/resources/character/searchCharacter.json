@@ -1,0 +1,104 @@
+{
+  "info": {
+    "count": 4,
+    "pages": 1,
+    "next": null,
+    "prev": null
+  },
+  "results": [
+    {
+      "id": 1,
+      "name": "Rick Sanchez",
+      "status": "Alive",
+      "species": "Human",
+      "type": "",
+      "gender": "Male",
+      "origin": {
+        "name": "Earth (C-137)",
+        "url": "https://rickandmortyapi.com/api/location/1"
+      },
+      "location": {
+        "name": "Citadel of Ricks",
+        "url": "https://rickandmortyapi.com/api/location/3"
+      },
+      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+      "episode": [
+        "https://rickandmortyapi.com/api/episode/1",
+        "https://rickandmortyapi.com/api/episode/2",
+        "https://rickandmortyapi.com/api/episode/3",
+        "https://rickandmortyapi.com/api/episode/4",
+        "https://rickandmortyapi.com/api/episode/5",
+        "https://rickandmortyapi.com/api/episode/6",
+        "https://rickandmortyapi.com/api/episode/7"
+      ],
+      "url": "https://rickandmortyapi.com/api/character/1",
+      "created": "2017-11-04T18:48:46.250Z"
+    },
+    {
+      "id": 290,
+      "name": "Rick Sanchez",
+      "status": "Dead",
+      "species": "Human",
+      "type": "",
+      "gender": "Male",
+      "origin": {
+        "name": "Earth (Evil Rick's Target Dimension)",
+        "url": "https://rickandmortyapi.com/api/location/34"
+      },
+      "location": {
+        "name": "Earth (Evil Rick's Target Dimension)",
+        "url": "https://rickandmortyapi.com/api/location/34"
+      },
+      "image": "https://rickandmortyapi.com/api/character/avatar/290.jpeg",
+      "episode": [
+        "https://rickandmortyapi.com/api/episode/10"
+      ],
+      "url": "https://rickandmortyapi.com/api/character/290",
+      "created": "2017-12-31T20:15:25.716Z"
+    },
+    {
+      "id": 293,
+      "name": "Rick Sanchez",
+      "status": "Dead",
+      "species": "Human",
+      "type": "",
+      "gender": "Male",
+      "origin": {
+        "name": "Earth (Replacement Dimension)",
+        "url": "https://rickandmortyapi.com/api/location/20"
+      },
+      "location": {
+        "name": "Earth (Replacement Dimension)",
+        "url": "https://rickandmortyapi.com/api/location/20"
+      },
+      "image": "https://rickandmortyapi.com/api/character/avatar/293.jpeg",
+      "episode": [
+        "https://rickandmortyapi.com/api/episode/6"
+      ],
+      "url": "https://rickandmortyapi.com/api/character/293",
+      "created": "2017-12-31T20:22:29.032Z"
+    },
+    {
+      "id": 631,
+      "name": "Rick Sanchez",
+      "status": "Alive",
+      "species": "Human",
+      "type": "Soulless Puppet",
+      "gender": "Male",
+      "origin": {
+        "name": "Story Train",
+        "url": "https://rickandmortyapi.com/api/location/96"
+      },
+      "location": {
+        "name": "Story Train",
+        "url": "https://rickandmortyapi.com/api/location/96"
+      },
+      "image": "https://rickandmortyapi.com/api/character/avatar/631.jpeg",
+      "episode": [
+        "https://rickandmortyapi.com/api/episode/37"
+      ],
+      "url": "https://rickandmortyapi.com/api/character/631",
+      "created": "2020-08-06T16:39:08.485Z"
+    }
+  ]
+}

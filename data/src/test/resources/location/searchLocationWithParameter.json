@@ -1,0 +1,92 @@
+{
+  "info": {
+    "count": 5,
+    "pages": 1,
+    "next": null,
+    "prev": null
+  },
+  "results": [
+    {
+      "id": 1,
+      "name": "Earth (C-137)",
+      "type": "Planet",
+      "dimension": "Dimension C-137",
+      "residents": [
+        "https://rickandmortyapi.com/api/character/38",
+        "https://rickandmortyapi.com/api/character/45",
+        "https://rickandmortyapi.com/api/character/71",
+        "https://rickandmortyapi.com/api/character/82",
+        "https://rickandmortyapi.com/api/character/83",
+        "https://rickandmortyapi.com/api/character/92",
+        "https://rickandmortyapi.com/api/character/112"
+      ],
+      "url": "https://rickandmortyapi.com/api/location/1",
+      "created": "2017-11-10T12:42:04.162Z"
+    },
+    {
+      "id": 5,
+      "name": "Anatomy Park",
+      "type": "Microverse",
+      "dimension": "Dimension C-137",
+      "residents": [
+        "https://rickandmortyapi.com/api/character/12",
+        "https://rickandmortyapi.com/api/character/17",
+        "https://rickandmortyapi.com/api/character/96",
+        "https://rickandmortyapi.com/api/character/97",
+        "https://rickandmortyapi.com/api/character/98",
+        "https://rickandmortyapi.com/api/character/99",
+        "https://rickandmortyapi.com/api/character/100",
+        "https://rickandmortyapi.com/api/character/101",
+        "https://rickandmortyapi.com/api/character/108",
+        "https://rickandmortyapi.com/api/character/268",
+        "https://rickandmortyapi.com/api/character/300"
+      ],
+      "url": "https://rickandmortyapi.com/api/location/5",
+      "created": "2017-11-10T13:08:46.060Z"
+    },
+    {
+      "id": 18,
+      "name": "Mr. Goldenfold's dream",
+      "type": "Dream",
+      "dimension": "Dimension C-137",
+      "residents": [
+        "https://rickandmortyapi.com/api/character/63",
+        "https://rickandmortyapi.com/api/character/80",
+        "https://rickandmortyapi.com/api/character/221",
+        "https://rickandmortyapi.com/api/character/246",
+        "https://rickandmortyapi.com/api/character/304",
+        "https://rickandmortyapi.com/api/character/305",
+        "https://rickandmortyapi.com/api/character/306",
+        "https://rickandmortyapi.com/api/character/396"
+      ],
+      "url": "https://rickandmortyapi.com/api/location/18",
+      "created": "2017-11-18T11:46:22.933Z"
+    },
+    {
+      "id": 46,
+      "name": "Zigerion's Base",
+      "type": "Space station",
+      "dimension": "Dimension C-137",
+      "residents": [
+        "https://rickandmortyapi.com/api/character/87",
+        "https://rickandmortyapi.com/api/character/191",
+        "https://rickandmortyapi.com/api/character/270",
+        "https://rickandmortyapi.com/api/character/337"
+      ],
+      "url": "https://rickandmortyapi.com/api/location/46",
+      "created": "2017-12-29T19:40:07.748Z"
+    },
+    {
+      "id": 70,
+      "name": "Snuffles' Dream",
+      "type": "Dream",
+      "dimension": "Dimension C-137",
+      "residents": [
+        "https://rickandmortyapi.com/api/character/397",
+        "https://rickandmortyapi.com/api/character/398"
+      ],
+      "url": "https://rickandmortyapi.com/api/location/70",
+      "created": "2018-04-15T17:13:54.071Z"
+    }
+  ]
+}

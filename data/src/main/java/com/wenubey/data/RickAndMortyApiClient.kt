@@ -8,40 +8,20 @@ import com.wenubey.data.remote.dto.LocationDto
 import com.wenubey.data.remote.dto.LocationPageDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.ANDROID
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.http.encodedPath
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class RickAndMortyApiClient(
+class RickAndMortyApiClient @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher,
+    private val httpClient: HttpClient,
 ) : RickAndMortyApi {
-    private val client = HttpClient(OkHttp) {
-        defaultRequest { url(BASE_URL) }
-
-        install(Logging) {
-            logger = Logger.ANDROID
-        }
-
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-            })
-        }
-    }
-
 
     override suspend fun getCharacter(id: Int): Result<CharacterDto> = withContext(ioDispatcher) {
         safeApiCall {
-            client.get {
+            httpClient.get {
                 url {
                     encodedPath = "character/$id"
                 }
@@ -52,7 +32,7 @@ class RickAndMortyApiClient(
     override suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPageDto> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
                         encodedPath = "character/?page=$pageNumber"
                     }
@@ -66,7 +46,7 @@ class RickAndMortyApiClient(
     ): Result<CharacterPageDto> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
                         encodedPath = "character/?page=$pageNumber&name=$searchQuery"
                     }
@@ -77,7 +57,7 @@ class RickAndMortyApiClient(
     override suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
                         encodedPath = "character/${characterIds.joinToString(separator = ",")}"
                     }
@@ -88,7 +68,7 @@ class RickAndMortyApiClient(
     override suspend fun getEpisode(id: Int): Result<EpisodeDto> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
                         encodedPath = "episode/$id"
                     }
@@ -99,7 +79,7 @@ class RickAndMortyApiClient(
     override suspend fun getEpisodes(ids: List<Int>): Result<List<EpisodeDto>> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
                         encodedPath = "episode/${ids.joinToString(",")}"
                     }
@@ -110,7 +90,7 @@ class RickAndMortyApiClient(
     override suspend fun getLocation(id: Int): Result<LocationDto> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
                         encodedPath = "location/$id"
                     }
@@ -121,10 +101,9 @@ class RickAndMortyApiClient(
     override suspend fun getLocationPage(pageNumber: Int): Result<LocationPageDto> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
-                        encodedPath = "location"
-                        parameters.append("page", pageNumber.toString())
+                        encodedPath = "location/?page=$pageNumber"
                     }
                 }.body<LocationPageDto>()
             }
@@ -137,14 +116,12 @@ class RickAndMortyApiClient(
     ): Result<LocationPageDto> =
         withContext(ioDispatcher) {
             safeApiCall {
-                client.get {
+                httpClient.get {
                     url {
-                        encodedPath = "location"
-                        parameters.append("page", pageNumber.toString())
-                        if (searchParameter != null) {
-                            parameters.append(searchParameter, searchQuery)
+                        encodedPath = if (searchParameter != null) {
+                            "location/?page=$pageNumber&$searchParameter=$searchQuery"
                         } else {
-                            parameters.append("name", searchQuery)
+                            "location/?page=$pageNumber&name=$searchQuery"
                         }
                     }
                 }.body<LocationPageDto>()
@@ -164,6 +141,5 @@ class RickAndMortyApiClient(
 
     private companion object {
         const val TAG = "RickAndMortyApiClient"
-        const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 }
