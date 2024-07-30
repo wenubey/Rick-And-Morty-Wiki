@@ -56,12 +56,17 @@ dependencies {
 
     // Unit Test
     testImplementation(libs.junit)
-    testImplementation(libs.androidx.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.ktor.client.mock)
+    testImplementation(libs.room.testing)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation (libs.androidx.espresso.core)
+    androidTestImplementation (libs.truth)
+    androidTestImplementation(libs.core.testing)
 
     implementation(libs.ktor.serialization)
 }
