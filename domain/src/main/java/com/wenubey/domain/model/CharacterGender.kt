@@ -1,5 +1,8 @@
 package com.wenubey.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 sealed class CharacterGender(val displayName: String) {
     data object Male: CharacterGender("Male")
     data object Female: CharacterGender("Female")

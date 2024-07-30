@@ -16,7 +16,7 @@ sealed interface ListScreenUiState<T>  {
 sealed interface LocationDetailUiState {
     data object Loading : LocationDetailUiState
     data class Error(val message: String) : LocationDetailUiState
-    data class Success(val location: Location, val residents: List<Character>) :
+    data class Success(val location: Location) :
         LocationDetailUiState
 }
 

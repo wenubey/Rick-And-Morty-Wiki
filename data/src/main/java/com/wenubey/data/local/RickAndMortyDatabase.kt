@@ -5,9 +5,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.Location
+import com.wenubey.domain.model.RickAndMortyTypeConverter
 
 @Database(
-    entities = [CharacterEntity::class, LocationEntity::class],
+    entities = [Character::class, Location::class],
     version = 1,
     exportSchema = false,
 )

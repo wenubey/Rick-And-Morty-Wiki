@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -45,4 +47,21 @@ dependencies {
     // Paging Compose
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
+
+    // Room
+    ksp(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.paging)
+    implementation(libs.room.ktx)
+
+    // Unit Test
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.ktor.client.mock)
+
+    implementation(libs.ktor.serialization)
 }

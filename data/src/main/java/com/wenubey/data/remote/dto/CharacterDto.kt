@@ -1,7 +1,9 @@
 package com.wenubey.data.remote.dto
 
-import com.wenubey.data.local.CharacterEntity
-import com.wenubey.data.local.LocationEntity
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.CharacterGender
+import com.wenubey.domain.model.Episode
+import com.wenubey.domain.model.Location
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,20 +21,27 @@ data class CharacterDto(
     val url: String,
     val created: String,
 ) {
+    val characterGender = when (gender.lowercase()) {
+        "female" -> CharacterGender.Female
+        "male" -> CharacterGender.Male
+        "genderless" -> CharacterGender.Genderless
+        else -> CharacterGender.Unknown
+    }
 
-    fun toCharacterEntity(
-        locationEntity: LocationEntity?,
-        originEntity: LocationEntity?,
-    ): CharacterEntity {
-        return CharacterEntity(
+    fun toCharacter(
+        location: Location?,
+        origin: Location?,
+        episode: List<Episode>?
+    ): Character {
+        return Character(
             created = created,
-            episode = episode,
-            gender = gender,
+            episodes = episode ?: listOf(),
+            gender = characterGender,
             id = id,
-            image = image,
-            locationEntity = locationEntity ?: LocationEntity.default(),
+            imageUrl = image,
+            location= location ?: Location.default(),
             name = name,
-            originEntity = originEntity ?: LocationEntity.default(),
+            origin = origin ?: Location.default(),
             species = species,
             status = status,
             type = type,

@@ -44,7 +44,7 @@ fun LocationListCard(
                 Text(text = location.name, fontWeight = FontWeight.Bold, fontSize = 24.sp, textAlign = TextAlign.Center)
                 Text(text = location.type, fontSize = 16.sp, textAlign = TextAlign.Center)
                 Text(text = location.dimension, fontSize = 16.sp, textAlign = TextAlign.Center)
-                Text(text = "Population: ${location.residents.size}", fontSize = 16.sp, textAlign = TextAlign.Center)
+                Text(text = "Population: ${location.population}", fontSize = 16.sp, textAlign = TextAlign.Center)
             }
 
     }

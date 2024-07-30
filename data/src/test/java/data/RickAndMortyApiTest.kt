@@ -97,7 +97,7 @@ class RickAndMortyApiTest {
         // Then
         assert(episode != null)
         assert(episode?.name == "Rickmurai Jack")
-        assert(episode?.characters?.size == 7)
+        assert(episode?.charactersInEpisode?.size == 7)
     }
 
     @Test

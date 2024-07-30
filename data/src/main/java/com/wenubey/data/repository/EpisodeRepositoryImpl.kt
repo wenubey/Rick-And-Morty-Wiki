@@ -1,6 +1,6 @@
 package com.wenubey.data.repository
 
-import com.wenubey.data.RickAndMortyApi
+import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.domain.model.Episode
 import com.wenubey.domain.repository.EpisodeRepository
 import javax.inject.Inject

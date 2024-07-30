@@ -1,6 +1,7 @@
 package com.wenubey.data.remote.dto
 
-import com.wenubey.data.local.LocationEntity
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.Location
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,16 +20,18 @@ data class LocationDto(
     val url: String,
     val created: String,
 ) {
-    fun toLocationEntity(
-    ): LocationEntity {
-        return LocationEntity(
+    fun toLocation(
+        residents: List<Character>?
+    ): Location {
+        return Location(
             id = id,
             name = name,
             dimension = dimension,
-            residents = residents,
+            residents = residents ?: listOf(),
             url = url,
             created = created,
             type = type,
+            population = residents?.size ?: this.residents.size
         )
     }
 

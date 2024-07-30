@@ -3,7 +3,6 @@ package com.wenubey.rickandmortywiki.ui.viewmodels.location
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.data.getIdFromUrls
 import com.wenubey.domain.repository.LocationRepository
 import com.wenubey.rickandmortywiki.ui.di.IoDispatcher
 import com.wenubey.rickandmortywiki.ui.di.MainDispatcher
@@ -33,13 +32,10 @@ class LocationDetailViewModel @Inject constructor(
     fun getLocation(id: Int) = viewModelScope.launch(ioDispatcher) {
         locationRepository.getLocation(id)
             .onSuccess {  location ->
-                val residentIds = location.residents.getIdFromUrls()
-                val residents = locationRepository.getCharactersById(residentIds).getOrNull() ?: listOf()
                 withContext(mainDispatcher) {
                     _locationDetailUiState.update {
                         return@update LocationDetailUiState.Success(
                             location = location,
-                            residents = residents
                         )
                     }
                 }
