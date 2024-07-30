@@ -5,9 +5,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.wenubey.data.RickAndMortyApi
-import com.wenubey.data.local.CharacterEntity
+import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.data.local.dao.CharacterDao
+import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,12 +20,12 @@ class CharactersRemoteMediator @Inject constructor(
     private val dao: CharacterDao,
     private val ioDispatcher: CoroutineDispatcher,
     private val searchQueryProvider: SearchQueryProvider
-) : RemoteMediator<Int, CharacterEntity>() {
+) : RemoteMediator<Int, Character>() {
     private var nextPageNumber: Int = 1
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CharacterEntity>,
+        state: PagingState<Int, Character>,
     ): MediatorResult = withContext(ioDispatcher) {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
@@ -51,7 +51,7 @@ class CharactersRemoteMediator @Inject constructor(
                 rickAndMortyApi.searchCharacter(pageNumber = page, searchQuery = searchQuery)
             }
                 .onSuccess { characterPageDto ->
-                    val characterEntities = characterPageDto.results.map { it.toCharacterEntity(null, null) }
+                    val characterEntities = characterPageDto.results
 
                     if (loadType == LoadType.REFRESH) {
                         dao.clearAll()

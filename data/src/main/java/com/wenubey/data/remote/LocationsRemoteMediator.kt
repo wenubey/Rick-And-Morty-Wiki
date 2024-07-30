@@ -4,10 +4,10 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.wenubey.data.RickAndMortyApi
-import com.wenubey.data.local.LocationEntity
 import com.wenubey.data.local.dao.LocationDao
+import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.domain.model.DataTypeKey
+import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -20,12 +20,12 @@ class LocationsRemoteMediator @Inject constructor(
     private val dao: LocationDao,
     private val ioDispatcher: CoroutineDispatcher,
     private val searchQueryProvider: SearchQueryProvider
-) : RemoteMediator<Int, LocationEntity>() {
+) : RemoteMediator<Int, Location>() {
     private var nextPageNumber: Int = 1
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, LocationEntity>
+        state: PagingState<Int, Location>
     ): MediatorResult = withContext(ioDispatcher) {
 
         val page = when (loadType) {
@@ -61,7 +61,7 @@ class LocationsRemoteMediator @Inject constructor(
             }
         }
             .onSuccess { locationPageDto ->
-                val locationEntities = locationPageDto.results.map { it.toLocationEntity() }
+                val locationEntities = locationPageDto.results
                 if (loadType == LoadType.REFRESH) {
                     dao.clearAll()
                 }

@@ -6,9 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.wenubey.data.RickAndMortyApi
-import com.wenubey.data.local.CharacterEntity
-import com.wenubey.data.local.LocationEntity
+import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.data.remote.CharactersRemoteMediator
@@ -18,6 +16,8 @@ import com.wenubey.data.repository.EpisodeRepositoryImpl
 import com.wenubey.data.repository.LocationRepositoryImpl
 import com.wenubey.data.repository.SettingsRepositoryImpl
 import com.wenubey.data.repository.VideoPlayerRepositoryImpl
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.domain.repository.EpisodeRepository
 import com.wenubey.domain.repository.LocationRepository
@@ -44,7 +44,7 @@ object RepoModule {
         dao: CharacterDao,
         searchQueryProvider: SearchQueryProvider,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): Pager<Int, CharacterEntity> {
+    ): Pager<Int, Character> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = CharactersRemoteMediator(
@@ -66,7 +66,7 @@ object RepoModule {
         dao: LocationDao,
         searchQueryProvider: SearchQueryProvider,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): Pager<Int, LocationEntity> {
+    ): Pager<Int, Location> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = LocationsRemoteMediator(
@@ -85,7 +85,7 @@ object RepoModule {
     @Singleton
     fun provideCharacterRepository(
         rickAndMortyApi: RickAndMortyApi,
-        pager: Pager<Int, CharacterEntity>,
+        pager: Pager<Int, Character>,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CharacterRepository =
         CharacterRepositoryImpl(
@@ -111,7 +111,7 @@ object RepoModule {
     @Singleton
     fun provideLocationRepository(
         rickAndMortyApi: RickAndMortyApi,
-        pager: Pager<Int, LocationEntity>,
+        pager: Pager<Int, Location>,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): LocationRepository = LocationRepositoryImpl(rickAndMortyApi, pager, ioDispatcher)
 

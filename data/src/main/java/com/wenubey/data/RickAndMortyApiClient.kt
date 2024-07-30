@@ -6,6 +6,12 @@ import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.EpisodeDto
 import com.wenubey.data.remote.dto.LocationDto
 import com.wenubey.data.remote.dto.LocationPageDto
+import com.wenubey.domain.RickAndMortyApi
+import com.wenubey.domain.model.Character
+import com.wenubey.domain.model.CharacterPage
+import com.wenubey.domain.model.Episode
+import com.wenubey.domain.model.Location
+import com.wenubey.domain.model.LocationPage
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -19,17 +25,25 @@ class RickAndMortyApiClient @Inject constructor(
     private val httpClient: HttpClient,
 ) : RickAndMortyApi {
 
-    override suspend fun getCharacter(id: Int): Result<CharacterDto> = withContext(ioDispatcher) {
+    override suspend fun getCharacter(id: Int): Result<Character> = withContext(ioDispatcher) {
         safeApiCall {
-            httpClient.get {
+            val characterDto = httpClient.get {
                 url {
                     encodedPath = "character/$id"
                 }
             }.body<CharacterDto>()
+
+            val location = fetchCharacterLocation(characterDto.location.url)
+            val origin = fetchCharacterLocation(characterDto.origin.url)
+            val episodes = fetchCharacterEpisodes(characterDto.episode)
+            characterDto.toCharacter(location, origin, episodes)
+
         }
     }
 
-    override suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPageDto> =
+
+
+    override suspend fun getCharacterPage(pageNumber: Int): Result<CharacterPage> =
         withContext(ioDispatcher) {
             safeApiCall {
                 httpClient.get {
@@ -37,13 +51,14 @@ class RickAndMortyApiClient @Inject constructor(
                         encodedPath = "character/?page=$pageNumber"
                     }
                 }.body<CharacterPageDto>()
+                    .toCharacterPage()
             }
         }
 
     override suspend fun searchCharacter(
         pageNumber: Int,
         searchQuery: String
-    ): Result<CharacterPageDto> =
+    ): Result<CharacterPage> =
         withContext(ioDispatcher) {
             safeApiCall {
                 httpClient.get {
@@ -51,10 +66,11 @@ class RickAndMortyApiClient @Inject constructor(
                         encodedPath = "character/?page=$pageNumber&name=$searchQuery"
                     }
                 }.body<CharacterPageDto>()
+                    .toCharacterPage()
             }
         }
 
-    override suspend fun getCharacters(characterIds: List<Int>): Result<List<CharacterDto>> =
+    override suspend fun getCharacters(characterIds: List<Int>): Result<List<Character>> =
         withContext(ioDispatcher) {
             safeApiCall {
                 httpClient.get {
@@ -62,43 +78,56 @@ class RickAndMortyApiClient @Inject constructor(
                         encodedPath = "character/${characterIds.joinToString(separator = ",")}"
                     }
                 }.body<List<CharacterDto>>()
+                    .map { it.toCharacter(null,null,null) }
             }
         }
 
-    override suspend fun getEpisode(id: Int): Result<EpisodeDto> =
+    override suspend fun getEpisode(id: Int): Result<Episode> =
         withContext(ioDispatcher) {
             safeApiCall {
-                httpClient.get {
+                val episodeDto = httpClient.get {
                     url {
                         encodedPath = "episode/$id"
                     }
                 }.body<EpisodeDto>()
+
+                val characters = getCharacters(episodeDto.characters.getIdFromUrls()).getOrNull() ?: listOf()
+
+                episodeDto.toEpisode(characters)
             }
         }
 
-    override suspend fun getEpisodes(ids: List<Int>): Result<List<EpisodeDto>> =
+    override suspend fun getEpisodes(ids: List<Int>): Result<List<Episode>> =
         withContext(ioDispatcher) {
             safeApiCall {
-                httpClient.get {
+                val episodesDto = httpClient.get {
                     url {
                         encodedPath = "episode/${ids.joinToString(",")}"
                     }
                 }.body<List<EpisodeDto>>()
+
+                val characters = episodesDto.map { getCharacters(it.characters.getIdFromUrls()).getOrNull() ?: listOf() }
+
+                episodesDto.map { it.toEpisode(characters[episodesDto.indexOf(it)]) }
+
             }
         }
 
-    override suspend fun getLocation(id: Int): Result<LocationDto> =
+    override suspend fun getLocation(id: Int): Result<Location> =
         withContext(ioDispatcher) {
             safeApiCall {
-                httpClient.get {
+               val locationDto =  httpClient.get {
                     url {
                         encodedPath = "location/$id"
                     }
                 }.body<LocationDto>()
+
+                val residents = fetchLocationResidents(locationDto.residents.getIdFromUrls())
+                locationDto.toLocation(residents)
             }
         }
 
-    override suspend fun getLocationPage(pageNumber: Int): Result<LocationPageDto> =
+    override suspend fun getLocationPage(pageNumber: Int): Result<LocationPage> =
         withContext(ioDispatcher) {
             safeApiCall {
                 httpClient.get {
@@ -106,6 +135,7 @@ class RickAndMortyApiClient @Inject constructor(
                         encodedPath = "location/?page=$pageNumber"
                     }
                 }.body<LocationPageDto>()
+                    .toLocationPage()
             }
         }
 
@@ -113,7 +143,7 @@ class RickAndMortyApiClient @Inject constructor(
         pageNumber: Int,
         searchQuery: String,
         searchParameter: String?,
-    ): Result<LocationPageDto> =
+    ): Result<LocationPage> =
         withContext(ioDispatcher) {
             safeApiCall {
                 httpClient.get {
@@ -125,7 +155,22 @@ class RickAndMortyApiClient @Inject constructor(
                         }
                     }
                 }.body<LocationPageDto>()
+                    .toLocationPage()
             }
+        }
+
+    private suspend fun fetchLocationResidents(characterIds: List<Int>): List<Character> = withContext(ioDispatcher) {
+        getCharacters(characterIds).getOrNull() ?: listOf()
+    }
+
+    private suspend fun fetchCharacterLocation(locationUrl: String): Location =
+        withContext(ioDispatcher) {
+            getLocation(locationUrl.getIdFromUrl()).getOrNull() ?: Location.default()
+        }
+
+    private suspend fun fetchCharacterEpisodes(episodeUrls: List<String>): List<Episode> =
+        withContext(ioDispatcher) {
+            getEpisodes(episodeUrls.getIdFromUrls()).getOrNull() ?: listOf()
         }
 
     private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
