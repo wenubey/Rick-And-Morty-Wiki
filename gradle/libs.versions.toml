@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+coreTesting = "1.1.1"
 kotlin = "1.9.23"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -26,6 +27,8 @@ kotlinTest = "1.6.4"
 mockk = "1.12.4"
 mockito = "5.12.0"
 mockitoKotlin = "5.4.0"
+runner = "1.6.1"
+truth = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +78,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room"}
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room"}
 
 # Custom Tabs
 browser = { group = "androidx.browser", name = "browser", version.ref = "browser"}
@@ -96,9 +100,12 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk"}
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-test-runner = {group = "androidx.test", name = "runner", version.ref = "runner"}
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito"}
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin"}
 ktor-client-mock = {group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+core-testing = { module = "android.arch.core:core-testing", version.ref = "coreTesting" }
 
 
 [plugins]
