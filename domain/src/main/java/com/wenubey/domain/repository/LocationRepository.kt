@@ -11,5 +11,4 @@ interface LocationRepository {
 
     fun getLocationPage(): Flow<PagingData<Location>>
 
-    suspend fun getCharactersById(ids: List<Int>): Result<List<Character>>
 }

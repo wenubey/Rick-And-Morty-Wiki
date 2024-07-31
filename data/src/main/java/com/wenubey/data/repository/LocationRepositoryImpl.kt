@@ -24,7 +24,4 @@ class LocationRepositoryImpl @Inject constructor(
     override fun getLocationPage(): Flow<PagingData<Location>> =
         pager.flow
 
-    override suspend fun getCharactersById(ids: List<Int>): Result<List<Character>> = withContext(ioDispatcher) {
-        rickAndMortyApi.getCharacters(ids)
-    }
 }
