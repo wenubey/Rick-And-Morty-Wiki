@@ -3,7 +3,6 @@ package com.wenubey.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.wenubey.domain.RickAndMortyApi
-import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.LocationRepository
 import kotlinx.coroutines.CoroutineDispatcher
