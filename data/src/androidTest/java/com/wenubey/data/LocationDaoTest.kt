@@ -1,14 +1,13 @@
-package data
+package com.wenubey.data
 
 import android.content.Context
 import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import com.wenubey.data.local.RickAndMortyDatabase
-import com.wenubey.data.local.dao.CharacterDao
-import com.wenubey.domain.model.Character
-import com.wenubey.domain.model.CharacterGender
+import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.domain.model.Location
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -19,10 +18,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class CharacterDaoTest {
+@SmallTest
+class LocationDaoTest {
 
     private lateinit var database: RickAndMortyDatabase
-    private lateinit var characterDao: CharacterDao
+    private lateinit var locationDao: LocationDao
 
     @Before
     fun setup() {
@@ -32,7 +32,7 @@ class CharacterDaoTest {
             .allowMainThreadQueries()
             .build()
 
-        characterDao = database.characterDao
+        locationDao = database.locationDao
     }
 
     @After
@@ -43,8 +43,8 @@ class CharacterDaoTest {
     @Test
     fun testInsertAllAndPagingSource() = runBlocking {
         // When
-        characterDao.insertAll(characters)
-        val allCharacters = characterDao.pagingSource().load(
+        locationDao.insertAll(locations)
+        val allLocations = locationDao.pagingSource().load(
             PagingSource.LoadParams.Refresh(
                 key = null,
                 loadSize = Int.MAX_VALUE,
@@ -53,15 +53,15 @@ class CharacterDaoTest {
         )
 
         // Then
-        assertEquals(characters, (allCharacters as PagingSource.LoadResult.Page).data)
+        assertEquals(locations, (allLocations as PagingSource.LoadResult.Page).data)
     }
 
     @Test
     fun testClearAll() = runBlocking {
         // When
-        characterDao.insertAll(characters)
-        characterDao.clearAll()
-        val allCharacters = characterDao.pagingSource().load(
+        locationDao.insertAll(locations)
+        locationDao.clearAll()
+        val allLocations = locationDao.pagingSource().load(
             PagingSource.LoadParams.Refresh(
                 key = null,
                 loadSize = Int.MAX_VALUE,
@@ -70,15 +70,15 @@ class CharacterDaoTest {
         )
 
         // Then
-        assertEquals(0, (allCharacters as PagingSource.LoadResult.Page).data.size)
+        assertEquals(0, (allLocations as PagingSource.LoadResult.Page).data.size)
     }
 
     @Test
     fun testPagingSource_loading_InitialPage() = runBlocking {
         // When
-        characterDao.insertAll(characters)
+        locationDao.insertAll(locations)
 
-        val pagingSource = characterDao.pagingSource()
+        val pagingSource = locationDao.pagingSource()
 
         val loadResult = pagingSource.load(
             PagingSource.LoadParams.Refresh(
@@ -88,21 +88,20 @@ class CharacterDaoTest {
             )
         )
 
-        // Then
         assertTrue(loadResult is PagingSource.LoadResult.Page)
         val page = loadResult as PagingSource.LoadResult.Page
-        assertEquals(characters.take(20), page.data)
+        assertEquals(locations.take(20), page.data)
     }
 
     @Test
     fun testPagingSource_largeDataset() = runBlocking {
         // When
-        characterDao.insertAll(characters)
+        locationDao.insertAll(locations)
 
-        val loadResult = characterDao.pagingSource().load(
+        val loadResult = locationDao.pagingSource().load(
             PagingSource.LoadParams.Refresh(
                 key = null,
-                loadSize = characters.size,
+                loadSize = locations.size,
                 placeholdersEnabled = false
             )
         )
@@ -110,15 +109,16 @@ class CharacterDaoTest {
         // Then
         assertTrue(loadResult is PagingSource.LoadResult.Page)
         val page = loadResult as PagingSource.LoadResult.Page
-        assertEquals(characters, page.data)
+        assertEquals(locations, page.data)
     }
 
     @Test
     fun testPagingSource_secondPage() = runBlocking {
-        // When
-        characterDao.insertAll(characters)
 
-        val secondLoadResult = characterDao.pagingSource().load(
+        // When
+        locationDao.insertAll(locations)
+
+        val secondLoadResult = locationDao.pagingSource().load(
             PagingSource.LoadParams.Append(
                 key = 20,
                 loadSize = 20,
@@ -129,13 +129,13 @@ class CharacterDaoTest {
         // Then
         assertTrue(secondLoadResult is PagingSource.LoadResult.Page)
         val page = secondLoadResult as PagingSource.LoadResult.Page
-        assertEquals(characters.drop(20).take(20), page.data)
+        assertEquals(locations.drop(20).take(20), page.data)
     }
 
     @Test
     fun testPagingSource_emptyDataset() = runBlocking {
         // When
-        val loadResult = characterDao.pagingSource().load(
+        val loadResult = locationDao.pagingSource().load(
             PagingSource.LoadParams.Refresh(
                 key = null,
                 loadSize = Int.MAX_VALUE,
@@ -146,19 +146,19 @@ class CharacterDaoTest {
         // Then
         assertTrue(loadResult is PagingSource.LoadResult.Page)
         val page = loadResult as PagingSource.LoadResult.Page
-        assertEquals(emptyList<Character>(), page.data)
+        assertEquals(emptyList<Location>(), page.data)
     }
 
     @Test
     fun testPagingSource_lastPage() = runBlocking {
         // When
-        characterDao.insertAll(characters)
+        locationDao.insertAll(locations)
 
-        val pagingSource = characterDao.pagingSource()
+        val pagingSource = locationDao.pagingSource()
 
         val loadResult = pagingSource.load(
             PagingSource.LoadParams.Append(
-                key = characters.size - 20,
+                key = locations.size - 20,
                 loadSize = 20,
                 placeholdersEnabled = false
             )
@@ -167,27 +167,23 @@ class CharacterDaoTest {
         // Then
         assertTrue(loadResult is PagingSource.LoadResult.Page)
         val page = loadResult as PagingSource.LoadResult.Page
-        assertEquals(characters.takeLast(20), page.data)
+        assertEquals(locations.takeLast(20), page.data)
     }
 
+
     companion object {
-        private const val CHARACTER_LOCATIONS = 100
-        private val characters = (1..CHARACTER_LOCATIONS).map {
-            Character(
+        private const val NUM_LOCATIONS = 100
+        private val locations = (1..NUM_LOCATIONS).map {
+            Location(
                 id = it,
-                name = "Character $it",
-                status = "Alive",
-                species = "Human",
-                type = "",
-                gender = CharacterGender.Male,
-                origin = Location.default(),
-                location = Location.default(),
-                imageUrl = "https://rickandmortyapi.com/api/character/avatar/$it.jpeg",
-                episodes = listOf(),
-                url = "https://rickandmortyapi.com/api/character/$it",
+                name = "Location $it",
+                dimension = "Dimension $it",
+                residents = listOf(),
+                type = "Type $it",
+                population = it,
+                url = "https://rickandmortyapi.com/api/location/$it",
                 created = ""
             )
         }
     }
-
 }

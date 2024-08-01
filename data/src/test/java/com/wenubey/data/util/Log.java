@@ -1,4 +1,4 @@
-package android.util;
+package com.wenubey.data.util;
 
 public class Log {
     public static int d(String tag, String msg) {

@@ -1,3 +1,5 @@
+package com.wenubey.domain
+
 import androidx.paging.PagingData
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.LocationRepository

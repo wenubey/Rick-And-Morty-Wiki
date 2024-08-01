@@ -1,4 +1,4 @@
-package android.util
+package com.wenubey.data.util
 
 import java.io.FileNotFoundException
 import java.net.URL

@@ -1,3 +1,5 @@
+package com.wenubey.domain
+
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SearchQueryProvider
 import io.mockk.every

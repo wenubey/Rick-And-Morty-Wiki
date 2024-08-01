@@ -1,7 +1,6 @@
-package data
+package com.wenubey.data
 
-import android.util.ApiUtil.handleRequest
-import com.wenubey.data.RickAndMortyApiClient
+import com.wenubey.data.util.ApiUtil.handleRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

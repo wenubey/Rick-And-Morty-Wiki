@@ -65,6 +65,7 @@ dependencies {
     androidTestImplementation (libs.androidx.espresso.core)
     androidTestImplementation (libs.truth)
     androidTestImplementation(libs.core.testing)
+    testImplementation(libs.androidx.core)
 
     implementation(libs.ktor.serialization)
 }

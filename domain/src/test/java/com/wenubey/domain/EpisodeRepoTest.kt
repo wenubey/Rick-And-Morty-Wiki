@@ -1,3 +1,5 @@
+package com.wenubey.domain
+
 import com.wenubey.domain.model.Episode
 import com.wenubey.domain.repository.EpisodeRepository
 import io.mockk.coEvery
