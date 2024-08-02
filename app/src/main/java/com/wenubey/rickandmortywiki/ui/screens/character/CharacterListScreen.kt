@@ -33,7 +33,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterGridCard
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterListCard
@@ -47,6 +46,7 @@ import com.wenubey.rickandmortywiki.utils.isScrollingUp
 import com.wenubey.rickandmortywiki.utils.isSystemInPortraitOrientation
 import com.wenubey.rickandmortywiki.utils.makeToast
 import kotlinx.coroutines.launch
+import com.wenubey.domain.model.Character
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

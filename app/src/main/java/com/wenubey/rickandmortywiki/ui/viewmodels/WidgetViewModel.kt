@@ -2,7 +2,6 @@ package com.wenubey.rickandmortywiki.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.domain.model.Character
 import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.rickandmortywiki.ui.di.IoDispatcher
 import com.wenubey.rickandmortywiki.ui.di.MainDispatcher
@@ -13,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
+import com.wenubey.domain.model.Character
 
 
 class WidgetViewModel @Inject constructor(

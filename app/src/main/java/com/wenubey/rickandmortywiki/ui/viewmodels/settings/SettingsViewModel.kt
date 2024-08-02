@@ -2,7 +2,6 @@ package com.wenubey.rickandmortywiki.ui.viewmodels.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wenubey.data.combine
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.SettingsRepository
 import com.wenubey.rickandmortywiki.ui.di.IoDispatcher
@@ -21,7 +20,7 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel(), SettingsEvents {
 
     override val settingsUiState: StateFlow<SettingsUiState> =
-        combine(
+        com.wenubey.data.combine(
             settingsRepository.isScreenLocked,
             settingsRepository.isLinearLayout,
             settingsRepository.isNightMode,

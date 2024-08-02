@@ -15,8 +15,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.theme.RickAndMortyWikiTheme
+import com.wenubey.domain.model.Character
 
 @Composable
 fun CharacterGridNamePlate(
