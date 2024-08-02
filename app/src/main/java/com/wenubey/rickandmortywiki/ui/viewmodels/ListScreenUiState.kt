@@ -1,9 +1,9 @@
 package com.wenubey.rickandmortywiki.ui.viewmodels
 
 import androidx.paging.PagingData
-import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import kotlinx.coroutines.flow.Flow
+import com.wenubey.domain.model.Character
 
 
 

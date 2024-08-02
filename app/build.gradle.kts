@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -50,6 +53,50 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    subprojects {
+        tasks.withType<Test> {
+            testLogging {
+                events(
+                    TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.STANDARD_OUT,
+                )
+                exceptionFormat = TestExceptionFormat.FULL
+                showExceptions = true
+                showCauses = true
+                showStackTraces = true
+                debug {
+                    events(
+                        TestLogEvent.STARTED,
+                        TestLogEvent.FAILED,
+                        TestLogEvent.PASSED,
+                        TestLogEvent.SKIPPED,
+                        TestLogEvent.STANDARD_ERROR,
+                        TestLogEvent.STANDARD_OUT
+                    )
+                    exceptionFormat = TestExceptionFormat.FULL
+                }
+                info.events = debug.events
+                info.exceptionFormat = debug.exceptionFormat
+            }
+            afterSuite(KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+                if (desc.parent == null) {
+                    val output = "Results: ${result.resultType} (${result.testCount} tests, " +
+                            "${result.successfulTestCount} passed, ${result.failedTestCount} failed, " +
+                            "${result.skippedTestCount} skipped)"
+                    val startItem = "|  "
+                    val endItem = "  |"
+                    val repeatLength = startItem.length + output.length + endItem.length
+                    println(
+                        "\n" + "-".repeat(repeatLength) + "\n$startItem$output$endItem\n" + "-".repeat(
+                            repeatLength
+                        )
+                    )
+                }
+            }))
+        }
+    }
 }
 
 dependencies {
@@ -71,8 +118,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(project(":domain"))
-    implementation(project(":data"))
+    implementation(project(":app:domain"))
+    implementation(project(":app:data"))
 
     // KSP
     implementation(libs.ksp)

@@ -9,8 +9,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.components.character.list.CharacterGridCard
+import com.wenubey.domain.model.Character
 
 @Composable
 fun LocationDetailResidentsComponents(

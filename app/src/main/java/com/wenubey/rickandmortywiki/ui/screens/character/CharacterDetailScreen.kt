@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.R
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterPropertiesComponent
 import com.wenubey.rickandmortywiki.ui.components.character.detail.CharacterStatusDetailComponent
@@ -32,6 +31,7 @@ import com.wenubey.rickandmortywiki.ui.viewmodels.CharacterDetailUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.character.CharacterDetailViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.location.LocationListViewModel
 import com.wenubey.rickandmortywiki.ui.viewmodels.settings.SettingsViewModel
+import com.wenubey.domain.model.Character
 
 @Composable
 fun CharacterDetailScreen(

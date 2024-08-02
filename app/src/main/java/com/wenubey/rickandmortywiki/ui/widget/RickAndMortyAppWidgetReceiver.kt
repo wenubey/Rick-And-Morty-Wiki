@@ -11,7 +11,6 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.wenubey.domain.model.Character
 import com.wenubey.rickandmortywiki.ui.viewmodels.WidgetUiState
 import com.wenubey.rickandmortywiki.ui.viewmodels.WidgetViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.wenubey.domain.model.Character
 
 @AndroidEntryPoint
 class RickAndMortyAppWidgetReceiver : GlanceAppWidgetReceiver() {

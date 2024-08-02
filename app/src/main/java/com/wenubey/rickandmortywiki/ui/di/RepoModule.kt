@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
 import com.wenubey.data.remote.CharactersRemoteMediator
@@ -16,6 +15,7 @@ import com.wenubey.data.repository.EpisodeRepositoryImpl
 import com.wenubey.data.repository.LocationRepositoryImpl
 import com.wenubey.data.repository.SettingsRepositoryImpl
 import com.wenubey.data.repository.VideoPlayerRepositoryImpl
+import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.CharacterRepository

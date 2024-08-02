@@ -2,7 +2,6 @@ package com.wenubey.rickandmortywiki.ui.viewmodels.character
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
-import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.DataTypeKey
 import com.wenubey.domain.repository.CharacterRepository
 import com.wenubey.domain.repository.SearchQueryProvider
@@ -14,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import com.wenubey.domain.model.Character
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
