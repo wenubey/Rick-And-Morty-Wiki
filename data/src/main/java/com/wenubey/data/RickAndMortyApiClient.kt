@@ -1,6 +1,5 @@
 package com.wenubey.data
 
-import android.util.Log
 import com.wenubey.data.remote.dto.CharacterDto
 import com.wenubey.data.remote.dto.CharacterPageDto
 import com.wenubey.data.remote.dto.EpisodeDto
@@ -18,6 +17,7 @@ import io.ktor.client.request.get
 import io.ktor.http.encodedPath
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class RickAndMortyApiClient @Inject constructor(
@@ -175,16 +175,11 @@ class RickAndMortyApiClient @Inject constructor(
 
     private inline fun <T> safeApiCall(apiCall: () -> T): Result<T> {
         return try {
-            Log.d(TAG, "safeApiCall:SUCCESS")
+            Timber.d("safeApiCall:SUCCESS")
             Result.success(apiCall())
         } catch (e: Exception) {
-            Log.e(TAG, "safeApiCall:ERROR: ", e)
+            Timber.e(e, "safeApiCall:ERROR: ")
             Result.failure(exception = e)
         }
-    }
-
-
-    private companion object {
-        const val TAG = "RickAndMortyApiClient"
     }
 }

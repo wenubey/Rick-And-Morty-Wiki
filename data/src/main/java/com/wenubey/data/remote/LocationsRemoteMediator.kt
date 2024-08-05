@@ -11,6 +11,7 @@ import com.wenubey.domain.model.Location
 import com.wenubey.domain.repository.SearchQueryProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -68,10 +69,12 @@ class LocationsRemoteMediator @Inject constructor(
                 dao.insertAll(locationEntities)
 
                 val endOfPaginationReached = locationPageDto.info.next == null
+                Timber.d("LocationsRemoteMediator:Success")
                 return@withContext MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             }
-            .onFailure {
-                return@withContext MediatorResult.Error(it)
+            .onFailure { e ->
+                Timber.e(e, "LocationsRemoteMediator:Error")
+                return@withContext MediatorResult.Error(e)
             }
         MediatorResult.Success(endOfPaginationReached = true)
     }

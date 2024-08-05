@@ -1,6 +1,5 @@
 package com.wenubey.rickandmortywiki.ui.viewmodels.location
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wenubey.domain.repository.LocationRepository
@@ -15,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +33,7 @@ class LocationDetailViewModel @Inject constructor(
         locationRepository.getLocation(id)
             .onSuccess {  location ->
                 withContext(mainDispatcher) {
+                    Timber.d("getLocation:Success")
                     _locationDetailUiState.update {
                         return@update LocationDetailUiState.Success(
                             location = location,
@@ -42,7 +43,7 @@ class LocationDetailViewModel @Inject constructor(
             }
             .onFailure { e ->
                 withContext(mainDispatcher) {
-                    Log.e(TAG, "getLocation:Error", e)
+                    Timber.e(e, "getLocation:Error")
                     _locationDetailUiState.update {
                         return@update LocationDetailUiState.Error(
                             e.message ?: UNKNOWN_ERROR
@@ -53,7 +54,6 @@ class LocationDetailViewModel @Inject constructor(
     }
 
     private companion object {
-        const val TAG = "locationDetailViewModel"
         const val UNKNOWN_ERROR = "Unknown error occurred."
     }
 }

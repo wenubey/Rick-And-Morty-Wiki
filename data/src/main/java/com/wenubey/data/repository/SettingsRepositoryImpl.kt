@@ -1,6 +1,5 @@
 package com.wenubey.data.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -15,6 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import timber.log.Timber
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
@@ -25,7 +25,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override val isLinearLayout: Flow<Boolean>
         get() = dataStore.data
             .catch {
-                Log.e(TAG, "Error reading isLinearLayout preference:", it)
+                Timber.e(it, "Error reading isLinearLayout preference:")
             }
             .map { preferences ->
                 preferences[IS_LINEAR_LAYOUT] ?: true
@@ -34,7 +34,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override val isNightMode: Flow<Boolean>
         get() = dataStore.data
             .catch {
-                Log.e(TAG, "Error reading isNightMode preference:", it)
+                Timber.e(it, "Error reading isNightMode preference:")
             }
             .map { preferences ->
                 preferences[IS_NIGHT_MODE] ?: true
@@ -43,7 +43,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override val isScreenLocked: Flow<Boolean>
         get() = dataStore.data
             .catch {
-                Log.e(TAG, "Error reading isScreenLocked preference:", it)
+                Timber.e(it, "Error reading isScreenLocked preference:")
             }
             .map { preferences ->
                 preferences[IS_SCREEN_LOCKED] ?: false
@@ -52,7 +52,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override val isTopBarLocked: Flow<Boolean>
         get() = dataStore.data
             .catch {
-                Log.e(TAG, "Error reading top bar preference:", it)
+                Timber.e(it, "Error reading top bar preference:")
             }.map { preferences ->
                 preferences[IS_TOP_BAR_LOCKED] ?: false
             }
@@ -60,7 +60,7 @@ class SettingsRepositoryImpl @Inject constructor(
     override fun getSearchHistory(dataTypeKey: DataTypeKey): Flow<List<String>> =
         dataStore.data
             .catch {
-                Log.e(TAG, "Error reading search history", it)
+                Timber.e(it, "Error reading search history")
             }.map { preferences ->
                 val preferenceKey = getPreferenceKeyFromType(dataTypeKey)
                 preferences[preferenceKey]?.let {
@@ -145,6 +145,5 @@ class SettingsRepositoryImpl @Inject constructor(
         val IS_TOP_BAR_LOCKED = booleanPreferencesKey("is_top_bar_locked")
         val CHARACTER_SEARCH_HISTORY = stringPreferencesKey("character_search_history")
         val LOCATION_SEARCH_HISTORY = stringPreferencesKey("location_search_history")
-        const val TAG = "SettingsPreferencesRepo"
     }
 }

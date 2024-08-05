@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import com.wenubey.domain.model.Character
+import timber.log.Timber
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRemoteMediator @Inject constructor(
@@ -58,9 +59,11 @@ class CharactersRemoteMediator @Inject constructor(
                     }
                     dao.insertAll(characterEntities)
                     val endOfPaginationReached = characterPageDto.info.next == null
+                    Timber.d("CharactersRemoteMediator:Success")
                     return@withContext MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
                 .onFailure { e ->
+                    Timber.e(e, "CharactersRemoteMediator:Error")
                     return@withContext MediatorResult.Error(e)
                 }
             MediatorResult.Success(endOfPaginationReached = true)
