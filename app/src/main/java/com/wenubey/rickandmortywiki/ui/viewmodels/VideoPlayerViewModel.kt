@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
-import com.wenubey.data.ExoPlayerProvider
 import com.wenubey.domain.repository.VideoPlayerRepository
 import com.wenubey.rickandmortywiki.ui.di.IoDispatcher
 import com.wenubey.rickandmortywiki.ui.di.MainDispatcher
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class VideoPlayerViewModel @Inject constructor(
     private val videoPlayerRepository: VideoPlayerRepository,
-    private val exoPlayerProvider: ExoPlayerProvider,
+    private val exoPlayerProvider: com.wenubey.data.ExoPlayerProvider,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
