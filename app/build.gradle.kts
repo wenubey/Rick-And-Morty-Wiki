@@ -26,6 +26,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
         release {
             isShrinkResources = true
             isMinifyEnabled = true
@@ -44,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.11"
@@ -171,5 +176,8 @@ dependencies {
     // Glance Widget
     implementation(libs.glance.material3)
     implementation(libs.glance.appwidget)
+
+    // Timber
+    implementation(libs.timber)
 
 }

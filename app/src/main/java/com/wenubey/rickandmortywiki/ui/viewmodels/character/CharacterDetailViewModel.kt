@@ -1,7 +1,6 @@
 package com.wenubey.rickandmortywiki.ui.viewmodels.character
 
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wenubey.domain.repository.CharacterRepository
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +36,7 @@ class CharacterDetailViewModel @Inject constructor(
         _characterDetailUiState.update { return@update CharacterDetailUiState.Loading }
         characterRepository.getCharacter(id)
             .onSuccess { character ->
+                Timber.d("getCharacter:Success")
                 withContext(mainDispatcher) {
                     _characterDetailUiState.update {
                         return@update CharacterDetailUiState.Success(
@@ -47,7 +48,7 @@ class CharacterDetailViewModel @Inject constructor(
             }
             .onFailure { exception ->
                 withContext(mainDispatcher) {
-                    Log.e(TAG, "getCharacter:Error", exception)
+                    Timber.e(exception, "getCharacter:Error")
                     _characterDetailUiState.update {
                         return@update CharacterDetailUiState.Error(
                             message = exception.localizedMessage ?: UNKNOWN_ERROR
@@ -58,7 +59,6 @@ class CharacterDetailViewModel @Inject constructor(
     }
 
     private companion object {
-        const val TAG = "characterDetailViewModel"
         const val UNKNOWN_ERROR = "Unknown error occurred."
     }
 }

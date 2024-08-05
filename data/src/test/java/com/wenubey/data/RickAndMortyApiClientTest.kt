@@ -1,14 +1,10 @@
 package com.wenubey.data
 
-import android.util.Log
 import com.wenubey.data.util.ApiUtil.handleRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
-import io.mockk.every
-import io.mockk.mockkStatic
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -34,12 +30,6 @@ class RickAndMortyApiClientTest {
                 ioDispatcher = testDispatcher,
                 httpClient = httpClient
             )
-
-
-        mockkStatic(Log::class)
-
-        every { Log.d(any(), any()) } returns 0
-        every { Log.e(any(), any(), any()) } returns 0
     }
 
     @Test
@@ -66,7 +56,6 @@ class RickAndMortyApiClientTest {
         // Then
         assert(characterPage != null)
         assert(characterPage?.info?.count == 826)
-        verify { Log.d("RickAndMortyApiClient", "safeApiCall:SUCCESS") }
     }
 
     @Test

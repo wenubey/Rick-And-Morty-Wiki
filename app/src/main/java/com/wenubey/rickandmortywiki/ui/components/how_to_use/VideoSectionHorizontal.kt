@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
-import com.wenubey.rickandmortywiki.R
-import com.wenubey.rickandmortywiki.ui.viewmodels.settings.VideoPlayer
+import com.wenubey.rickandmortywiki.ui.components.common.VideoPlayer
 
 @Composable
 fun VideoSectionHorizontal(

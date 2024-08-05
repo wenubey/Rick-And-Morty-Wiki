@@ -1,4 +1,4 @@
-package com.wenubey.rickandmortywiki.ui.viewmodels.settings
+package com.wenubey.rickandmortywiki.ui.components.common
 
 import androidx.annotation.OptIn
 import androidx.annotation.RawRes

@@ -25,3 +25,17 @@
 -dontwarn org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 -dontwarn org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 -dontwarn org.slf4j.impl.StaticLoggerBinder
+-assumenosideeffects class timber.log.Timber {
+    public static *** v(...);
+    public static *** d(...);
+}
+-assumenosideeffects class org.slf4j.Logger {
+    public *** trace(...);
+    public *** debug(...);
+}
+-assumenosideeffects class android.util.Log {
+   public static *** v(...);
+   public static *** d(...);
+   public static *** i(...);
+   public static *** w(...);
+}

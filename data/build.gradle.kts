@@ -87,4 +87,9 @@ dependencies {
     androidTestImplementation (libs.androidx.espresso.core)
     androidTestImplementation (libs.truth)
     androidTestImplementation(libs.core.testing)
+
+    // Timber
+    implementation(libs.timber)
+
+    testRuntimeOnly(libs.logback.classic)
 }
