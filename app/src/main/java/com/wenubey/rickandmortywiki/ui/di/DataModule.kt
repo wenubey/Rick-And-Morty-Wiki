@@ -3,7 +3,6 @@ package com.wenubey.rickandmortywiki.ui.di
 import android.content.Context
 import androidx.room.Room
 import com.wenubey.domain.RickAndMortyApi
-import com.wenubey.data.RickAndMortyApiClient
 import com.wenubey.data.local.RickAndMortyDatabase
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
@@ -33,7 +32,8 @@ object DataModule {
     fun provideKtorClient(
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
         httpClient: HttpClient,
-    ): RickAndMortyApi = RickAndMortyApiClient(ioDispatcher = ioDispatcher, httpClient = httpClient)
+    ): RickAndMortyApi =
+        com.wenubey.data.RickAndMortyApiClient(ioDispatcher = ioDispatcher, httpClient = httpClient)
 
     @Provides
     @Singleton

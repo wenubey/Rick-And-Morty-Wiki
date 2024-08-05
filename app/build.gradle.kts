@@ -118,8 +118,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(project(":app:domain"))
-    implementation(project(":app:data"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     // KSP
     implementation(libs.ksp)
