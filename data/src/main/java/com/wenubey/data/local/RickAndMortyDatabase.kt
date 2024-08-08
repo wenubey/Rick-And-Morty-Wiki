@@ -5,12 +5,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
+import com.wenubey.data.local.dao.RemoteKeyDao
+import com.wenubey.data.local.dao.RemoteKeysEntity
 import com.wenubey.domain.model.Character
 import com.wenubey.domain.model.Location
 import com.wenubey.domain.model.RickAndMortyTypeConverter
 
 @Database(
-    entities = [Character::class, Location::class],
+    entities = [Character::class, Location::class, RemoteKeysEntity::class],
     version = 1,
     exportSchema = false,
 )
@@ -18,4 +20,5 @@ import com.wenubey.domain.model.RickAndMortyTypeConverter
 abstract class RickAndMortyDatabase: RoomDatabase() {
     abstract val characterDao: CharacterDao
     abstract val locationDao: LocationDao
+    abstract val remoteKeyDao: RemoteKeyDao
 }

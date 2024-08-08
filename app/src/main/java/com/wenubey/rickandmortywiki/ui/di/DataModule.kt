@@ -6,6 +6,7 @@ import com.wenubey.domain.RickAndMortyApi
 import com.wenubey.data.local.RickAndMortyDatabase
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
+import com.wenubey.data.local.dao.RemoteKeyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,6 +73,10 @@ object DataModule {
     @Provides
     @Singleton
     fun provideLocationDao(db: RickAndMortyDatabase): LocationDao = db.locationDao
+
+    @Provides
+    @Singleton
+    fun provideRemoteKetDao(db: RickAndMortyDatabase): RemoteKeyDao = db.remoteKeyDao
 
 
     private const val BASE_URL = "https://rickandmortyapi.com/api/"

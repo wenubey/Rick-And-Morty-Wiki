@@ -8,6 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.wenubey.data.local.dao.CharacterDao
 import com.wenubey.data.local.dao.LocationDao
+import com.wenubey.data.local.dao.RemoteKeyDao
 import com.wenubey.data.remote.CharactersRemoteMediator
 import com.wenubey.data.remote.LocationsRemoteMediator
 import com.wenubey.data.repository.CharacterRepositoryImpl
@@ -44,18 +45,21 @@ object RepoModule {
         dao: CharacterDao,
         searchQueryProvider: SearchQueryProvider,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        remoteKeyDao: RemoteKeyDao,
     ): Pager<Int, Character> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = 10, enablePlaceholders = false, prefetchDistance = 1),
             remoteMediator = CharactersRemoteMediator(
                 rickAndMortyApi = rickAndMortyApi,
                 dao = dao,
                 searchQueryProvider = searchQueryProvider,
-                ioDispatcher = ioDispatcher
+                ioDispatcher = ioDispatcher,
+                remoteKeyDao = remoteKeyDao
             ),
+            initialKey = 1,
             pagingSourceFactory = {
                 dao.pagingSource()
-            }
+            },
         )
     }
 
